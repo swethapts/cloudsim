@@ -74,9 +74,9 @@ public class TestExample {
 			// Final step: Print results when simulation is over
 			List<Cloudlet> newList = broker.getCloudletReceivedList();
 			printCloudletList(newList);
-			System.out.println("numberofcloudlet " + newList.size() + " Cached "
-					+ NetDatacenterBroker.cachedcloudlet + " Data transfered "
-					+ NetworkConstants.totaldatatransfer);
+			System.out.println("numberofcloudlet " + newList.size()
+					+ " Cached " + NetDatacenterBroker.cachedcloudlet
+					+ " Data transfered " + NetworkConstants.totaldatatransfer);
 
 			Log.printLine("CloudSimExample1 finished!");
 		} catch (Exception e) {
@@ -116,7 +116,8 @@ public class TestExample {
 		int ram = 2048; // host memory (MB)
 		long storage = 1000000; // host storage
 		int bw = 10000;
-		for (int i = 0; i < NetworkConstants.EdgeSwitchPort * NetworkConstants.AggSwitchPort
+		for (int i = 0; i < NetworkConstants.EdgeSwitchPort
+				* NetworkConstants.AggSwitchPort
 				* NetworkConstants.RootSwitchPort; i++) {
 			// 2. A Machine contains one or more PEs or CPUs/Cores.
 			// In this example, it will have only one core.
@@ -173,12 +174,8 @@ public class TestExample {
 
 			// 4. Create PowerHost with its id and list of PEs and add them to
 			// the list of machines
-			hostList.add(new NetworkHost(
-					i,
-					new RamProvisionerSimple(ram),
-					new BwProvisionerSimple(bw),
-					storage,
-					peList,
+			hostList.add(new NetworkHost(i, new RamProvisionerSimple(ram),
+					new BwProvisionerSimple(bw), storage, peList,
 					new VmSchedulerTimeShared(peList))); // This is our machine
 		}
 
@@ -202,25 +199,14 @@ public class TestExample {
 		// devices by now
 
 		DatacenterCharacteristics characteristics = new DatacenterCharacteristics(
-				arch,
-				os,
-				vmm,
-				hostList,
-				time_zone,
-				cost,
-				costPerMem,
-				costPerStorage,
-				costPerBw);
+				arch, os, vmm, hostList, time_zone, cost, costPerMem,
+				costPerStorage, costPerBw);
 
 		// 6. Finally, we need to create a NetworkDatacenter object.
 		NetworkDatacenter datacenter = null;
 		try {
-			datacenter = new NetworkDatacenter(
-					name,
-					characteristics,
-					new NetworkVmAllocationPolicy(hostList),
-					storageList,
-					0);
+			datacenter = new NetworkDatacenter(name, characteristics,
+					new NetworkVmAllocationPolicy(hostList), storageList, 0);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -256,14 +242,16 @@ public class TestExample {
 	 *            list of Cloudlets
 	 * @throws IOException
 	 */
-	private static void printCloudletList(List<Cloudlet> list) throws IOException {
+	private static void printCloudletList(List<Cloudlet> list)
+			throws IOException {
 		int size = list.size();
 		Cloudlet cloudlet;
 		String indent = "    ";
 		Log.printLine();
 		Log.printLine("========== OUTPUT ==========");
-		Log.printLine("Cloudlet ID" + indent + "STATUS" + indent + "Data center ID" + indent + "VM ID"
-				+ indent + "Time" + indent + "Start Time" + indent + "Finish Time");
+		Log.printLine("Cloudlet ID" + indent + "STATUS" + indent
+				+ "Data center ID" + indent + "VM ID" + indent + "Time"
+				+ indent + "Start Time" + indent + "Finish Time");
 
 		DecimalFormat dft = new DecimalFormat("###.##");
 		for (int i = 0; i < size; i++) {
@@ -272,9 +260,12 @@ public class TestExample {
 
 			if (cloudlet.getCloudletStatus() == Cloudlet.SUCCESS) {
 				Log.print("SUCCESS");
-				Log.printLine(indent + indent + cloudlet.getResourceId() + indent + indent + indent
-						+ cloudlet.getVmId() + indent + indent + dft.format(cloudlet.getActualCPUTime())
-						+ indent + indent + dft.format(cloudlet.getExecStartTime()) + indent + indent
+				Log.printLine(indent + indent + cloudlet.getResourceId()
+						+ indent + indent + indent + cloudlet.getVmId()
+						+ indent + indent
+						+ dft.format(cloudlet.getActualCPUTime()) + indent
+						+ indent + dft.format(cloudlet.getExecStartTime())
+						+ indent + indent
 						+ dft.format(cloudlet.getFinishTime()));
 			}
 		}
@@ -287,7 +278,8 @@ public class TestExample {
 		EdgeSwitch edgeswitch[] = new EdgeSwitch[1];
 
 		for (int i = 0; i < 1; i++) {
-			edgeswitch[i] = new EdgeSwitch("Edge" + i, NetworkConstants.EDGE_LEVEL, dc);
+			edgeswitch[i] = new EdgeSwitch("Edge" + i,
+					NetworkConstants.EDGE_LEVEL, dc);
 			// edgeswitch[i].uplinkswitches.add(null);
 			dc.Switchlist.put(edgeswitch[i].getId(), edgeswitch[i]);
 			// aggswitch[(int)
