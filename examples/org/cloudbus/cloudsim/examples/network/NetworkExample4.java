@@ -36,11 +36,9 @@ import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
 
 /**
- * A simple example showing how to create
- * a datacenter with one host and a network
- * topology and and run one cloudlet on it.
- * Here, instead of using a BRIE file describing
- * the links, links are inserted in the code.
+ * A simple example showing how to create a datacenter with one host and a
+ * network topology and and run one cloudlet on it. Here, instead of using a
+ * BRIE file describing the links, links are inserted in the code.
  */
 public class NetworkExample4 {
 
@@ -60,66 +58,70 @@ public class NetworkExample4 {
 		try {
 			// First step: Initialize the CloudSim package. It should be called
 			// before creating any entities.
-			int num_user = 1;   // number of cloud users
+			int num_user = 1; // number of cloud users
 			Calendar calendar = Calendar.getInstance();
-			boolean trace_flag = false;  // mean trace events
+			boolean trace_flag = false; // mean trace events
 
 			// Initialize the CloudSim library
 			CloudSim.init(num_user, calendar, trace_flag);
 
 			// Second step: Create Datacenters
-			//Datacenters are the resource providers in CloudSim. We need at list one of them to run a CloudSim simulation
+			// Datacenters are the resource providers in CloudSim. We need at
+			// list one of them to run a CloudSim simulation
 			Datacenter datacenter0 = createDatacenter("Datacenter_0");
 
-			//Third step: Create Broker
+			// Third step: Create Broker
 			DatacenterBroker broker = createBroker();
 			int brokerId = broker.getId();
 
-			//Fourth step: Create one virtual machine
+			// Fourth step: Create one virtual machine
 			vmlist = new ArrayList<Vm>();
 
-			//VM description
+			// VM description
 			int vmid = 0;
 			int mips = 250;
-			long size = 10000; //image size (MB)
-			int ram = 512; //vm memory (MB)
+			long size = 10000; // image size (MB)
+			int ram = 512; // vm memory (MB)
 			long bw = 1000;
-			int pesNumber = 1; //number of cpus
-			String vmm = "Xen"; //VMM name
+			int pesNumber = 1; // number of cpus
+			String vmm = "Xen"; // VMM name
 
-			//create VM
-			Vm vm1 = new Vm(vmid, brokerId, mips, pesNumber, ram, bw, size, vmm, new CloudletSchedulerTimeShared());
+			// create VM
+			Vm vm1 = new Vm(vmid, brokerId, mips, pesNumber, ram, bw, size,
+					vmm, new CloudletSchedulerTimeShared());
 
-			//add the VM to the vmList
+			// add the VM to the vmList
 			vmlist.add(vm1);
 
-			//submit vm list to the broker
+			// submit vm list to the broker
 			broker.submitVmList(vmlist);
 
-
-			//Fifth step: Create one Cloudlet
+			// Fifth step: Create one Cloudlet
 			cloudletList = new ArrayList<Cloudlet>();
 
-			//Cloudlet properties
+			// Cloudlet properties
 			int id = 0;
 			long length = 40000;
 			long fileSize = 300;
 			long outputSize = 300;
 			UtilizationModel utilizationModel = new UtilizationModelFull();
 
-			Cloudlet cloudlet1 = new Cloudlet(id, length, pesNumber, fileSize, outputSize, utilizationModel, utilizationModel, utilizationModel);
+			Cloudlet cloudlet1 = new Cloudlet(id, length, pesNumber, fileSize,
+					outputSize, utilizationModel, utilizationModel,
+					utilizationModel);
 			cloudlet1.setUserId(brokerId);
 
-			//add the cloudlet to the list
+			// add the cloudlet to the list
 			cloudletList.add(cloudlet1);
 
-			//submit cloudlet list to the broker
+			// submit cloudlet list to the broker
 			broker.submitCloudletList(cloudletList);
 
-			//Sixth step: configure network
+			// Sixth step: configure network
 
-			//maps CloudSim entities to BRITE entities
-			NetworkTopology.addLink(datacenter0.getId(),broker.getId(),10.0,10);
+			// maps CloudSim entities to BRITE entities
+			NetworkTopology.addLink(datacenter0.getId(), broker.getId(), 10.0,
+					10);
 
 			// Seventh step: Starts the simulation
 			CloudSim.startSimulation();
@@ -132,18 +134,17 @@ public class NetworkExample4 {
 			printCloudletList(newList);
 
 			Log.printLine("NetworkExample4 finished!");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			Log.printLine("The simulation has been terminated due to an unexpected error");
 		}
 	}
 
-	private static Datacenter createDatacenter(String name){
+	private static Datacenter createDatacenter(String name) {
 
 		// Here are the steps needed to create a PowerDatacenter:
 		// 1. We need to create a list to store
-		//    our machine
+		// our machine
 		List<Host> hostList = new ArrayList<Host>();
 
 		// 2. A Machine contains one or more PEs or CPUs/Cores.
@@ -153,48 +154,51 @@ public class NetworkExample4 {
 		int mips = 1000;
 
 		// 3. Create PEs and add these into a list.
-		peList.add(new Pe(0, new PeProvisionerSimple(mips))); // need to store Pe id and MIPS Rating
+		peList.add(new Pe(0, new PeProvisionerSimple(mips))); // need to store
+																// Pe id and
+																// MIPS Rating
 
-		//4. Create Host with its id and list of PEs and add them to the list of machines
-		int hostId=0;
-		int ram = 2048; //host memory (MB)
-		long storage = 1000000; //host storage
+		// 4. Create Host with its id and list of PEs and add them to the list
+		// of machines
+		int hostId = 0;
+		int ram = 2048; // host memory (MB)
+		long storage = 1000000; // host storage
 		int bw = 10000;
 
-		hostList.add(
-				new Host(
-					hostId,
-					new RamProvisionerSimple(ram),
-					new BwProvisionerSimple(bw),
-					storage,
-					peList,
-					new VmSchedulerTimeShared(peList)
-				)
-			); // This is our machine
+		hostList.add(new Host(hostId, new RamProvisionerSimple(ram),
+				new BwProvisionerSimple(bw), storage, peList,
+				new VmSchedulerTimeShared(peList))); // This is our machine
 
 		// 5. Create a DatacenterCharacteristics object that stores the
-		//    properties of a data center: architecture, OS, list of
-		//    Machines, allocation policy: time- or space-shared, time zone
-		//    and its price (G$/Pe time unit).
-		String arch = "x86";      // system architecture
-		String os = "Linux";          // operating system
+		// properties of a data center: architecture, OS, list of
+		// Machines, allocation policy: time- or space-shared, time zone
+		// and its price (G$/Pe time unit).
+		String arch = "x86"; // system architecture
+		String os = "Linux"; // operating system
 		String vmm = "Xen";
-		double time_zone = 10.0;         // time zone this resource located
-		double cost = 3.0;              // the cost of using processing in this resource
-		double costPerMem = 0.05;		// the cost of using memory in this resource
-		double costPerStorage = 0.001;	// the cost of using storage in this resource
-		double costPerBw = 0.0;			// the cost of using bw in this resource
-		LinkedList<Storage> storageList = new LinkedList<Storage>();	//we are not adding SAN devices by now
+		double time_zone = 10.0; // time zone this resource located
+		double cost = 3.0; // the cost of using processing in this resource
+		double costPerMem = 0.05; // the cost of using memory in this resource
+		double costPerStorage = 0.001; // the cost of using storage in this
+										// resource
+		double costPerBw = 0.0; // the cost of using bw in this resource
+		LinkedList<Storage> storageList = new LinkedList<Storage>(); // we are
+																		// not
+																		// adding
+																		// SAN
+																		// devices
+																		// by
+																		// now
 
 		DatacenterCharacteristics characteristics = new DatacenterCharacteristics(
 				arch, os, vmm, hostList, time_zone, cost, costPerMem,
 				costPerStorage, costPerBw);
 
-
 		// 6. Finally, we need to create a PowerDatacenter object.
 		Datacenter datacenter = null;
 		try {
-			datacenter = new Datacenter(name, characteristics, new VmAllocationPolicySimple(hostList), storageList, 0);
+			datacenter = new Datacenter(name, characteristics,
+					new VmAllocationPolicySimple(hostList), storageList, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -202,9 +206,10 @@ public class NetworkExample4 {
 		return datacenter;
 	}
 
-	//We strongly encourage users to develop their own broker policies, to submit vms and cloudlets according
-	//to the specific rules of the simulated scenario
-	private static DatacenterBroker createBroker(){
+	// We strongly encourage users to develop their own broker policies, to
+	// submit vms and cloudlets according
+	// to the specific rules of the simulated scenario
+	private static DatacenterBroker createBroker() {
 
 		DatacenterBroker broker = null;
 		try {
@@ -218,7 +223,9 @@ public class NetworkExample4 {
 
 	/**
 	 * Prints the Cloudlet objects
-	 * @param list  list of Cloudlets
+	 * 
+	 * @param list
+	 *            list of Cloudlets
 	 */
 	private static void printCloudletList(List<Cloudlet> list) {
 		int size = list.size();
@@ -227,20 +234,25 @@ public class NetworkExample4 {
 		String indent = "    ";
 		Log.printLine();
 		Log.printLine("========== OUTPUT ==========");
-		Log.printLine("Cloudlet ID" + indent + "STATUS" + indent +
-				"Data center ID" + indent + "VM ID" + indent + "Time" + indent + "Start Time" + indent + "Finish Time");
+		Log.printLine("Cloudlet ID" + indent + "STATUS" + indent
+				+ "Data center ID" + indent + "VM ID" + indent + "Time"
+				+ indent + "Start Time" + indent + "Finish Time");
 
 		for (int i = 0; i < size; i++) {
 			cloudlet = list.get(i);
 			Log.print(indent + cloudlet.getCloudletId() + indent + indent);
 
-			if (cloudlet.getCloudletStatus() == Cloudlet.SUCCESS){
+			if (cloudlet.getCloudletStatus() == Cloudlet.SUCCESS) {
 				Log.print("SUCCESS");
 
 				DecimalFormat dft = new DecimalFormat("###.##");
-				Log.printLine( indent + indent + cloudlet.getResourceId() + indent + indent + indent + cloudlet.getVmId() +
-						indent + indent + dft.format(cloudlet.getActualCPUTime()) + indent + indent + dft.format(cloudlet.getExecStartTime())+
-						indent + indent + dft.format(cloudlet.getFinishTime()));
+				Log.printLine(indent + indent + cloudlet.getResourceId()
+						+ indent + indent + indent + cloudlet.getVmId()
+						+ indent + indent
+						+ dft.format(cloudlet.getActualCPUTime()) + indent
+						+ indent + dft.format(cloudlet.getExecStartTime())
+						+ indent + indent
+						+ dft.format(cloudlet.getFinishTime()));
 			}
 		}
 

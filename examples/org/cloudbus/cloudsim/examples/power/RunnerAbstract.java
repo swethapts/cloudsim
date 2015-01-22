@@ -30,13 +30,14 @@ import org.cloudbus.cloudsim.power.PowerVmSelectionPolicyRandomSelection;
 /**
  * The Class RunnerAbstract.
  * 
- * If you are using any algorithms, policies or workload included in the power package, please cite
- * the following paper:
+ * If you are using any algorithms, policies or workload included in the power
+ * package, please cite the following paper:
  * 
- * Anton Beloglazov, and Rajkumar Buyya, "Optimal Online Deterministic Algorithms and Adaptive
- * Heuristics for Energy and Performance Efficient Dynamic Consolidation of Virtual Machines in
- * Cloud Data Centers", Concurrency and Computation: Practice and Experience (CCPE), Volume 24,
- * Issue 13, Pages: 1397-1420, John Wiley & Sons, Ltd, New York, USA, 2012
+ * Anton Beloglazov, and Rajkumar Buyya, "Optimal Online Deterministic
+ * Algorithms and Adaptive Heuristics for Energy and Performance Efficient
+ * Dynamic Consolidation of Virtual Machines in Cloud Data Centers", Concurrency
+ * and Computation: Practice and Experience (CCPE), Volume 24, Issue 13, Pages:
+ * 1397-1420, John Wiley & Sons, Ltd, New York, USA, 2012
  * 
  * @author Anton Beloglazov
  */
@@ -60,66 +61,69 @@ public abstract class RunnerAbstract {
 	/**
 	 * Run.
 	 * 
-	 * @param enableOutput the enable output
-	 * @param outputToFile the output to file
-	 * @param inputFolder the input folder
-	 * @param outputFolder the output folder
-	 * @param workload the workload
-	 * @param vmAllocationPolicy the vm allocation policy
-	 * @param vmSelectionPolicy the vm selection policy
-	 * @param parameter the parameter
+	 * @param enableOutput
+	 *            the enable output
+	 * @param outputToFile
+	 *            the output to file
+	 * @param inputFolder
+	 *            the input folder
+	 * @param outputFolder
+	 *            the output folder
+	 * @param workload
+	 *            the workload
+	 * @param vmAllocationPolicy
+	 *            the vm allocation policy
+	 * @param vmSelectionPolicy
+	 *            the vm selection policy
+	 * @param parameter
+	 *            the parameter
 	 */
-	public RunnerAbstract(
-			boolean enableOutput,
-			boolean outputToFile,
-			String inputFolder,
-			String outputFolder,
-			String workload,
-			String vmAllocationPolicy,
-			String vmSelectionPolicy,
+	public RunnerAbstract(boolean enableOutput, boolean outputToFile,
+			String inputFolder, String outputFolder, String workload,
+			String vmAllocationPolicy, String vmSelectionPolicy,
 			String parameter) {
 		try {
-			initLogOutput(
-					enableOutput,
-					outputToFile,
-					outputFolder,
-					workload,
-					vmAllocationPolicy,
-					vmSelectionPolicy,
-					parameter);
+			initLogOutput(enableOutput, outputToFile, outputFolder, workload,
+					vmAllocationPolicy, vmSelectionPolicy, parameter);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
 		}
 
 		init(inputFolder + "/" + workload);
-		start(
-				getExperimentName(workload, vmAllocationPolicy, vmSelectionPolicy, parameter),
+		start(getExperimentName(workload, vmAllocationPolicy,
+				vmSelectionPolicy, parameter),
 				outputFolder,
-				getVmAllocationPolicy(vmAllocationPolicy, vmSelectionPolicy, parameter));
+				getVmAllocationPolicy(vmAllocationPolicy, vmSelectionPolicy,
+						parameter));
 	}
 
 	/**
 	 * Inits the log output.
 	 * 
-	 * @param enableOutput the enable output
-	 * @param outputToFile the output to file
-	 * @param outputFolder the output folder
-	 * @param workload the workload
-	 * @param vmAllocationPolicy the vm allocation policy
-	 * @param vmSelectionPolicy the vm selection policy
-	 * @param parameter the parameter
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws FileNotFoundException the file not found exception
+	 * @param enableOutput
+	 *            the enable output
+	 * @param outputToFile
+	 *            the output to file
+	 * @param outputFolder
+	 *            the output folder
+	 * @param workload
+	 *            the workload
+	 * @param vmAllocationPolicy
+	 *            the vm allocation policy
+	 * @param vmSelectionPolicy
+	 *            the vm selection policy
+	 * @param parameter
+	 *            the parameter
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @throws FileNotFoundException
+	 *             the file not found exception
 	 */
-	protected void initLogOutput(
-			boolean enableOutput,
-			boolean outputToFile,
-			String outputFolder,
-			String workload,
-			String vmAllocationPolicy,
-			String vmSelectionPolicy,
-			String parameter) throws IOException, FileNotFoundException {
+	protected void initLogOutput(boolean enableOutput, boolean outputToFile,
+			String outputFolder, String workload, String vmAllocationPolicy,
+			String vmSelectionPolicy, String parameter) throws IOException,
+			FileNotFoundException {
 		setEnableOutput(enableOutput);
 		Log.setDisabled(!isEnableOutput());
 		if (isEnableOutput() && outputToFile) {
@@ -133,8 +137,10 @@ public abstract class RunnerAbstract {
 				folder2.mkdir();
 			}
 
-			File file = new File(outputFolder + "/log/"
-					+ getExperimentName(workload, vmAllocationPolicy, vmSelectionPolicy, parameter) + ".txt");
+			File file = new File(outputFolder
+					+ "/log/"
+					+ getExperimentName(workload, vmAllocationPolicy,
+							vmSelectionPolicy, parameter) + ".txt");
 			file.createNewFile();
 			Log.setOutput(new FileOutputStream(file));
 		}
@@ -143,26 +149,29 @@ public abstract class RunnerAbstract {
 	/**
 	 * Inits the simulation.
 	 * 
-	 * @param inputFolder the input folder
+	 * @param inputFolder
+	 *            the input folder
 	 */
 	protected abstract void init(String inputFolder);
 
 	/**
 	 * Starts the simulation.
 	 * 
-	 * @param experimentName the experiment name
-	 * @param outputFolder the output folder
-	 * @param vmAllocationPolicy the vm allocation policy
+	 * @param experimentName
+	 *            the experiment name
+	 * @param outputFolder
+	 *            the output folder
+	 * @param vmAllocationPolicy
+	 *            the vm allocation policy
 	 */
-	protected void start(String experimentName, String outputFolder, VmAllocationPolicy vmAllocationPolicy) {
+	protected void start(String experimentName, String outputFolder,
+			VmAllocationPolicy vmAllocationPolicy) {
 		System.out.println("Starting " + experimentName);
 
 		try {
-			PowerDatacenter datacenter = (PowerDatacenter) Helper.createDatacenter(
-					"Datacenter",
-					PowerDatacenter.class,
-					hostList,
-					vmAllocationPolicy);
+			PowerDatacenter datacenter = (PowerDatacenter) Helper
+					.createDatacenter("Datacenter", PowerDatacenter.class,
+							hostList, vmAllocationPolicy);
 
 			datacenter.setDisableMigrations(false);
 
@@ -177,13 +186,8 @@ public abstract class RunnerAbstract {
 
 			CloudSim.stopSimulation();
 
-			Helper.printResults(
-					datacenter,
-					vmList,
-					lastClock,
-					experimentName,
-					Constants.OUTPUT_CSV,
-					outputFolder);
+			Helper.printResults(datacenter, vmList, lastClock, experimentName,
+					Constants.OUTPUT_CSV, outputFolder);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -197,7 +201,8 @@ public abstract class RunnerAbstract {
 	/**
 	 * Gets the experiment name.
 	 * 
-	 * @param args the args
+	 * @param args
+	 *            the args
 	 * @return the experiment name
 	 */
 	protected String getExperimentName(String... args) {
@@ -217,14 +222,16 @@ public abstract class RunnerAbstract {
 	/**
 	 * Gets the vm allocation policy.
 	 * 
-	 * @param vmAllocationPolicyName the vm allocation policy name
-	 * @param vmSelectionPolicyName the vm selection policy name
-	 * @param parameterName the parameter name
+	 * @param vmAllocationPolicyName
+	 *            the vm allocation policy name
+	 * @param vmSelectionPolicyName
+	 *            the vm selection policy name
+	 * @param parameterName
+	 *            the parameter name
 	 * @return the vm allocation policy
 	 */
 	protected VmAllocationPolicy getVmAllocationPolicy(
-			String vmAllocationPolicyName,
-			String vmSelectionPolicyName,
+			String vmAllocationPolicyName, String vmSelectionPolicyName,
 			String parameterName) {
 		VmAllocationPolicy vmAllocationPolicy = null;
 		PowerVmSelectionPolicy vmSelectionPolicy = null;
@@ -237,55 +244,36 @@ public abstract class RunnerAbstract {
 		}
 		if (vmAllocationPolicyName.equals("iqr")) {
 			PowerVmAllocationPolicyMigrationAbstract fallbackVmSelectionPolicy = new PowerVmAllocationPolicyMigrationStaticThreshold(
-					hostList,
-					vmSelectionPolicy,
-					0.7);
+					hostList, vmSelectionPolicy, 0.7);
 			vmAllocationPolicy = new PowerVmAllocationPolicyMigrationInterQuartileRange(
-					hostList,
-					vmSelectionPolicy,
-					parameter,
+					hostList, vmSelectionPolicy, parameter,
 					fallbackVmSelectionPolicy);
 		} else if (vmAllocationPolicyName.equals("mad")) {
 			PowerVmAllocationPolicyMigrationAbstract fallbackVmSelectionPolicy = new PowerVmAllocationPolicyMigrationStaticThreshold(
-					hostList,
-					vmSelectionPolicy,
-					0.7);
+					hostList, vmSelectionPolicy, 0.7);
 			vmAllocationPolicy = new PowerVmAllocationPolicyMigrationMedianAbsoluteDeviation(
-					hostList,
-					vmSelectionPolicy,
-					parameter,
+					hostList, vmSelectionPolicy, parameter,
 					fallbackVmSelectionPolicy);
 		} else if (vmAllocationPolicyName.equals("lr")) {
 			PowerVmAllocationPolicyMigrationAbstract fallbackVmSelectionPolicy = new PowerVmAllocationPolicyMigrationStaticThreshold(
-					hostList,
-					vmSelectionPolicy,
-					0.7);
+					hostList, vmSelectionPolicy, 0.7);
 			vmAllocationPolicy = new PowerVmAllocationPolicyMigrationLocalRegression(
-					hostList,
-					vmSelectionPolicy,
-					parameter,
-					Constants.SCHEDULING_INTERVAL,
-					fallbackVmSelectionPolicy);
+					hostList, vmSelectionPolicy, parameter,
+					Constants.SCHEDULING_INTERVAL, fallbackVmSelectionPolicy);
 		} else if (vmAllocationPolicyName.equals("lrr")) {
 			PowerVmAllocationPolicyMigrationAbstract fallbackVmSelectionPolicy = new PowerVmAllocationPolicyMigrationStaticThreshold(
-					hostList,
-					vmSelectionPolicy,
-					0.7);
+					hostList, vmSelectionPolicy, 0.7);
 			vmAllocationPolicy = new PowerVmAllocationPolicyMigrationLocalRegressionRobust(
-					hostList,
-					vmSelectionPolicy,
-					parameter,
-					Constants.SCHEDULING_INTERVAL,
-					fallbackVmSelectionPolicy);
+					hostList, vmSelectionPolicy, parameter,
+					Constants.SCHEDULING_INTERVAL, fallbackVmSelectionPolicy);
 		} else if (vmAllocationPolicyName.equals("thr")) {
 			vmAllocationPolicy = new PowerVmAllocationPolicyMigrationStaticThreshold(
-					hostList,
-					vmSelectionPolicy,
-					parameter);
+					hostList, vmSelectionPolicy, parameter);
 		} else if (vmAllocationPolicyName.equals("dvfs")) {
 			vmAllocationPolicy = new PowerVmAllocationPolicySimple(hostList);
 		} else {
-			System.out.println("Unknown VM allocation policy: " + vmAllocationPolicyName);
+			System.out.println("Unknown VM allocation policy: "
+					+ vmAllocationPolicyName);
 			System.exit(0);
 		}
 		return vmAllocationPolicy;
@@ -294,10 +282,12 @@ public abstract class RunnerAbstract {
 	/**
 	 * Gets the vm selection policy.
 	 * 
-	 * @param vmSelectionPolicyName the vm selection policy name
+	 * @param vmSelectionPolicyName
+	 *            the vm selection policy name
 	 * @return the vm selection policy
 	 */
-	protected PowerVmSelectionPolicy getVmSelectionPolicy(String vmSelectionPolicyName) {
+	protected PowerVmSelectionPolicy getVmSelectionPolicy(
+			String vmSelectionPolicyName) {
 		PowerVmSelectionPolicy vmSelectionPolicy = null;
 		if (vmSelectionPolicyName.equals("mc")) {
 			vmSelectionPolicy = new PowerVmSelectionPolicyMaximumCorrelation(
@@ -309,7 +299,8 @@ public abstract class RunnerAbstract {
 		} else if (vmSelectionPolicyName.equals("rs")) {
 			vmSelectionPolicy = new PowerVmSelectionPolicyRandomSelection();
 		} else {
-			System.out.println("Unknown VM selection policy: " + vmSelectionPolicyName);
+			System.out.println("Unknown VM selection policy: "
+					+ vmSelectionPolicyName);
 			System.exit(0);
 		}
 		return vmSelectionPolicy;
@@ -318,7 +309,8 @@ public abstract class RunnerAbstract {
 	/**
 	 * Sets the enable output.
 	 * 
-	 * @param enableOutput the new enable output
+	 * @param enableOutput
+	 *            the new enable output
 	 */
 	public void setEnableOutput(boolean enableOutput) {
 		RunnerAbstract.enableOutput = enableOutput;
