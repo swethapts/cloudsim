@@ -12,15 +12,15 @@ import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.VmAllocationPolicy;
 import org.cloudbus.cloudsim.core.CloudSim;
-import org.cloudbus.cloudsim.power.PowerDatacenter;
-import org.cloudbus.cloudsim.power.PowerHost;
+import org.cloudbus.cloudsim.power.PowerDatacenterSteady;
+import org.cloudbus.cloudsim.power.PowerHostSteady;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationAbstract;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationInterQuartileRange;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationLocalRegression;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationLocalRegressionRobust;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationMedianAbsoluteDeviation;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationStaticThreshold;
-import org.cloudbus.cloudsim.power.PowerVmAllocationPolicySimple;
+import org.cloudbus.cloudsim.power.PowerVmAllocationPolicySimpleSteady;
 import org.cloudbus.cloudsim.power.PowerVmSelectionPolicy;
 import org.cloudbus.cloudsim.power.PowerVmSelectionPolicyMaximumCorrelation;
 import org.cloudbus.cloudsim.power.PowerVmSelectionPolicyMinimumMigrationTime;
@@ -55,7 +55,7 @@ public abstract class RunnerAbstractSteady {
 	protected static List<Vm> vmList;
 
 	/** The host list. */
-	protected static List<PowerHost> hostList;
+	protected static List<PowerHostSteady> hostList;
 
 	/**
 	 * Run.
@@ -158,9 +158,9 @@ public abstract class RunnerAbstractSteady {
 		System.out.println("Starting " + experimentName);
 
 		try {
-			PowerDatacenter datacenter = (PowerDatacenter) HelperSteady.createDatacenter(
+			PowerDatacenterSteady datacenter = (PowerDatacenterSteady) HelperSteady.createDatacenter(
 					"Datacenter",
-					PowerDatacenter.class,
+					PowerDatacenterSteady.class,
 					hostList,
 					vmAllocationPolicy);
 
@@ -283,7 +283,7 @@ public abstract class RunnerAbstractSteady {
 					vmSelectionPolicy,
 					parameter);
 		} else if (vmAllocationPolicyName.equals("dvfs")) {
-			vmAllocationPolicy = new PowerVmAllocationPolicySimple(hostList);
+			vmAllocationPolicy = new PowerVmAllocationPolicySimpleSteady(hostList);
 		} else {
 			System.out.println("Unknown VM allocation policy: " + vmAllocationPolicyName);
 			System.exit(0);
