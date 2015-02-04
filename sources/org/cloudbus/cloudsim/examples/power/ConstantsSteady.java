@@ -21,7 +21,7 @@ public class ConstantsSteady {
 	public final static boolean ENABLE_OUTPUT = true;
 	public final static boolean OUTPUT_CSV    = false;
 
-	public final static double SCHEDULING_INTERVAL = 300;
+	public final static double SCHEDULING_INTERVAL = 1;//300;
 	public final static double SIMULATION_LIMIT = 1700;//24 * 60 * 60;
 
 	public final static int CLOUDLET_LENGTH	= 2500 * 1000;//mi //(int) SIMULATION_LIMIT;

@@ -64,19 +64,19 @@ public class HelperSteady {
 	public static List<Vm> createVmList(int brokerId, int vmsNumber) {
 		List<Vm> vms = new ArrayList<Vm>();
 		for (int i = 0; i < vmsNumber; i++) {
-			int vmType = i / (int) Math.ceil((double) vmsNumber / Constants.VM_TYPES);
+			int vmType = i / (int) Math.ceil((double) vmsNumber / ConstantsSteady.VM_TYPES);
 			vms.add(new PowerVm(
 					i,
 					brokerId,
-					Constants.VM_MIPS[vmType],
-					Constants.VM_PES[vmType],
-					Constants.VM_RAM[vmType],
-					Constants.VM_BW,
-					Constants.VM_SIZE,
+					ConstantsSteady.VM_MIPS[vmType],
+					ConstantsSteady.VM_PES[vmType],
+					ConstantsSteady.VM_RAM[vmType],
+					ConstantsSteady.VM_BW,
+					ConstantsSteady.VM_SIZE,
 					1,
 					"Xen",
-					new CloudletSchedulerDynamicWorkload(Constants.VM_MIPS[vmType], Constants.VM_PES[vmType]),
-					Constants.SCHEDULING_INTERVAL));
+					new CloudletSchedulerDynamicWorkload(ConstantsSteady.VM_MIPS[vmType], ConstantsSteady.VM_PES[vmType]),
+					ConstantsSteady.SCHEDULING_INTERVAL));
 		}
 		return vms;
 	}
@@ -91,21 +91,21 @@ public class HelperSteady {
 	public static List<PowerHost> createHostList(int hostsNumber) {
 		List<PowerHost> hostList = new ArrayList<PowerHost>();
 		for (int i = 0; i < hostsNumber; i++) {
-			int hostType = i % Constants.HOST_TYPES;
+			int hostType = i % ConstantsSteady.HOST_TYPES;
 
 			List<Pe> peList = new ArrayList<Pe>();
-			for (int j = 0; j < Constants.HOST_PES[hostType]; j++) {
-				peList.add(new Pe(j, new PeProvisionerSimple(Constants.HOST_MIPS[hostType])));
+			for (int j = 0; j < ConstantsSteady.HOST_PES[hostType]; j++) {
+				peList.add(new Pe(j, new PeProvisionerSimple(ConstantsSteady.HOST_MIPS[hostType])));
 			}
 
 			hostList.add(new PowerHostUtilizationHistory(
 					i,
-					new RamProvisionerSimple(Constants.HOST_RAM[hostType]),
-					new BwProvisionerSimple(Constants.HOST_BW),
-					Constants.HOST_STORAGE,
+					new RamProvisionerSimple(ConstantsSteady.HOST_RAM[hostType]),
+					new BwProvisionerSimple(ConstantsSteady.HOST_BW),
+					ConstantsSteady.HOST_STORAGE,
 					peList,
 					new VmSchedulerTimeSharedOverSubscription(peList),
-					Constants.HOST_POWER[hostType]));
+					ConstantsSteady.HOST_POWER[hostType]));
 		}
 		return hostList;
 	}
@@ -176,7 +176,7 @@ public class HelperSteady {
 					characteristics,
 					vmAllocationPolicy,
 					new LinkedList<Storage>(),
-					Constants.SCHEDULING_INTERVAL);
+					ConstantsSteady.SCHEDULING_INTERVAL);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
