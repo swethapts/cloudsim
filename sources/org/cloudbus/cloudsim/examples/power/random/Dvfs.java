@@ -30,7 +30,7 @@ public class Dvfs {
 	 */
 	public static void main(String[] args) throws IOException {
 		boolean enableOutput = true;
-		boolean outputToFile = true;
+		boolean outputToFile = false;//true;
 		String inputFolder = "";
 		String outputFolder = "";
 		String workload = "random"; // Random workload
