@@ -11,8 +11,8 @@ package org.cloudbus.cloudsim.power;
 import java.util.List;
 import java.util.Map;
 
-import org.cloudbus.cloudsim.Host;
-import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.HostSteady;
+import org.cloudbus.cloudsim.VmSteady;
 
 /**
  * This a simple class representing a simple VM allocation policy that does not perform any
@@ -36,7 +36,7 @@ public class PowerVmAllocationPolicySimpleSteady extends PowerVmAllocationPolicy
 	 * 
 	 * @param list the list
 	 */
-	public PowerVmAllocationPolicySimpleSteady(List<? extends Host> list) {
+	public PowerVmAllocationPolicySimpleSteady(List<? extends HostSteady> list) {
 		super(list);
 	}
 
@@ -45,7 +45,7 @@ public class PowerVmAllocationPolicySimpleSteady extends PowerVmAllocationPolicy
 	 * @see org.cloudbus.cloudsim.VmAllocationPolicy#optimizeAllocation(java.util.List)
 	 */
 	@Override
-	public List<Map<String, Object>> optimizeAllocation(List<? extends Vm> vmList) {
+	public List<Map<String, Object>> optimizeAllocation(List<? extends VmSteady> vmList) {
 		// This policy does not optimize the VM allocation
 		return null;
 	}

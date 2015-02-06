@@ -10,11 +10,11 @@ package org.cloudbus.cloudsim.power;
 
 import java.util.List;
 
-import org.cloudbus.cloudsim.Pe;
-import org.cloudbus.cloudsim.VmScheduler;
+import org.cloudbus.cloudsim.PeSteady;
+import org.cloudbus.cloudsim.VmSchedulerSteady;
 import org.cloudbus.cloudsim.power.models.PowerModel;
-import org.cloudbus.cloudsim.provisioners.BwProvisioner;
-import org.cloudbus.cloudsim.provisioners.RamProvisioner;
+import org.cloudbus.cloudsim.provisioners.BwProvisionerSteady;
+import org.cloudbus.cloudsim.provisioners.RamProvisionerSteady;
 import org.cloudbus.cloudsim.util.MathUtil;
 
 /**
@@ -47,11 +47,11 @@ public class PowerHostUtilizationHistorySteady extends PowerHostSteady {
 	 */
 	public PowerHostUtilizationHistorySteady(
 			int id,
-			RamProvisioner ramProvisioner,
-			BwProvisioner bwProvisioner,
+			RamProvisionerSteady ramProvisioner,
+			BwProvisionerSteady bwProvisioner,
 			long storage,
-			List<? extends Pe> peList,
-			VmScheduler vmScheduler,
+			List<? extends PeSteady> peList,
+			VmSchedulerSteady vmScheduler,
 			PowerModel powerModel) {
 		super(id, ramProvisioner, bwProvisioner, storage, peList, vmScheduler, powerModel);
 	}
@@ -62,9 +62,9 @@ public class PowerHostUtilizationHistorySteady extends PowerHostSteady {
 	 * @return the host utilization history
 	 */
 	protected double[] getUtilizationHistory() {
-		double[] utilizationHistory = new double[PowerVm.HISTORY_LENGTH];
+		double[] utilizationHistory = new double[PowerVmSteady.HISTORY_LENGTH];
 		double hostMips = getTotalMips();
-		for (PowerVm vm : this.<PowerVm> getVmList()) {
+		for (PowerVmSteady vm : this.<PowerVmSteady> getVmList()) {
 			for (int i = 0; i < vm.getUtilizationHistory().size(); i++) {
 				utilizationHistory[i] += vm.getUtilizationHistory().get(i) * vm.getMips() / hostMips;
 			}

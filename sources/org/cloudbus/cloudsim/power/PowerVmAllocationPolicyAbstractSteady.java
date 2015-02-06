@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cloudbus.cloudsim.Host;
+import org.cloudbus.cloudsim.HostSteady;
 import org.cloudbus.cloudsim.Log;
-import org.cloudbus.cloudsim.Vm;
-import org.cloudbus.cloudsim.VmAllocationPolicy;
+import org.cloudbus.cloudsim.VmSteady;
+import org.cloudbus.cloudsim.VmAllocationPolicySteady;
 import org.cloudbus.cloudsim.core.CloudSim;
 
 /**
@@ -32,36 +32,36 @@ import org.cloudbus.cloudsim.core.CloudSim;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 3.0
  */
-public abstract class PowerVmAllocationPolicyAbstractSteady extends VmAllocationPolicy {
+public abstract class PowerVmAllocationPolicyAbstractSteady extends VmAllocationPolicySteady {
 
 	/** The vm table. */
-	private final Map<String, Host> vmTable = new HashMap<String, Host>();
+	private final Map<String, HostSteady> vmTable = new HashMap<String, HostSteady>();
 
 	/**
 	 * Instantiates a new power vm allocation policy abstract.
 	 * 
 	 * @param list the list
 	 */
-	public PowerVmAllocationPolicyAbstractSteady(List<? extends Host> list) {
+	public PowerVmAllocationPolicyAbstractSteady(List<? extends HostSteady> list) {
 		super(list);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.cloudbus.cloudsim.VmAllocationPolicy#allocateHostForVm(org.cloudbus.cloudsim.Vm)
+	 * @see org.cloudbus.cloudsim.VmAllocationPolicySteady#allocateHostForVm(org.cloudbus.cloudsim.VmSteady)
 	 */
 	@Override
-	public boolean allocateHostForVm(Vm vm) {
+	public boolean allocateHostForVm(VmSteady vm) {
 		return allocateHostForVm(vm, findHostForVm(vm));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.cloudbus.cloudsim.VmAllocationPolicy#allocateHostForVm(org.cloudbus.cloudsim.Vm,
-	 * org.cloudbus.cloudsim.Host)
+	 * @see org.cloudbus.cloudsim.VmAllocationPolicySteady#allocateHostForVm(org.cloudbus.cloudsim.VmSteady,
+	 * org.cloudbus.cloudsim.HostSteady)
 	 */
 	@Override
-	public boolean allocateHostForVm(Vm vm, Host host) {
+	public boolean allocateHostForVm(VmSteady vm, HostSteady host) {
 		if (host == null) {
 			Log.formatLine("%.2f: No suitable host found for VM #" + vm.getId() + "\n", CloudSim.clock());
 			return false;
@@ -85,7 +85,7 @@ public abstract class PowerVmAllocationPolicyAbstractSteady extends VmAllocation
 	 * @param vm the vm
 	 * @return the power host
 	 */
-	public PowerHostSteady findHostForVm(Vm vm) {
+	public PowerHostSteady findHostForVm(VmSteady vm) {
 		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
 			if (host.isSuitableForVm(vm)) {
 				return host;
@@ -96,11 +96,11 @@ public abstract class PowerVmAllocationPolicyAbstractSteady extends VmAllocation
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.cloudbus.cloudsim.VmAllocationPolicy#deallocateHostForVm(org.cloudbus.cloudsim.Vm)
+	 * @see org.cloudbus.cloudsim.VmAllocationPolicySteady#deallocateHostForVm(org.cloudbus.cloudsim.VmSteady)
 	 */
 	@Override
-	public void deallocateHostForVm(Vm vm) {
-		Host host = getVmTable().remove(vm.getUid());
+	public void deallocateHostForVm(VmSteady vm) {
+		HostSteady host = getVmTable().remove(vm.getUid());
 		if (host != null) {
 			host.vmDestroy(vm);
 		}
@@ -108,20 +108,20 @@ public abstract class PowerVmAllocationPolicyAbstractSteady extends VmAllocation
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.cloudbus.cloudsim.VmAllocationPolicy#getHost(org.cloudbus.cloudsim.Vm)
+	 * @see org.cloudbus.cloudsim.VmAllocationPolicySteady#getHost(org.cloudbus.cloudsim.VmSteady)
 	 */
 	@Override
-	public Host getHost(Vm vm) {
+	public HostSteady getHost(VmSteady vm) {
 		return getVmTable().get(vm.getUid());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.cloudbus.cloudsim.VmAllocationPolicy#getHost(int, int)
+	 * @see org.cloudbus.cloudsim.VmAllocationPolicySteady#getHost(int, int)
 	 */
 	@Override
-	public Host getHost(int vmId, int userId) {
-		return getVmTable().get(Vm.getUid(userId, vmId));
+	public HostSteady getHost(int vmId, int userId) {
+		return getVmTable().get(VmSteady.getUid(userId, vmId));
 	}
 
 	/**
@@ -129,7 +129,7 @@ public abstract class PowerVmAllocationPolicyAbstractSteady extends VmAllocation
 	 * 
 	 * @return the vm table
 	 */
-	public Map<String, Host> getVmTable() {
+	public Map<String, HostSteady> getVmTable() {
 		return vmTable;
 	}
 

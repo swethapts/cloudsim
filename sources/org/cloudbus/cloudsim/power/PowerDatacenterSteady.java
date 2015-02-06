@@ -11,12 +11,12 @@ package org.cloudbus.cloudsim.power;
 import java.util.List;
 import java.util.Map;
 
-import org.cloudbus.cloudsim.Datacenter;
-import org.cloudbus.cloudsim.DatacenterCharacteristics;
+import org.cloudbus.cloudsim.DatacenterSteady;
+import org.cloudbus.cloudsim.DatacenterCharacteristicsSteady;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Storage;
-import org.cloudbus.cloudsim.Vm;
-import org.cloudbus.cloudsim.VmAllocationPolicy;
+import org.cloudbus.cloudsim.VmSteady;
+import org.cloudbus.cloudsim.VmAllocationPolicySteady;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEvent;
@@ -36,7 +36,7 @@ import org.cloudbus.cloudsim.core.predicates.PredicateType;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 2.0
  */
-public class PowerDatacenterSteady extends Datacenter {
+public class PowerDatacenterSteady extends DatacenterSteady {
 
 	/** The power. */
 	private double power;
@@ -63,8 +63,8 @@ public class PowerDatacenterSteady extends Datacenter {
 	 */
 	public PowerDatacenterSteady(
 			String name,
-			DatacenterCharacteristics characteristics,
-			VmAllocationPolicy vmAllocationPolicy,
+			DatacenterCharacteristicsSteady characteristics,
+			VmAllocationPolicySteady vmAllocationPolicy,
 			List<Storage> storageList,
 			double schedulingInterval) throws Exception {
 		super(name, characteristics, vmAllocationPolicy, storageList, schedulingInterval);
@@ -104,7 +104,7 @@ public class PowerDatacenterSteady extends Datacenter {
 
 				if (migrationMap != null) {
 					for (Map<String, Object> migrate : migrationMap) {
-						Vm vm = (Vm) migrate.get("vm");
+						VmSteady vm = (VmSteady) migrate.get("vm");
 						PowerHostSteady targetHost = (PowerHostSteady) migrate.get("host");
 						PowerHostSteady oldHost = (PowerHostSteady) vm.getHost();
 
@@ -235,7 +235,7 @@ public class PowerDatacenterSteady extends Datacenter {
 
 		/** Remove completed VMs **/
 		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
-			for (Vm vm : host.getCompletedVms()) {
+			for (VmSteady vm : host.getCompletedVms()) {
 				getVmAllocationPolicy().deallocateHostForVm(vm);
 				getVmList().remove(vm);
 				Log.printLine("VM #" + vm.getId() + " has been deallocated from host #" + host.getId());
@@ -250,7 +250,7 @@ public class PowerDatacenterSteady extends Datacenter {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.cloudbus.cloudsim.Datacenter#processVmMigrate(org.cloudbus.cloudsim.core.SimEvent,
+	 * @see org.cloudbus.cloudsim.DatacenterSteady#processVmMigrate(org.cloudbus.cloudsim.core.SimEvent,
 	 * boolean)
 	 */
 	@Override
@@ -266,7 +266,7 @@ public class PowerDatacenterSteady extends Datacenter {
 
 	/*
 	 * (non-Javadoc)
-	 * @see cloudsim.Datacenter#processCloudletSubmit(cloudsim.core.SimEvent, boolean)
+	 * @see cloudsim.DatacenterSteady#processCloudletSubmit(cloudsim.core.SimEvent, boolean)
 	 */
 	@Override
 	protected void processCloudletSubmit(SimEvent ev, boolean ack) {
@@ -299,7 +299,7 @@ public class PowerDatacenterSteady extends Datacenter {
 	 */
 	protected boolean isInMigration() {
 		boolean result = false;
-		for (Vm vm : getVmList()) {
+		for (VmSteady vm : getVmList()) {
 			if (vm.isInMigration()) {
 				result = true;
 				break;

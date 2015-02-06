@@ -10,12 +10,12 @@ package org.cloudbus.cloudsim.power;
 
 import java.util.List;
 
-import org.cloudbus.cloudsim.HostDynamicWorkload;
-import org.cloudbus.cloudsim.Pe;
-import org.cloudbus.cloudsim.VmScheduler;
+import org.cloudbus.cloudsim.HostSteadyWorkload;
+import org.cloudbus.cloudsim.PeSteady;
+import org.cloudbus.cloudsim.VmSchedulerSteady;
 import org.cloudbus.cloudsim.power.models.PowerModel;
-import org.cloudbus.cloudsim.provisioners.BwProvisioner;
-import org.cloudbus.cloudsim.provisioners.RamProvisioner;
+import org.cloudbus.cloudsim.provisioners.BwProvisionerSteady;
+import org.cloudbus.cloudsim.provisioners.RamProvisionerSteady;
 
 /**
  * PowerHostSteady class enables simulation of power-aware hosts.
@@ -31,7 +31,7 @@ import org.cloudbus.cloudsim.provisioners.RamProvisioner;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 2.0
  */
-public class PowerHostSteady extends HostDynamicWorkload {
+public class PowerHostSteady extends HostSteadyWorkload {
 
 	/** The power model. */
 	private PowerModel powerModel;
@@ -48,11 +48,11 @@ public class PowerHostSteady extends HostDynamicWorkload {
 	 */
 	public PowerHostSteady(
 			int id,
-			RamProvisioner ramProvisioner,
-			BwProvisioner bwProvisioner,
+			RamProvisionerSteady ramProvisioner,
+			BwProvisionerSteady bwProvisioner,
 			long storage,
-			List<? extends Pe> peList,
-			VmScheduler vmScheduler,
+			List<? extends PeSteady> peList,
+			VmSchedulerSteady vmScheduler,
 			PowerModel powerModel) {
 		super(id, ramProvisioner, bwProvisioner, storage, peList, vmScheduler);
 		setPowerModel(powerModel);

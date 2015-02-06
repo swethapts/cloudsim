@@ -11,11 +11,11 @@ package org.cloudbus.cloudsim.power;
 import java.util.List;
 import java.util.Map;
 
-import org.cloudbus.cloudsim.DatacenterCharacteristics;
+import org.cloudbus.cloudsim.DatacenterCharacteristicsSteady;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Storage;
-import org.cloudbus.cloudsim.Vm;
-import org.cloudbus.cloudsim.VmAllocationPolicy;
+import org.cloudbus.cloudsim.VmSteady;
+import org.cloudbus.cloudsim.VmAllocationPolicySteady;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.predicates.PredicateType;
@@ -51,8 +51,8 @@ public class PowerDatacenterNonPowerAwareSteady extends PowerDatacenterSteady {
 	 */
 	public PowerDatacenterNonPowerAwareSteady(
 			String name,
-			DatacenterCharacteristics characteristics,
-			VmAllocationPolicy vmAllocationPolicy,
+			DatacenterCharacteristicsSteady characteristics,
+			VmAllocationPolicySteady vmAllocationPolicy,
 			List<Storage> storageList,
 			double schedulingInterval) throws Exception {
 		super(name, characteristics, vmAllocationPolicy, storageList, schedulingInterval);
@@ -126,7 +126,7 @@ public class PowerDatacenterNonPowerAwareSteady extends PowerDatacenterSteady {
 
 			/** Remove completed VMs **/
 			for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
-				for (Vm vm : host.getCompletedVms()) {
+				for (VmSteady vm : host.getCompletedVms()) {
 					getVmAllocationPolicy().deallocateHostForVm(vm);
 					getVmList().remove(vm);
 					Log.printLine("VM #" + vm.getId() + " has been deallocated from host #" + host.getId());
@@ -141,7 +141,7 @@ public class PowerDatacenterNonPowerAwareSteady extends PowerDatacenterSteady {
 
 				if (migrationMap != null) {
 					for (Map<String, Object> migrate : migrationMap) {
-						Vm vm = (Vm) migrate.get("vm");
+						VmSteady vm = (VmSteady) migrate.get("vm");
 						PowerHostSteady targetHost = (PowerHostSteady) migrate.get("host");
 						PowerHostSteady oldHost = (PowerHostSteady) vm.getHost();
 

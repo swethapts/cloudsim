@@ -24,7 +24,7 @@ public class Constants {
 	public final static double SCHEDULING_INTERVAL = 300;
 	public final static double SIMULATION_LIMIT = 700;//24 * 60 * 60;
 
-	public final static int CLOUDLET_LENGTH	= 2500 * 1000;//mi //(int) SIMULATION_LIMIT;
+	public final static int CLOUDLET_LENGTH	= 2500 * 10;//mi //(int) SIMULATION_LIMIT;
 	public final static int CLOUDLET_PES	= 1;
 
 	/*

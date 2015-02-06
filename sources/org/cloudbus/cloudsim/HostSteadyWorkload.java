@@ -13,9 +13,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.cloudbus.cloudsim.core.CloudSim;
-import org.cloudbus.cloudsim.lists.PeList;
-import org.cloudbus.cloudsim.provisioners.BwProvisioner;
-import org.cloudbus.cloudsim.provisioners.RamProvisioner;
+import org.cloudbus.cloudsim.lists.PeListSteady;
+import org.cloudbus.cloudsim.provisioners.BwProvisionerSteady;
+import org.cloudbus.cloudsim.provisioners.RamProvisionerSteady;
 
 /**
  * The class of a host supporting dynamic workloads and performance degradation.
@@ -23,7 +23,7 @@ import org.cloudbus.cloudsim.provisioners.RamProvisioner;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 2.0
  */
-public class HostSteadyWorkload extends Host {
+public class HostSteadyWorkload extends HostSteady {
 
 	/** The utilization mips. */
 	private double utilizationMips;
@@ -46,11 +46,11 @@ public class HostSteadyWorkload extends Host {
 	 */
 	public HostSteadyWorkload(
 			int id,
-			RamProvisioner ramProvisioner,
-			BwProvisioner bwProvisioner,
+			RamProvisionerSteady ramProvisioner,
+			BwProvisionerSteady bwProvisioner,
 			long storage,
-			List<? extends Pe> peList,
-			VmScheduler vmScheduler) {
+			List<? extends PeSteady> peList,
+			VmSchedulerSteady vmScheduler) {
 		super(id, ramProvisioner, bwProvisioner, storage, peList, vmScheduler);
 		setUtilizationMips(0);
 		setPreviousUtilizationMips(0);
@@ -58,7 +58,7 @@ public class HostSteadyWorkload extends Host {
 
 	/*
 	 * (non-Javadoc)
-	 * @see cloudsim.Host#updateVmsProcessing(double)
+	 * @see cloudsim.HostSteady#updateVmsProcessing(double)
 	 */
 	@Override
 	public double updateVmsProcessing(double currentTime) {
@@ -67,22 +67,22 @@ public class HostSteadyWorkload extends Host {
 		setUtilizationMips(0);
 		double hostTotalRequestedMips = 0;
 
-		for (Vm vm : getVmList()) {
+		for (VmSteady vm : getVmList()) {
 			getVmScheduler().deallocatePesForVm(vm);
 		}
 
-		for (Vm vm : getVmList()) {
+		for (VmSteady vm : getVmList()) {
 			getVmScheduler().allocatePesForVm(vm, vm.getCurrentRequestedMips());
 		}
 
-		for (Vm vm : getVmList()) {
+		for (VmSteady vm : getVmList()) {
 			double totalRequestedMips = vm.getCurrentRequestedTotalMips();
 			double totalAllocatedMips = getVmScheduler().getTotalAllocatedMipsForVm(vm);
 
 			if (!Log.isDisabled()) {
 				Log.formatLine(
-						"%.2f: [Host #" + getId() + "] Total allocated MIPS for VM #" + vm.getId()
-								+ " (Host #" + vm.getHost().getId()
+						"%.2f: [HostSteady #" + getId() + "] Total allocated MIPS for VM #" + vm.getId()
+								+ " (HostSteady #" + vm.getHost().getId()
 								+ ") is %.2f, was requested %.2f out of total %.2f (%.2f%%)",
 						CloudSim.clock(),
 						totalAllocatedMips,
@@ -90,25 +90,25 @@ public class HostSteadyWorkload extends Host {
 						vm.getMips(),
 						totalRequestedMips / vm.getMips() * 100);
 
-				List<Pe> pes = getVmScheduler().getPesAllocatedForVM(vm);
+				List<PeSteady> pes = getVmScheduler().getPesAllocatedForVM(vm);
 				StringBuilder pesString = new StringBuilder();
-				for (Pe pe : pes) {
+				for (PeSteady pe : pes) {
 					pesString.append(String.format(" PE #" + pe.getId() + ": %.2f.", pe.getPeProvisioner()
 							.getTotalAllocatedMipsForVm(vm)));
 				}
 				Log.formatLine(
-						"%.2f: [Host #" + getId() + "] MIPS for VM #" + vm.getId() + " by PEs ("
+						"%.2f: [HostSteady #" + getId() + "] MIPS for VM #" + vm.getId() + " by PEs ("
 								+ getNumberOfPes() + " * " + getVmScheduler().getPeCapacity() + ")."
 								+ pesString,
 						CloudSim.clock());
 			}
 
 			if (getVmsMigratingIn().contains(vm)) {
-				Log.formatLine("%.2f: [Host #" + getId() + "] VM #" + vm.getId()
-						+ " is being migrated to Host #" + getId(), CloudSim.clock());
+				Log.formatLine("%.2f: [HostSteady #" + getId() + "] VM #" + vm.getId()
+						+ " is being migrated to HostSteady #" + getId(), CloudSim.clock());
 			} else {
 				if (totalAllocatedMips + 0.1 < totalRequestedMips) {
-					Log.formatLine("%.2f: [Host #" + getId() + "] Under allocated MIPS for VM #" + vm.getId()
+					Log.formatLine("%.2f: [HostSteady #" + getId() + "] Under allocated MIPS for VM #" + vm.getId()
 							+ ": %.2f", CloudSim.clock(), totalRequestedMips - totalAllocatedMips);
 				}
 
@@ -120,7 +120,7 @@ public class HostSteadyWorkload extends Host {
 
 				if (vm.isInMigration()) {
 					Log.formatLine(
-							"%.2f: [Host #" + getId() + "] VM #" + vm.getId() + " is in migration",
+							"%.2f: [HostSteady #" + getId() + "] VM #" + vm.getId() + " is in migration",
 							CloudSim.clock());
 					totalAllocatedMips /= 0.9; // performance degradation due to migration - 10%
 				}
@@ -144,9 +144,9 @@ public class HostSteadyWorkload extends Host {
 	 * 
 	 * @return the completed vms
 	 */
-	public List<Vm> getCompletedVms() {
-		List<Vm> vmsToRemove = new ArrayList<Vm>();
-		for (Vm vm : getVmList()) {
+	public List<VmSteady> getCompletedVms() {
+		List<VmSteady> vmsToRemove = new ArrayList<VmSteady>();
+		for (VmSteady vm : getVmList()) {
 			if (vm.isInMigration()) {
 				continue;
 			}
@@ -163,7 +163,7 @@ public class HostSteadyWorkload extends Host {
 	 * @return the utilization
 	 */
 	public double getMaxUtilization() {
-		return PeList.getMaxUtilization(getPeList());
+		return PeListSteady.getMaxUtilization(getPeList());
 	}
 
 	/**
@@ -172,8 +172,8 @@ public class HostSteadyWorkload extends Host {
 	 * @param vm the vm
 	 * @return the utilization
 	 */
-	public double getMaxUtilizationAmongVmsPes(Vm vm) {
-		return PeList.getMaxUtilizationAmongVmsPes(getPeList(), vm);
+	public double getMaxUtilizationAmongVmsPes(VmSteady vm) {
+		return PeListSteady.getMaxUtilizationAmongVmsPes(getPeList(), vm);
 	}
 
 	/**
