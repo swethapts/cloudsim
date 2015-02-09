@@ -329,6 +329,9 @@ public class HostSteady {
 	public int getTotalMips() {
 		return PeListSteady.getTotalMips(getPeList());
 	}
+	public int getMipsIndex(double mips){
+		return PeListSteady.getMipsIndex(getPeList(),mips);
+	}
 
 	/**
 	 * Allocates PEs for a VM.

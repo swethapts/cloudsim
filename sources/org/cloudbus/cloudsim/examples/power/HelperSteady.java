@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+//import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -95,7 +96,13 @@ public class HelperSteady {
 
 			List<PeSteady> peList = new ArrayList<PeSteady>();
 			for (int j = 0; j < ConstantsSteady.HOST_PES[hostType]; j++) {
-				peList.add(new PeSteady(j, new PeProvisionerSimpleSteady(ConstantsSteady.HOST_MIPS[hostType])));
+				List<Double> mipsList = new ArrayList<Double>();
+				double[] mipsListOriginal = ConstantsSteady.HOST_MIPS[hostType];
+				for(int k =0; k<mipsListOriginal.length; k++){
+					mipsList.add(mipsListOriginal[k]);
+				}
+				
+				peList.add(new PeSteady(j, new PeProvisionerSimpleSteady(mipsList)));
 			}
 
 			hostList.add(new PowerHostUtilizationHistorySteady(

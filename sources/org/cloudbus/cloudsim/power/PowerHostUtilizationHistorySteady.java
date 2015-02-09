@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.cloudbus.cloudsim.PeSteady;
 import org.cloudbus.cloudsim.VmSchedulerSteady;
-import org.cloudbus.cloudsim.power.models.PowerModel;
+import org.cloudbus.cloudsim.power.models.PowerModelSteady;
 import org.cloudbus.cloudsim.provisioners.BwProvisionerSteady;
 import org.cloudbus.cloudsim.provisioners.RamProvisionerSteady;
 import org.cloudbus.cloudsim.util.MathUtil;
@@ -52,7 +52,7 @@ public class PowerHostUtilizationHistorySteady extends PowerHostSteady {
 			long storage,
 			List<? extends PeSteady> peList,
 			VmSchedulerSteady vmScheduler,
-			PowerModel powerModel) {
+			PowerModelSteady powerModel) {
 		super(id, ramProvisioner, bwProvisioner, storage, peList, vmScheduler, powerModel);
 	}
 

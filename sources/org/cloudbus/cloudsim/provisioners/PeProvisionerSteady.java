@@ -9,6 +9,8 @@
 package org.cloudbus.cloudsim.provisioners;
 
 import java.util.List;
+import java.util.Arrays;
+import java.util.ArrayList;
 
 import org.cloudbus.cloudsim.VmSteady;
 
@@ -26,6 +28,7 @@ public abstract class PeProvisionerSteady {
 	/** The available mips. */
 	private double availableMips;
 
+	private List<Double> mipsList;
 	/**
 	 * Creates the new PeProvisioner.
 	 * 
@@ -37,8 +40,25 @@ public abstract class PeProvisionerSteady {
 	public PeProvisionerSteady(double mips) {
 		setMips(mips);
 		setAvailableMips(mips);
+		if(mipsList.size()==0){
+			setMipsList(new ArrayList<Double>(Arrays.asList(mips)));
+		}
+	}
+	public PeProvisionerSteady(List<Double> mipsList) {
+		setMipsList(mipsList);
+		mips = mipsList.get(mipsList.size()-2);
+		setMips(mips);
+		setAvailableMips(mips);
 	}
 
+	public void setMipsList(List<Double> mipsList) {
+		this.mipsList = mipsList;
+		setMips(mipsList.get(mipsList.size()-2));
+		
+	}
+	public List<Double> getMipsList() {
+		return mipsList;
+	}
 	/**
 	 * Allocates MIPS for a given VM.
 	 * 
@@ -194,6 +214,9 @@ public abstract class PeProvisionerSteady {
 	 */
 	public double getUtilization() {
 		return getTotalAllocatedMips() / getMips();
+	}
+	public int getMipsIndex(double mips){
+		return(mipsList.indexOf(mips));
 	}
 
 }

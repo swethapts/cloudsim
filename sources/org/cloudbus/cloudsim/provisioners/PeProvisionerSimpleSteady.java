@@ -38,6 +38,10 @@ public class PeProvisionerSimpleSteady extends PeProvisionerSteady {
 		super(availableMips);
 		setPeTable(new HashMap<String, ArrayList<Double>>());
 	}
+	public PeProvisionerSimpleSteady(List<Double> mipsList) {
+		super(mipsList);
+		setPeTable(new HashMap<String, ArrayList<Double>>());
+	}
 
 	/*
 	 * (non-Javadoc)

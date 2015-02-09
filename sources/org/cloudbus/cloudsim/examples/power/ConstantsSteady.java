@@ -1,7 +1,7 @@
 package org.cloudbus.cloudsim.examples.power;
 
-import org.cloudbus.cloudsim.power.models.PowerModel;
-import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantMl110G5Xeon3075;
+import org.cloudbus.cloudsim.power.models.PowerModelSteady;
+import org.cloudbus.cloudsim.power.models.PowerModeli7;
 //import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantMl110G4Xeon3040;
 
 /**
@@ -52,15 +52,15 @@ public class ConstantsSteady {
 	 *   We increase the memory size to enable over-subscription (x4)
 	 */
 	public final static int HOST_TYPES	 = 1;//2;
-	public final static int[] HOST_MIPS	 = { /*1860,*/ 2660 };
+	public final static double[][] HOST_MIPS	 = { /*1860,*/ {1600,2600,3400} };
 	public final static int[] HOST_PES	 = { /*2,*/ 2 };
 	public final static int[] HOST_RAM	 = { /*4096,*/ 4096 };
 	public final static int HOST_BW		 = 1000000; // 1 Gbit/s
 	public final static int HOST_STORAGE = 1000000; // 1 GB
 
-	public final static PowerModel[] HOST_POWER = {
+	public final static PowerModelSteady[] HOST_POWER = {
 		/*new PowerModelSpecPowerHpProLiantMl110G4Xeon3040(),*/
-		new PowerModelSpecPowerHpProLiantMl110G5Xeon3075()
+		new PowerModeli7()
 	};
 
 	private static int[] getVmMips(int[] vmCtSla) {

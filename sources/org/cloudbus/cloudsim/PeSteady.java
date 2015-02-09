@@ -8,6 +8,8 @@
 
 package org.cloudbus.cloudsim;
 
+import java.util.List;
+
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSteady;
 
 /**
@@ -100,6 +102,34 @@ public class PeSteady {
 		return (int) getPeProvisioner().getMips();
 	}
 
+	/**
+	 * Sets the MIPS Rating of this Pe.
+	 * 
+	 * @param d the mips
+	 * @pre mips >= 0
+	 * @post $none
+	 */
+	public void setMipsList(List<Double> d) {
+		getPeProvisioner().setMipsList(d);
+	}
+
+	/**
+	 * Gets the MIPS Rating of this Pe.
+	 * 
+	 * @return the MIPS Rating
+	 * @pre $none
+	 * @post $result >= 0
+	 */
+	public int[] getMipsList() {
+		List<Double> doubleArray = getPeProvisioner().getMipsList();
+		int[] intArray = new int[doubleArray.size()];
+		for (int i =0; i<doubleArray.size(); i++)
+			intArray[i] = doubleArray.get(i).intValue();
+		return intArray;
+	}
+	public int getMipsIndex(double mips){
+		return getPeProvisioner().getMipsIndex(mips);
+	}
 	/**
 	 * Gets the status of this Pe.
 	 * 

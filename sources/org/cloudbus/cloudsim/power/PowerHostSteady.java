@@ -13,7 +13,7 @@ import java.util.List;
 import org.cloudbus.cloudsim.HostSteadyWorkload;
 import org.cloudbus.cloudsim.PeSteady;
 import org.cloudbus.cloudsim.VmSchedulerSteady;
-import org.cloudbus.cloudsim.power.models.PowerModel;
+import org.cloudbus.cloudsim.power.models.PowerModelSteady;
 import org.cloudbus.cloudsim.provisioners.BwProvisionerSteady;
 import org.cloudbus.cloudsim.provisioners.RamProvisionerSteady;
 
@@ -34,7 +34,7 @@ import org.cloudbus.cloudsim.provisioners.RamProvisionerSteady;
 public class PowerHostSteady extends HostSteadyWorkload {
 
 	/** The power model. */
-	private PowerModel powerModel;
+	private PowerModelSteady powerModel;
 
 	/**
 	 * Instantiates a new host.
@@ -53,7 +53,7 @@ public class PowerHostSteady extends HostSteadyWorkload {
 			long storage,
 			List<? extends PeSteady> peList,
 			VmSchedulerSteady vmScheduler,
-			PowerModel powerModel) {
+			PowerModelSteady powerModel) {
 		super(id, ramProvisioner, bwProvisioner, storage, peList, vmScheduler);
 		setPowerModel(powerModel);
 	}
@@ -75,8 +75,10 @@ public class PowerHostSteady extends HostSteadyWorkload {
 	 */
 	protected double getPower(double utilization) {
 		double power = 0;
+		int mipsIndex = getMipsIndex(getTotalMips() / getNumberOfPes());
+		//System.out.println("Total Mips indexsweee= "  + mips);// + getMipsIndex(getTotalMips() / getNumberOfPes()));
 		try {
-			power = getPowerModel().getPower(utilization);
+			power = getPowerModel().getPower(mipsIndex,utilization);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -122,7 +124,7 @@ public class PowerHostSteady extends HostSteadyWorkload {
 	 * 
 	 * @param powerModel the new power model
 	 */
-	protected void setPowerModel(PowerModel powerModel) {
+	protected void setPowerModel(PowerModelSteady powerModel) {
 		this.powerModel = powerModel;
 	}
 
@@ -131,7 +133,7 @@ public class PowerHostSteady extends HostSteadyWorkload {
 	 * 
 	 * @return the power model
 	 */
-	public PowerModel getPowerModel() {
+	public PowerModelSteady getPowerModel() {
 		return powerModel;
 	}
 

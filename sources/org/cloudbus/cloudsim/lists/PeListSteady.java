@@ -226,5 +226,14 @@ public class PeListSteady {
 			}
 		}
 	}
+	public static <T extends PeSteady> int getMipsIndex(List<T> peList,double mips){
+		int freqIndex=-1;
+		for(PeSteady pe : peList){
+			if(freqIndex==pe.getMipsIndex(mips) || freqIndex==-1){
+				freqIndex=pe.getMipsIndex(mips);
+			}
+		}
+		return freqIndex;
+	}
 
 }
