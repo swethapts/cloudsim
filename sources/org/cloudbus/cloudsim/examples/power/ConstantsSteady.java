@@ -22,7 +22,7 @@ public class ConstantsSteady {
 	public final static boolean OUTPUT_CSV    = false;
 
 	public final static double SCHEDULING_INTERVAL = 1;//300;
-	public final static double SIMULATION_LIMIT = 1700;//24 * 60 * 60;
+	public final static double SIMULATION_LIMIT = 10000;//43200;//24 * 60 * 60;
 
 	public final static int CLOUDLET_LENGTH	= 2500 * 1000;//mi //(int) SIMULATION_LIMIT;
 	public final static int CLOUDLET_PES	= 1;
@@ -53,7 +53,7 @@ public class ConstantsSteady {
 	 */
 	public final static int HOST_TYPES	 = 1;//2;
 	public final static double[][] HOST_MIPS	 = { /*1860,*/ {1600,2600,3400} };
-	public final static int[] HOST_PES	 = { /*2,*/ 2 };
+	public final static int[] HOST_PES	 = { /*2,*/ 4 };
 	public final static int[] HOST_RAM	 = { /*4096,*/ 4096 };
 	public final static int HOST_BW		 = 1000000; // 1 Gbit/s
 	public final static int HOST_STORAGE = 1000000; // 1 GB

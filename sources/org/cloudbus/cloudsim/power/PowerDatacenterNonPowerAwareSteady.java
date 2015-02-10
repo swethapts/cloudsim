@@ -93,17 +93,18 @@ public class PowerDatacenterNonPowerAwareSteady extends PowerDatacenterSteady {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
-				Log.formatLine(
+				if((host.getUtilizationOfCpu() * 100) > 0){
+					Log.formatLine(
 						"%.2f: Host #%d utilization is %.2f%%",
 						CloudSim.clock(),
 						host.getId(),
 						host.getUtilizationOfCpu() * 100);
-				Log.formatLine(
+					Log.formatLine(
 						"%.2f: Host #%d energy is %.2f W*sec",
 						CloudSim.clock(),
 						host.getId(),
 						hostPower);
+				}
 			}
 
 			Log.formatLine("\n%.2f: Consumed energy is %.2f W*sec\n", CloudSim.clock(), timeframePower);

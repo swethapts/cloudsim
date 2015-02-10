@@ -152,6 +152,10 @@ public class DatacenterSteady extends SimEntity {
 			case CloudSimTags.CLOUDLET_SUBMIT:
 				processCloudletSubmit(ev, false);
 				break;
+				
+			case CloudSimTags.CLOUDLET_RETURN:
+				processCloudletReturn(ev, false);
+				break;
 
 			// New Cloudlet arrives, but the sender asks for an ack
 			case CloudSimTags.CLOUDLET_SUBMIT_ACK:
@@ -752,7 +756,9 @@ public class DatacenterSteady extends SimEntity {
 
 		checkCloudletCompletion();
 	}
-
+	protected void processCloudletReturn(SimEvent ev, boolean ack) {
+		//System.out.println("xxxxxxxxxxxxxxxxx");
+	}
 	/**
 	 * Predict file transfer time.
 	 * 

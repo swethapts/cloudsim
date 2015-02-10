@@ -46,14 +46,14 @@ public abstract class PeProvisionerSteady {
 	}
 	public PeProvisionerSteady(List<Double> mipsList) {
 		setMipsList(mipsList);
-		mips = mipsList.get(mipsList.size()-2);
+		mips = mipsList.get(mipsList.size()-1);
 		setMips(mips);
 		setAvailableMips(mips);
 	}
 
 	public void setMipsList(List<Double> mipsList) {
 		this.mipsList = mipsList;
-		setMips(mipsList.get(mipsList.size()-2));
+		setMips(mipsList.get(mipsList.size()-1));
 		
 	}
 	public List<Double> getMipsList() {

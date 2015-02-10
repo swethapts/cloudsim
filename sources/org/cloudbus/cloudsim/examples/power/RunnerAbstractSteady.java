@@ -168,13 +168,11 @@ public abstract class RunnerAbstractSteady {
 
 			broker.submitVmList(vmList);
 			broker.submitCloudletList(cloudletList);
-
 			CloudSim.terminateSimulation(ConstantsSteady.SIMULATION_LIMIT);
 			double lastClock = CloudSim.startSimulation();
 
 			List<Cloudlet> newList = broker.getCloudletReceivedList();
 			Log.printLine("Received " + newList.size() + " cloudlets");
-
 			CloudSim.stopSimulation();
 
 			HelperSteady.printResults(

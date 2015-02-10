@@ -94,8 +94,11 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 
 		// if some time passed since last processing
 		if (currentTime > getLastProcessTime()) {
-			System.out.print(currentTime + " ");
-
+			System.out.print(currentTime + (new Exception().getStackTrace()[1].getFileName())+ " frequency resizing needs to be inserted here");
+			if(currentTime <2.0){
+//				System.out.println("still here");
+				changeMipsofPes();
+			}
 			double minTime = updateCloudetProcessingWithoutSchedulingFutureEventsForce();
 
 			if (!isDisableMigrations()) {
@@ -147,8 +150,13 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 
 			setLastProcessTime(currentTime);
 		}
-	}
 
+	}
+	public void changeMipsofPes(){
+		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
+			host.changeMipsofPes();
+		}
+	}
 	/**
 	 * Update cloudet processing without scheduling future events.
 	 * 
@@ -182,12 +190,14 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 			if (time < minTime) {
 				minTime = time;
 			}
-
-			Log.formatLine(
+			if((host.getUtilizationOfCpu() * 100) > 0){
+				Log.formatLine(
 					"%.2f: [Host #%d] utilization is %.2f%%",
 					currentTime,
 					host.getId(),
 					host.getUtilizationOfCpu() * 100);
+			
+			}
 		}
 
 		if (timeDiff > 0) {
@@ -205,7 +215,6 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 						timeDiff);
 				timeFrameDatacenterEnergy += timeFrameHostEnergy;
 
-				//Log.formatLine("Sweeeeeeeeeee: %.3f,%.3f",previousUtilizationOfCpu,utilizationOfCpu);
 				Log.printLine();
 				if(previousUtilizationOfCpu * 100 > 0.000){
 					Log.formatLine(
@@ -272,6 +281,13 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 	protected void processCloudletSubmit(SimEvent ev, boolean ack) {
 		super.processCloudletSubmit(ev, ack);
 		setCloudletSubmitted(CloudSim.clock());
+		System.out.println("PowerDatacenterSteady.processCloudletSubmit");
+	}
+	@Override
+	protected void processCloudletReturn(SimEvent ev, boolean ack) {
+		super.processCloudletReturn(ev, ack);
+		//setCloudletSubmitted(CloudSim.clock());
+		System.out.println("I'm in PowerDatacenterSteady.processCloudletReturn");
 	}
 
 	/**
