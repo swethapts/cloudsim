@@ -76,7 +76,6 @@ public class PowerHostSteady extends HostSteadyWorkload {
 	protected double getPower(double utilization) {
 		double power = 0;
 		int mipsIndex = getMipsIndex(getTotalMips() / getNumberOfPes());
-		//System.out.println("Total Mips indexsweee= "  + mips);// + getMipsIndex(getTotalMips() / getNumberOfPes()));
 		try {
 			power = getPowerModel().getPower(mipsIndex,utilization);
 		} catch (Exception e) {
@@ -118,13 +117,13 @@ public class PowerHostSteady extends HostSteadyWorkload {
 		double toPower = getPower(toUtilization);
 		return (fromPower + (toPower - fromPower) / 2) * time;
 	}
-	public void changeMipsofPes(){
+	public void changeMipsOfPes(){
 		int maxAllocatedMips=-1;
 		for (int i=0;i<getPeList().size();i++){
 			if(maxAllocatedMips==-1 || maxAllocatedMips < getPeList().get(i).getPeProvisioner().getTotalAllocatedMips()){
 				maxAllocatedMips = (int) getPeList().get(i).getPeProvisioner().getTotalAllocatedMips();
 			}
-			System.out.println("Pe: " + getPeList().get(i).getPeProvisioner().getTotalAllocatedMips()+"setMips"+getPeList().get(i).getPeProvisioner().getMips());
+			System.out.println("Pe allocated: " + getPeList().get(i).getPeProvisioner().getTotalAllocatedMips()+", getMips: "+getPeList().get(i).getPeProvisioner().getMips());
 		}
 		System.out.println("Pe with max util: " + maxAllocatedMips);
 		int newLeastMipsIndex=getLeastMips(maxAllocatedMips);

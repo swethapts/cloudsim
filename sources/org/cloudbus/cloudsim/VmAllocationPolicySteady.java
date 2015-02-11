@@ -115,5 +115,6 @@ public abstract class VmAllocationPolicySteady {
 	public <T extends HostSteady> List<T> getHostList() {
 		return (List<T>) hostList;
 	}
+	public abstract void changeMipsOfPes();
 
 }

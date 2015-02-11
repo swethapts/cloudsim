@@ -22,7 +22,7 @@ public class ConstantsSteady {
 	public final static boolean OUTPUT_CSV    = false;
 
 	public final static double SCHEDULING_INTERVAL = 1;//300;
-	public final static double SIMULATION_LIMIT = 10000;//43200;//24 * 60 * 60;
+	public final static double SIMULATION_LIMIT = 3;//43200;//24 * 60 * 60;
 
 	public final static int CLOUDLET_LENGTH	= 2500 * 1000;//mi //(int) SIMULATION_LIMIT;
 	public final static int CLOUDLET_PES	= 1;

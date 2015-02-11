@@ -757,7 +757,6 @@ public class DatacenterSteady extends SimEntity {
 		checkCloudletCompletion();
 	}
 	protected void processCloudletReturn(SimEvent ev, boolean ack) {
-		//System.out.println("xxxxxxxxxxxxxxxxx");
 	}
 	/**
 	 * Predict file transfer time.

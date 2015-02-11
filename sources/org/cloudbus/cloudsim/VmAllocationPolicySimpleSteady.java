@@ -213,6 +213,10 @@ public class VmAllocationPolicySimpleSteady extends VmAllocationPolicySteady {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public void changeMipsOfPes(){
+		
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -132,5 +132,11 @@ public abstract class PowerVmAllocationPolicyAbstractSteady extends VmAllocation
 	public Map<String, HostSteady> getVmTable() {
 		return vmTable;
 	}
+	@Override
+	public void changeMipsOfPes(){
+		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
+			host.changeMipsOfPes();
+		}
+	}
 
 }
