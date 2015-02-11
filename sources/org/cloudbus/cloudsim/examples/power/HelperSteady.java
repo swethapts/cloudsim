@@ -26,7 +26,7 @@ import org.cloudbus.cloudsim.PeSteady;
 import org.cloudbus.cloudsim.Storage;
 import org.cloudbus.cloudsim.VmSteady;
 import org.cloudbus.cloudsim.VmAllocationPolicySteady;
-import org.cloudbus.cloudsim.VmSchedulerTimeSharedOverSubscriptionSteady;
+import org.cloudbus.cloudsim.VmSchedulerTimeSharedSteady;
 import org.cloudbus.cloudsim.VmStateHistoryEntry;
 import org.cloudbus.cloudsim.power.PowerDatacenterSteady;
 import org.cloudbus.cloudsim.power.PowerDatacenterBrokerSteady;
@@ -111,7 +111,7 @@ public class HelperSteady {
 					new BwProvisionerSimpleSteady(ConstantsSteady.HOST_BW),
 					ConstantsSteady.HOST_STORAGE,
 					peList,
-					new VmSchedulerTimeSharedOverSubscriptionSteady(peList),
+					new VmSchedulerTimeSharedSteady(peList),
 					ConstantsSteady.HOST_POWER[hostType]));
 		}
 		return hostList;

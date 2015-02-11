@@ -134,9 +134,9 @@ public abstract class PowerVmAllocationPolicyAbstractSteady extends VmAllocation
 	}
 	@Override
 	public void changeMipsOfPes(){
-		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
-			host.changeMipsOfPes();
-		}
+//		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
+//			host.changeMipsOfPes();
+//		}
 	}
 
 }

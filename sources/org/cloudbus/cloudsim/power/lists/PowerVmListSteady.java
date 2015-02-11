@@ -50,5 +50,17 @@ public class PowerVmListSteady extends VmListSteady {
 			}
 		});
 	}
+	
+	public static <T extends VmSteady> void sortByMips(List<T> vmList) {
+		Collections.sort(vmList, new Comparator<T>() {
+
+			@Override
+			public int compare(T a, T b) throws ClassCastException {
+				Double aMips = a.getMips();
+				Double bMips = b.getMips();
+				return bMips.compareTo(aMips);
+			}
+		});
+	}
 
 }

@@ -29,14 +29,14 @@ import org.cloudbus.cloudsim.VmSteady;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 3.0
  */
-public class PowerVmAllocationPolicySimpleSteady extends PowerVmAllocationPolicyAbstractSteady {
+public class PowerVmAllocationPolicySimpleSteadyModified extends PowerVmAllocationPolicyAbstractSteady {
 
 	/**
 	 * Instantiates a new power vm allocation policy simple.
 	 * 
 	 * @param list the list
 	 */
-	public PowerVmAllocationPolicySimpleSteady(List<? extends HostSteady> list) {
+	public PowerVmAllocationPolicySimpleSteadyModified(List<? extends HostSteady> list) {
 		super(list);
 	}
 
@@ -54,6 +54,15 @@ public class PowerVmAllocationPolicySimpleSteady extends PowerVmAllocationPolicy
 		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
 			host.changeMipsOfPes();
 		}
+	}
+	@Override
+	public PowerHostSteady findHostForVm(VmSteady vm) {
+		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
+			if (host.isSuitableForVm(vm)) {
+				return host;
+			}
+		}
+		return null;
 	}
 
 }
