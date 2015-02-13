@@ -226,8 +226,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 			getVmsCreatedList().add(VmListSteady.getById(getVmList(), vmId));
 			Log.printLine(CloudSim.clock() + ": " + getName() + ": VM #" + vmId
 					+ " has been created in Datacenter #" + datacenterId + ", Host #"
-					+ VmListSteady.getById(getVmsCreatedList(), vmId).getHost().getId() + ", PE #"
-							+ VmListSteady.getById(getVmsCreatedList(), vmId).getHost().getVmScheduler().getPesAllocatedForVM(VmListSteady.getById(getVmList(), vmId)).toString());
+					+ VmListSteady.getById(getVmsCreatedList(), vmId).getHost().getId());
 		} else {
 			Log.printLine(CloudSim.clock() + ": " + getName() + ": Creation of VM #" + vmId
 					+ " failed in Datacenter #" + datacenterId);
@@ -237,6 +236,13 @@ public class DatacenterBrokerSteady extends SimEntity {
 
 		// all the requested VMs have been created
 		if (getVmsCreatedList().size() == getVmList().size() - getVmsDestroyed()) {
+			System.out.println("xxx" + getVmsCreatedList().get(0).getId());
+			VmListSteady.sortByMips(getVmsCreatedList());
+			System.out.println("xxx" + getVmsCreatedList().get(0).getId());
+			int sortedVmId = 0;
+			for(VmSteady  vm : getVmsCreatedList())
+				vm.setId(sortedVmId++);
+			System.out.println("xxx" + getVmsCreatedList().get(0).getId());
 			submitCloudlets();
 		} else {
 			// all the acks received, but some VMs were not created

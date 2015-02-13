@@ -8,6 +8,8 @@
 
 package org.cloudbus.cloudsim.lists;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.cloudbus.cloudsim.VmSteady;
@@ -55,6 +57,17 @@ public class VmListSteady {
 			}
 		}
 		return null;
+	}
+	public static <T extends VmSteady> void sortByMips(List<T> vmList) {
+		Collections.sort(vmList, new Comparator<T>() {
+
+			@Override
+			public int compare(T a, T b) throws ClassCastException {
+				Double aMips = a.getMips();
+				Double bMips = b.getMips();
+				return bMips.compareTo(aMips);
+			}
+		});
 	}
 
 }

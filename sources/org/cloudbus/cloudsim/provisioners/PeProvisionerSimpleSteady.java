@@ -61,7 +61,6 @@ public class PeProvisionerSimpleSteady extends PeProvisionerSteady {
 		if (getAvailableMips() < mips) {
 			return false;
 		}
-
 		List<Double> allocatedMips;
 
 		if (getPeTable().containsKey(vmUid)) {
@@ -89,7 +88,6 @@ public class PeProvisionerSimpleSteady extends PeProvisionerSteady {
 		for (double _mips : mips) {
 			totalMipsToAllocate += _mips;
 		}
-
 		if (getAvailableMips() + getTotalAllocatedMipsForVm(vm) < totalMipsToAllocate) {
 			return false;
 		}

@@ -84,7 +84,7 @@ public class VmSchedulerTimeSharedSteady extends VmSchedulerSteady {
 			}
 			totalRequestedMips += mips;
 		}
-
+		
 		// This scheduler does not allow over-subscription
 		if (getAvailableMips() < totalRequestedMips) {
 			return false;

@@ -1,7 +1,7 @@
 package org.cloudbus.cloudsim.examples.power;
 
 import org.cloudbus.cloudsim.power.models.PowerModelSteady;
-import org.cloudbus.cloudsim.power.models.PowerModeli7;
+import org.cloudbus.cloudsim.power.models.PowerModelE5507;
 //import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantMl110G4Xeon3040;
 
 /**
@@ -38,10 +38,10 @@ public class ConstantsSteady {
 	 *
 	 */
 	public final static int VM_TYPES	= 4;
-	public final static int[] VM_CT_SLA	= { 1000, 1250, 2500, 5000 };//seconds
+	public final static int[] VM_CT_SLA	= { 10000, 1250, 2500, 5000 };//seconds
 	public final static int[] VM_MIPS	= getVmMips(VM_CT_SLA);//{ 2500, 2000, 1000, 500 };
 	public final static int[] VM_PES	= { 1, 1, 1, 1 };
-	public final static int[] VM_RAM	= { 870,  1740, 1740, 613 };
+	public final static int[] VM_RAM	= { 2048,  1536, 1024, 512 };
 	public final static int VM_BW		= 100000; // 100 Mbit/s
 	public final static int VM_SIZE		= 2500; // 2.5 GB
 
@@ -52,15 +52,16 @@ public class ConstantsSteady {
 	 *   We increase the memory size to enable over-subscription (x4)
 	 */
 	public final static int HOST_TYPES	 = 1;//2;
-	public final static double[][] HOST_MIPS	 = { /*1860,*/ {1600,2600,3400} };
+	public final static double[][] HOST_MIPS	 = { /*1860,*/ {1597,1730,1863,1996,2129,2262}};//{1600,1800,2000,2200,2400,2600,2800,3000,3200,3400} };
 	public final static int[] HOST_PES	 = { /*2,*/ 4 };
-	public final static int[] HOST_RAM	 = { /*4096,*/ 4096 };
+	public final static int[] HOST_RAM	 = { /*4096,*/ 16384 };
 	public final static int HOST_BW		 = 1000000; // 1 Gbit/s
 	public final static int HOST_STORAGE = 1000000; // 1 GB
 
 	public final static PowerModelSteady[] HOST_POWER = {
 		/*new PowerModelSpecPowerHpProLiantMl110G4Xeon3040(),*/
-		new PowerModeli7()
+		new PowerModelE5507()
+		//new PowerModeli7()
 	};
 
 	private static int[] getVmMips(int[] vmCtSla) {

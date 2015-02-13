@@ -75,9 +75,9 @@ public class PowerHostSteady extends HostSteadyWorkload {
 	 */
 	protected double getPower(double utilization) {
 		double power = 0;
-		int mipsIndex = getMipsIndex(getTotalMips() / getNumberOfPes());
+		//int mipsIndex = getMipsIndex(getTotalMips() / getNumberOfPes());
 		try {
-			power = getPowerModel().getPower(mipsIndex,utilization);
+			power = getPowerModel().getPower(Math.round(getTotalMips() / getNumberOfPes()),utilization);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);

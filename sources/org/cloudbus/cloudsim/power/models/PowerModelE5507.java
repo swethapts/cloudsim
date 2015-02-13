@@ -23,18 +23,18 @@ package org.cloudbus.cloudsim.power.models;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 3.0
  */
-public class PowerModeli7 extends PowerModelSwe {
+public class PowerModelE5507 extends PowerModelSwe {
 
 	/** The power. */
 	//private final double[][] power = {{ 105, 112, 118, 125, 131, 137, 147, 153, 157, 164, 169 },{ 1050, 1120, 1180, 1250, 1310, 1370, 1470, 1530, 1570, 1640, 1690 },{ 10500, 11200, 11800, 12500, 13100, 13700, 14700, 15300, 15700, 16400, 16900 }};
 
-	private final double fmin = 1600;
-	private final double fmax = 3400;
+	private final double fmin = 1597;//1600;
+	private final double fmax = 2262;//3400;
 	
-	private final double powerFminIdle = 35.54;
-	private final double powerFmaxIdle = 36.14;
-	private final double powerFminPeak = 51.36;
-	private final double powerFmaxPeak = 92.56;
+	private final double powerFminIdle = 77.28;//35.54;
+	private final double powerFmaxIdle = 77.46;//36.14;
+	private final double powerFminPeak = 127.77;//51.36;
+	private final double powerFmaxPeak = 148.82;//92.56;
 	
 	private final double alpha = (powerFmaxIdle - powerFminIdle) * (fmax/(fmax - fmin));
 	private final double A = ((powerFmaxPeak - powerFmaxIdle) - (powerFminPeak - powerFminIdle)) * (fmax/(fmax - fmin));

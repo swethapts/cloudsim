@@ -34,7 +34,7 @@ public abstract class PowerModelSwe implements PowerModelSteady {
 		if (utilization < 0 || utilization > 1) {
 			throw new IllegalArgumentException("Utilization value must be between 0 and 1");
 		}
-		if (utilization % 0.1 == 0) {
+		/*if (utilization % 0.1 == 0) {
 			return getPowerData((int) (utilization * 10));
 		}
 		int utilization1 = (int) Math.floor(utilization * 10);
@@ -43,14 +43,14 @@ public abstract class PowerModelSwe implements PowerModelSteady {
 		double power2 = getPowerData(utilization2);
 		double delta = (power2 - power1) / 10;
 		double power = power1 + delta * (utilization - (double) utilization1 / 10) * 100;
-		return power;
+		*/return getPowerData(utilization);
 	}
 	@Override
 	public double getPower(int freq, double utilization) throws IllegalArgumentException {
 		if (utilization < 0 || utilization > 1) {
 			throw new IllegalArgumentException("Utilization value must be between 0 and 1");
 		}
-		if (utilization % 0.1 == 0) {
+		/*if (utilization % 0.1 == 0) {
 			return getPowerData((int) (utilization * 10));
 		}
 		int utilization1 = (int) Math.floor(utilization * 10);
@@ -59,7 +59,7 @@ public abstract class PowerModelSwe implements PowerModelSteady {
 		double power2 = getPowerData(freq,utilization2);
 		double delta = (power2 - power1) / 10;
 		double power = power1 + delta * (utilization - (double) utilization1 / 10) * 100;
-		return power;
+		*/return getPowerData(freq,utilization);
 	}
 //	@Override
 //	public int getCurrentMipsIndex(double mips){
@@ -71,8 +71,8 @@ public abstract class PowerModelSwe implements PowerModelSteady {
 	 * @param index the index
 	 * @return the power data
 	 */
-	protected abstract double getPowerData(int util);
-	protected abstract double getPowerData(int freq, int util);
+	protected abstract double getPowerData(double util);
+	protected abstract double getPowerData(int freq, double util);
 	//protected abstract int getMipsIndex(double mips);
 
 }
