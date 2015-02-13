@@ -58,5 +58,11 @@ public class PowerDatacenterBroker extends DatacenterBroker {
 		}
 		super.processVmCreate(ev);
 	}
+	@Override
+	protected void processCloudletReturn(SimEvent ev){
+		//
+		System.out.println("I'm dead");
+		super.processCloudletReturn(ev);
+	}
 
 }

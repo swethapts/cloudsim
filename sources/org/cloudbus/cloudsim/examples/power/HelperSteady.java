@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+//import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,28 +15,28 @@ import java.util.Scanner;
 
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.CloudletSchedulerDynamicWorkload;
-import org.cloudbus.cloudsim.Datacenter;
-import org.cloudbus.cloudsim.DatacenterBroker;
-import org.cloudbus.cloudsim.DatacenterCharacteristics;
-import org.cloudbus.cloudsim.Host;
-import org.cloudbus.cloudsim.HostDynamicWorkload;
+import org.cloudbus.cloudsim.DatacenterSteady;
+import org.cloudbus.cloudsim.DatacenterBrokerSteady;
+import org.cloudbus.cloudsim.DatacenterCharacteristicsSteady;
+import org.cloudbus.cloudsim.HostSteady;
+import org.cloudbus.cloudsim.HostSteadyWorkload;
 import org.cloudbus.cloudsim.HostStateHistoryEntry;
 import org.cloudbus.cloudsim.Log;
-import org.cloudbus.cloudsim.Pe;
+import org.cloudbus.cloudsim.PeSteady;
 import org.cloudbus.cloudsim.Storage;
-import org.cloudbus.cloudsim.Vm;
-import org.cloudbus.cloudsim.VmAllocationPolicy;
-import org.cloudbus.cloudsim.VmSchedulerTimeSharedOverSubscription;
+import org.cloudbus.cloudsim.VmSteady;
+import org.cloudbus.cloudsim.VmAllocationPolicySteady;
+import org.cloudbus.cloudsim.VmSchedulerTimeSharedSteady;
 import org.cloudbus.cloudsim.VmStateHistoryEntry;
-import org.cloudbus.cloudsim.power.PowerDatacenter;
-import org.cloudbus.cloudsim.power.PowerDatacenterBroker;
-import org.cloudbus.cloudsim.power.PowerHost;
-import org.cloudbus.cloudsim.power.PowerHostUtilizationHistory;
-import org.cloudbus.cloudsim.power.PowerVm;
-import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationAbstract;
-import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
-import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
-import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
+import org.cloudbus.cloudsim.power.PowerDatacenterSteady;
+import org.cloudbus.cloudsim.power.PowerDatacenterBrokerSteady;
+import org.cloudbus.cloudsim.power.PowerHostSteady;
+import org.cloudbus.cloudsim.power.PowerHostUtilizationHistorySteady;
+import org.cloudbus.cloudsim.power.PowerVmSteady;
+import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationAbstractSteady;
+import org.cloudbus.cloudsim.provisioners.BwProvisionerSimpleSteady;
+import org.cloudbus.cloudsim.provisioners.PeProvisionerSimpleSteady;
+import org.cloudbus.cloudsim.provisioners.RamProvisionerSimpleSteady;
 import org.cloudbus.cloudsim.util.MathUtil;
 
 /**
@@ -61,22 +62,22 @@ public class HelperSteady {
 	 * 
 	 * @return the list< vm>
 	 */
-	public static List<Vm> createVmList(int brokerId, int vmsNumber) {
-		List<Vm> vms = new ArrayList<Vm>();
+	public static List<VmSteady> createVmList(int brokerId, int vmsNumber) {
+		List<VmSteady> vms = new ArrayList<VmSteady>();
 		for (int i = 0; i < vmsNumber; i++) {
-			int vmType = i / (int) Math.ceil((double) vmsNumber / Constants.VM_TYPES);
-			vms.add(new PowerVm(
+			int vmType = i / (int) Math.ceil((double) vmsNumber / ConstantsSteady.VM_TYPES);
+			vms.add(new PowerVmSteady(
 					i,
 					brokerId,
-					Constants.VM_MIPS[vmType],
-					Constants.VM_PES[vmType],
-					Constants.VM_RAM[vmType],
-					Constants.VM_BW,
-					Constants.VM_SIZE,
+					ConstantsSteady.VM_MIPS[vmType],
+					ConstantsSteady.VM_PES[vmType],
+					ConstantsSteady.VM_RAM[vmType],
+					ConstantsSteady.VM_BW,
+					ConstantsSteady.VM_SIZE,
 					1,
 					"Xen",
-					new CloudletSchedulerDynamicWorkload(Constants.VM_MIPS[vmType], Constants.VM_PES[vmType]),
-					Constants.SCHEDULING_INTERVAL));
+					new CloudletSchedulerDynamicWorkload(ConstantsSteady.VM_MIPS[vmType], ConstantsSteady.VM_PES[vmType]),
+					ConstantsSteady.SCHEDULING_INTERVAL));
 		}
 		return vms;
 	}
@@ -88,24 +89,30 @@ public class HelperSteady {
 	 * 
 	 * @return the list< power host>
 	 */
-	public static List<PowerHost> createHostList(int hostsNumber) {
-		List<PowerHost> hostList = new ArrayList<PowerHost>();
+	public static List<PowerHostSteady> createHostList(int hostsNumber) {
+		List<PowerHostSteady> hostList = new ArrayList<PowerHostSteady>();
 		for (int i = 0; i < hostsNumber; i++) {
-			int hostType = i % Constants.HOST_TYPES;
+			int hostType = i % ConstantsSteady.HOST_TYPES;
 
-			List<Pe> peList = new ArrayList<Pe>();
-			for (int j = 0; j < Constants.HOST_PES[hostType]; j++) {
-				peList.add(new Pe(j, new PeProvisionerSimple(Constants.HOST_MIPS[hostType])));
+			List<PeSteady> peList = new ArrayList<PeSteady>();
+			for (int j = 0; j < ConstantsSteady.HOST_PES[hostType]; j++) {
+				List<Double> mipsList = new ArrayList<Double>();
+				double[] mipsListOriginal = ConstantsSteady.HOST_MIPS[hostType];
+				for(int k =0; k<mipsListOriginal.length; k++){
+					mipsList.add(mipsListOriginal[k]);
+				}
+				
+				peList.add(new PeSteady(j, new PeProvisionerSimpleSteady(mipsList)));
 			}
 
-			hostList.add(new PowerHostUtilizationHistory(
+			hostList.add(new PowerHostUtilizationHistorySteady(
 					i,
-					new RamProvisionerSimple(Constants.HOST_RAM[hostType]),
-					new BwProvisionerSimple(Constants.HOST_BW),
-					Constants.HOST_STORAGE,
+					new RamProvisionerSimpleSteady(ConstantsSteady.HOST_RAM[hostType]),
+					new BwProvisionerSimpleSteady(ConstantsSteady.HOST_BW),
+					ConstantsSteady.HOST_STORAGE,
 					peList,
-					new VmSchedulerTimeSharedOverSubscription(peList),
-					Constants.HOST_POWER[hostType]));
+					new VmSchedulerTimeSharedSteady(peList),
+					ConstantsSteady.HOST_POWER[hostType]));
 		}
 		return hostList;
 	}
@@ -115,10 +122,10 @@ public class HelperSteady {
 	 * 
 	 * @return the datacenter broker
 	 */
-	public static DatacenterBroker createBroker() {
-		DatacenterBroker broker = null;
+	public static DatacenterBrokerSteady createBroker() {
+		DatacenterBrokerSteady broker = null;
 		try {
-			broker = new PowerDatacenterBroker("Broker");
+			broker = new PowerDatacenterBrokerSteady("Broker");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -139,11 +146,11 @@ public class HelperSteady {
 	 * 
 	 * @throws Exception the exception
 	 */
-	public static Datacenter createDatacenter(
+	public static DatacenterSteady createDatacenter(
 			String name,
-			Class<? extends Datacenter> datacenterClass,
-			List<PowerHost> hostList,
-			VmAllocationPolicy vmAllocationPolicy) throws Exception {
+			Class<? extends DatacenterSteady> datacenterClass,
+			List<PowerHostSteady> hostList,
+			VmAllocationPolicySteady vmAllocationPolicy) throws Exception {
 		String arch = "x86"; // system architecture
 		String os = "Linux"; // operating system
 		String vmm = "Xen";
@@ -153,7 +160,7 @@ public class HelperSteady {
 		double costPerStorage = 0.001; // the cost of using storage in this resource
 		double costPerBw = 0.0; // the cost of using bw in this resource
 
-		DatacenterCharacteristics characteristics = new DatacenterCharacteristics(
+		DatacenterCharacteristicsSteady characteristics = new DatacenterCharacteristicsSteady(
 				arch,
 				os,
 				vmm,
@@ -164,19 +171,19 @@ public class HelperSteady {
 				costPerStorage,
 				costPerBw);
 
-		Datacenter datacenter = null;
+		DatacenterSteady datacenter = null;
 		try {
 			datacenter = datacenterClass.getConstructor(
 					String.class,
-					DatacenterCharacteristics.class,
-					VmAllocationPolicy.class,
+					DatacenterCharacteristicsSteady.class,
+					VmAllocationPolicySteady.class,
 					List.class,
 					Double.TYPE).newInstance(
 					name,
 					characteristics,
 					vmAllocationPolicy,
 					new LinkedList<Storage>(),
-					Constants.SCHEDULING_INTERVAL);
+					ConstantsSteady.SCHEDULING_INTERVAL);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -191,12 +198,12 @@ public class HelperSteady {
 	 * @param hosts the hosts
 	 * @return the times before host shutdown
 	 */
-	public static List<Double> getTimesBeforeHostShutdown(List<Host> hosts) {
+	public static List<Double> getTimesBeforeHostShutdown(List<HostSteady> hosts) {
 		List<Double> timeBeforeShutdown = new LinkedList<Double>();
-		for (Host host : hosts) {
+		for (HostSteady host : hosts) {
 			boolean previousIsActive = true;
 			double lastTimeSwitchedOn = 0;
-			for (HostStateHistoryEntry entry : ((HostDynamicWorkload) host).getStateHistory()) {
+			for (HostStateHistoryEntry entry : ((HostSteadyWorkload) host).getStateHistory()) {
 				if (previousIsActive == true && entry.isActive() == false) {
 					timeBeforeShutdown.add(entry.getTime() - lastTimeSwitchedOn);
 				}
@@ -215,9 +222,9 @@ public class HelperSteady {
 	 * @param vms the vms
 	 * @return the times before vm migration
 	 */
-	public static List<Double> getTimesBeforeVmMigration(List<Vm> vms) {
+	public static List<Double> getTimesBeforeVmMigration(List<VmSteady> vms) {
 		List<Double> timeBeforeVmMigration = new LinkedList<Double>();
-		for (Vm vm : vms) {
+		for (VmSteady vm : vms) {
 			boolean previousIsInMigration = false;
 			double lastTimeMigrationFinished = 0;
 			for (VmStateHistoryEntry entry : vm.getStateHistory()) {
@@ -243,14 +250,14 @@ public class HelperSteady {
 	 * @param outputFolder the output folder
 	 */
 	public static void printResults(
-			PowerDatacenter datacenter,
-			List<Vm> vms,
+			PowerDatacenterSteady datacenter,
+			List<VmSteady> vms,
 			double lastClock,
 			String experimentName,
 			boolean outputInCsv,
 			String outputFolder) {
 		Log.enable();
-		List<Host> hosts = datacenter.getHostList();
+		List<HostSteady> hosts = datacenter.getHostList();
 
 		int numberOfHosts = hosts.size();
 		int numberOfVms = vms.size();
@@ -337,8 +344,8 @@ public class HelperSteady {
 			data.append(String.format("%.2f", meanTimeBeforeVmMigration) + delimeter);
 			data.append(String.format("%.2f", stDevTimeBeforeVmMigration) + delimeter);
 
-			if (datacenter.getVmAllocationPolicy() instanceof PowerVmAllocationPolicyMigrationAbstract) {
-				PowerVmAllocationPolicyMigrationAbstract vmAllocationPolicy = (PowerVmAllocationPolicyMigrationAbstract) datacenter
+			if (datacenter.getVmAllocationPolicy() instanceof PowerVmAllocationPolicyMigrationAbstractSteady) {
+				PowerVmAllocationPolicyMigrationAbstractSteady vmAllocationPolicy = (PowerVmAllocationPolicyMigrationAbstractSteady) datacenter
 						.getVmAllocationPolicy();
 
 				double executionTimeVmSelectionMean = MathUtil.mean(vmAllocationPolicy
@@ -414,8 +421,8 @@ public class HelperSteady {
 					"StDev time before a VM migration: %.2f sec",
 					stDevTimeBeforeVmMigration));
 
-			if (datacenter.getVmAllocationPolicy() instanceof PowerVmAllocationPolicyMigrationAbstract) {
-				PowerVmAllocationPolicyMigrationAbstract vmAllocationPolicy = (PowerVmAllocationPolicyMigrationAbstract) datacenter
+			if (datacenter.getVmAllocationPolicy() instanceof PowerVmAllocationPolicyMigrationAbstractSteady) {
+				PowerVmAllocationPolicyMigrationAbstractSteady vmAllocationPolicy = (PowerVmAllocationPolicyMigrationAbstractSteady) datacenter
 						.getVmAllocationPolicy();
 
 				double executionTimeVmSelectionMean = MathUtil.mean(vmAllocationPolicy
@@ -490,12 +497,12 @@ public class HelperSteady {
 	 * @param hosts the hosts
 	 * @return the sla time per active host
 	 */
-	protected static double getSlaTimePerActiveHost(List<Host> hosts) {
+	protected static double getSlaTimePerActiveHost(List<HostSteady> hosts) {
 		double slaViolationTimePerHost = 0;
 		double totalTime = 0;
 
-		for (Host _host : hosts) {
-			HostDynamicWorkload host = (HostDynamicWorkload) _host;
+		for (HostSteady _host : hosts) {
+			HostSteadyWorkload host = (HostSteadyWorkload) _host;
 			double previousTime = -1;
 			double previousAllocated = 0;
 			double previousRequested = 0;
@@ -526,12 +533,12 @@ public class HelperSteady {
 	 * @param hosts the hosts
 	 * @return the sla time per host
 	 */
-	protected static double getSlaTimePerHost(List<Host> hosts) {
+	protected static double getSlaTimePerHost(List<HostSteady> hosts) {
 		double slaViolationTimePerHost = 0;
 		double totalTime = 0;
 
-		for (Host _host : hosts) {
-			HostDynamicWorkload host = (HostDynamicWorkload) _host;
+		for (HostSteady _host : hosts) {
+			HostSteadyWorkload host = (HostSteadyWorkload) _host;
 			double previousTime = -1;
 			double previousAllocated = 0;
 			double previousRequested = 0;
@@ -560,14 +567,14 @@ public class HelperSteady {
 	 * @param vms the vms
 	 * @return the sla metrics
 	 */
-	protected static Map<String, Double> getSlaMetrics(List<Vm> vms) {
+	protected static Map<String, Double> getSlaMetrics(List<VmSteady> vms) {
 		Map<String, Double> metrics = new HashMap<String, Double>();
 		List<Double> slaViolation = new LinkedList<Double>();
 		double totalAllocated = 0;
 		double totalRequested = 0;
 		double totalUnderAllocatedDueToMigration = 0;
 
-		for (Vm vm : vms) {
+		for (VmSteady vm : vms) {
 			double vmTotalAllocated = 0;
 			double vmTotalRequested = 0;
 			double vmUnderAllocatedDueToMigration = 0;
@@ -675,12 +682,12 @@ public class HelperSteady {
 	 * @param outputPath the output path
 	 */
 	public static void writeMetricHistory(
-			List<? extends Host> hosts,
-			PowerVmAllocationPolicyMigrationAbstract vmAllocationPolicy,
+			List<? extends HostSteady> hosts,
+			PowerVmAllocationPolicyMigrationAbstractSteady vmAllocationPolicy,
 			String outputPath) {
-		// for (Host host : hosts) {
+		// for (HostSteady host : hosts) {
 		for (int j = 0; j < 10; j++) {
-			Host host = hosts.get(j);
+			HostSteady host = hosts.get(j);
 
 			if (!vmAllocationPolicy.getTimeHistory().containsKey(host.getId())) {
 				continue;
@@ -749,12 +756,12 @@ public class HelperSteady {
 	 * @param vmAllocationPolicy the vm allocation policy
 	 */
 	public static void printMetricHistory(
-			List<? extends Host> hosts,
-			PowerVmAllocationPolicyMigrationAbstract vmAllocationPolicy) {
+			List<? extends HostSteady> hosts,
+			PowerVmAllocationPolicyMigrationAbstractSteady vmAllocationPolicy) {
 		for (int i = 0; i < 10; i++) {
-			Host host = hosts.get(i);
+			HostSteady host = hosts.get(i);
 
-			Log.printLine("Host #" + host.getId());
+			Log.printLine("HostSteady #" + host.getId());
 			Log.printLine("Time:");
 			if (!vmAllocationPolicy.getTimeHistory().containsKey(host.getId())) {
 				continue;
@@ -777,3 +784,4 @@ public class HelperSteady {
 	}
 
 }
+//>>>>>>> 394d04dd23de4e1fe79327c6bd0a139be05dc993

@@ -1,7 +1,8 @@
 package org.cloudbus.cloudsim.examples.power;
 
-import org.cloudbus.cloudsim.power.models.PowerModel;
-import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantMl110G5Xeon3075;
+import java.util.*;
+import org.cloudbus.cloudsim.power.models.PowerModelSteady;
+import org.cloudbus.cloudsim.power.models.PowerModelE5507;
 //import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantMl110G4Xeon3040;
 
 /**
@@ -21,8 +22,8 @@ public class ConstantsSteady {
 	public final static boolean ENABLE_OUTPUT = true;
 	public final static boolean OUTPUT_CSV    = false;
 
-	public final static double SCHEDULING_INTERVAL = 300;
-	public final static double SIMULATION_LIMIT = 1700;//24 * 60 * 60;
+	public final static double SCHEDULING_INTERVAL = 1;//300;
+	public final static double SIMULATION_LIMIT = 3;//43200;//24 * 60 * 60;
 
 	public final static int CLOUDLET_LENGTH	= 2500 * 1000;//mi //(int) SIMULATION_LIMIT;
 	public final static int CLOUDLET_PES	= 1;
@@ -38,10 +39,12 @@ public class ConstantsSteady {
 	 *
 	 */
 	public final static int VM_TYPES	= 4;
-	public final static int[] VM_CT_SLA	= { 1000, 1250, 2500, 5000 };//seconds
+	private final static int[] VM_CT_SLA_UNSORTED = { 10000, 1250, 2500, 5000 };
+	public final static int[] VM_CT_SLA = getSortedSla(VM_CT_SLA_UNSORTED);//seconds
 	public final static int[] VM_MIPS	= getVmMips(VM_CT_SLA);//{ 2500, 2000, 1000, 500 };
 	public final static int[] VM_PES	= { 1, 1, 1, 1 };
-	public final static int[] VM_RAM	= { 870,  1740, 1740, 613 };
+	public final static int[] VM_RAM_UNSORTED	= { 2048,  1536, 1024, 512 };
+	public final static int[] VM_RAM	= getSortedRam(VM_RAM_UNSORTED);
 	public final static int VM_BW		= 100000; // 100 Mbit/s
 	public final static int VM_SIZE		= 2500; // 2.5 GB
 
@@ -52,15 +55,16 @@ public class ConstantsSteady {
 	 *   We increase the memory size to enable over-subscription (x4)
 	 */
 	public final static int HOST_TYPES	 = 1;//2;
-	public final static int[] HOST_MIPS	 = { /*1860,*/ 2660 };
-	public final static int[] HOST_PES	 = { /*2,*/ 2 };
-	public final static int[] HOST_RAM	 = { /*4096,*/ 4096 };
+	public final static double[][] HOST_MIPS	 = { /*1860,*/ {1597,1730,1863,1996,2129,2262}};//{1600,1800,2000,2200,2400,2600,2800,3000,3200,3400} };
+	public final static int[] HOST_PES	 = { /*2,*/ 4 };
+	public final static int[] HOST_RAM	 = { /*4096,*/ 16384 };
 	public final static int HOST_BW		 = 1000000; // 1 Gbit/s
 	public final static int HOST_STORAGE = 1000000; // 1 GB
 
-	public final static PowerModel[] HOST_POWER = {
+	public final static PowerModelSteady[] HOST_POWER = {
 		/*new PowerModelSpecPowerHpProLiantMl110G4Xeon3040(),*/
-		new PowerModelSpecPowerHpProLiantMl110G5Xeon3075()
+		new PowerModelE5507()
+		//new PowerModeli7()
 	};
 
 	private static int[] getVmMips(int[] vmCtSla) {
@@ -69,6 +73,21 @@ public class ConstantsSteady {
 			vmMips[i] = (int) (CLOUDLET_LENGTH/vmCtSla[i]) ;
 		}
 		return vmMips;
+	}
+	
+	private static int[] getSortedSla(int[] slaUnsorted){
+		int [] vmSlas = Arrays.copyOf(slaUnsorted, slaUnsorted.length);
+		Arrays.sort(vmSlas);
+		return vmSlas;
+	}
+	private static int[] getSortedRam(int[] ramUnsorted){
+		List<Integer> vmRams = new ArrayList<>();
+		for (int ram : ramUnsorted)
+			vmRams.add(ram);
+		Collections.sort(vmRams,Collections.reverseOrder());
+		for(int i=0;i<vmRams.size();i++)
+			ramUnsorted[i]=vmRams.get(i);
+		return ramUnsorted;
 	}
 
 }

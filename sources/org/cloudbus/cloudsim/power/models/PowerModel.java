@@ -35,5 +35,6 @@ public interface PowerModel {
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
 	double getPower(double utilization) throws IllegalArgumentException;
+//	double getPower(int freq, double utilization) throws IllegalArgumentException;
 
 }

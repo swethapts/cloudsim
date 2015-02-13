@@ -205,19 +205,22 @@ public class PowerDatacenter extends Datacenter {
 						timeDiff);
 				timeFrameDatacenterEnergy += timeFrameHostEnergy;
 
+				//Log.formatLine("Sweeeeeeeeeee: %.3f,%.3f",previousUtilizationOfCpu,utilizationOfCpu);
 				Log.printLine();
-				Log.formatLine(
-						"%.2f: [Host #%d] utilization at %.2f was %.2f%%, now is %.2f%%",
-						currentTime,
-						host.getId(),
-						getLastProcessTime(),
-						previousUtilizationOfCpu * 100,
-						utilizationOfCpu * 100);
-				Log.formatLine(
-						"%.2f: [Host #%d] energy is %.2f W*sec",
-						currentTime,
-						host.getId(),
-						timeFrameHostEnergy);
+				if(previousUtilizationOfCpu * 100 > 0.000){
+					Log.formatLine(
+							"%.2f: [Host #%d] utilization at %.2f was %.2f%%, now is %.2f%%",
+							currentTime,
+							host.getId(),
+							getLastProcessTime(),
+							previousUtilizationOfCpu * 100,
+							utilizationOfCpu * 100);
+					Log.formatLine(
+							"%.2f: [Host #%d] energy is %.2f W*sec",
+							currentTime,
+							host.getId(),
+							timeFrameHostEnergy);
+				}
 			}
 
 			Log.formatLine(
@@ -252,6 +255,7 @@ public class PowerDatacenter extends Datacenter {
 	 */
 	@Override
 	protected void processVmMigrate(SimEvent ev, boolean ack) {
+		Log.print("here in processVmMigrate");
 		updateCloudetProcessingWithoutSchedulingFutureEvents();
 		super.processVmMigrate(ev, ack);
 		SimEvent event = CloudSim.findFirstDeferred(getId(), new PredicateType(CloudSimTags.VM_MIGRATE));
