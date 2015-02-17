@@ -92,10 +92,15 @@ public class HostSteadyWorkload extends HostSteady {
 */
 				List<PeSteady> pes = getVmScheduler().getPesAllocatedForVM(vm);
 				StringBuilder pesString = new StringBuilder();
+				try{
 				for (PeSteady pe : pes) {
 					pesString.append(String.format(" PE #" + pe.getId() + ": %.2f.", pe.getPeProvisioner()
 							.getTotalAllocatedMipsForVm(vm)));
 				}
+				}catch(Exception e){
+					System.out.println("getVmScheduler().getPesAllocatedForVM(vm) is empty <<<<<<<<<<<------------");
+				}
+				
 				Log.formatLine(
 						"%.2f: [Host #" + getId() + "] MIPS for VM #" + vm.getId() + " by PEs ("
 								+ getNumberOfPes() + " * " + getVmScheduler().getPeCapacity() + ")."

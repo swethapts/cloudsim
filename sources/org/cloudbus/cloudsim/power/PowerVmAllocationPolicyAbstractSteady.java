@@ -69,7 +69,7 @@ public abstract class PowerVmAllocationPolicyAbstractSteady extends VmAllocation
 		if (host.vmCreate(vm)) { // if vm has been succesfully created in the host
 			getVmTable().put(vm.getUid(), host);
 			Log.formatLine(
-					"%.2f: VM #" + vm.getId() + " has been allocated to the host #" + host.getId(),
+					"%.2f: VM #" + vm.getId() + " has been alLlocated to the host #" + host.getId(),
 					CloudSim.clock());
 			return true;
 		}

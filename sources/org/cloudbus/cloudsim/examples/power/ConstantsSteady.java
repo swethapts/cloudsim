@@ -2,7 +2,8 @@ package org.cloudbus.cloudsim.examples.power;
 
 import java.util.*;
 import org.cloudbus.cloudsim.power.models.PowerModelSteady;
-import org.cloudbus.cloudsim.power.models.PowerModelE5507;
+//import org.cloudbus.cloudsim.power.models.PowerModelE5507;
+import org.cloudbus.cloudsim.power.models.PowerModeli7;
 //import org.cloudbus.cloudsim.power.models.PowerModelSpecPowerHpProLiantMl110G4Xeon3040;
 
 /**
@@ -23,7 +24,7 @@ public class ConstantsSteady {
 	public final static boolean OUTPUT_CSV    = false;
 
 	public final static double SCHEDULING_INTERVAL = 1;//300;
-	public final static double SIMULATION_LIMIT = 3;//43200;//24 * 60 * 60;
+	public final static double SIMULATION_LIMIT = 43200;//24 * 60 * 60;
 
 	public final static int CLOUDLET_LENGTH	= 2500 * 1000;//mi //(int) SIMULATION_LIMIT;
 	public final static int CLOUDLET_PES	= 1;
@@ -55,16 +56,16 @@ public class ConstantsSteady {
 	 *   We increase the memory size to enable over-subscription (x4)
 	 */
 	public final static int HOST_TYPES	 = 1;//2;
-	public final static double[][] HOST_MIPS	 = { /*1860,*/ {1597,1730,1863,1996,2129,2262}};//{1600,1800,2000,2200,2400,2600,2800,3000,3200,3400} };
+	public final static double[][] HOST_MIPS	 = { /*1860,*/ /*{1597,1730,1863,1996,2129,2262}};//*/{1600,1800,2000,2200,2400,2600,2800,3000,3200,3400} };
 	public final static int[] HOST_PES	 = { /*2,*/ 4 };
 	public final static int[] HOST_RAM	 = { /*4096,*/ 16384 };
-	public final static int HOST_BW		 = 1000000; // 1 Gbit/s
+	public final static int HOST_BW		 = 10000000; // 1 Gbit/s
 	public final static int HOST_STORAGE = 1000000; // 1 GB
 
 	public final static PowerModelSteady[] HOST_POWER = {
 		/*new PowerModelSpecPowerHpProLiantMl110G4Xeon3040(),*/
-		new PowerModelE5507()
-		//new PowerModeli7()
+		//new PowerModelE5507()
+		new PowerModeli7()
 	};
 
 	private static int[] getVmMips(int[] vmCtSla) {
@@ -78,13 +79,18 @@ public class ConstantsSteady {
 	private static int[] getSortedSla(int[] slaUnsorted){
 		int [] vmSlas = Arrays.copyOf(slaUnsorted, slaUnsorted.length);
 		Arrays.sort(vmSlas);
+		Integer[] vmSlasInteger = new Integer[vmSlas.length];
+		for(int i=vmSlas.length-1;i>=0;i-- )//reversing
+			vmSlasInteger[i] = vmSlas[vmSlas.length-1-i];
+		for(int i=vmSlas.length-1;i>=0;i-- )//copying
+			vmSlas[i] = vmSlasInteger[i].intValue();
 		return vmSlas;
 	}
 	private static int[] getSortedRam(int[] ramUnsorted){
 		List<Integer> vmRams = new ArrayList<>();
 		for (int ram : ramUnsorted)
 			vmRams.add(ram);
-		Collections.sort(vmRams,Collections.reverseOrder());
+		Collections.sort(vmRams);//,Collections.reverseOrder());
 		for(int i=0;i<vmRams.size();i++)
 			ramUnsorted[i]=vmRams.get(i);
 		return ramUnsorted;

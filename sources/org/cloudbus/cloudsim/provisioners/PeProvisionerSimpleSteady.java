@@ -58,6 +58,7 @@ public class PeProvisionerSimpleSteady extends PeProvisionerSteady {
 	 */
 	@Override
 	public boolean allocateMipsForVm(String vmUid, double mips) {
+//		System.out.println(new Exception().getStackTrace()[1].getClassName()+new Exception().getStackTrace()[1].getMethodName());
 		if (getAvailableMips() < mips) {
 			return false;
 		}
@@ -73,6 +74,15 @@ public class PeProvisionerSimpleSteady extends PeProvisionerSteady {
 
 		setAvailableMips(getAvailableMips() - mips);
 		getPeTable().put(vmUid, allocatedMips);
+//		System.out.println("PeProvisioner#allocateMipsForVm " + vmUid);
+//		Map<String, List<Double>> peTablexx = getPeTable();
+//		for (Map.Entry<String, List<Double>> entry : peTablexx.entrySet()) {
+//		    String key = entry.getKey();
+//		    List<Double> values = entry.getValue();
+//		    for (Double value: values)
+//		    	System.out.println("xxx "+value.floatValue()+ " " + key);
+//		}
+//		System.out.println("----");
 		
 		return true;
 	}

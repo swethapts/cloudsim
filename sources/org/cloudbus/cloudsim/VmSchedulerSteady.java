@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.cloudbus.cloudsim.lists.PeListSteady;
 
@@ -52,7 +53,7 @@ public abstract class VmSchedulerSteady {
 	public VmSchedulerSteady(List<? extends PeSteady> pelist) {
 		setPeList(pelist);
 		setPeMap(new HashMap<String, List<PeSteady>>());
-		setMipsMap(new HashMap<String, List<Double>>());
+		setMipsMap(new TreeMap<String, List<Double>>());
 		setAvailableMips(PeListSteady.getTotalMips(getPeList()));
 		setVmsMigratingIn(new ArrayList<String>());
 		setVmsMigratingOut(new ArrayList<String>());

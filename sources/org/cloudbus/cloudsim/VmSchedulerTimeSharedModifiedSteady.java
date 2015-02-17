@@ -9,7 +9,7 @@ package org.cloudbus.cloudsim;
 
 import java.util.ArrayList;
 //import java.util.HashMap;
-import java.util.Iterator;
+//import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ import org.cloudbus.cloudsim.lists.PeListSteady;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSteady;
 
 /**
- * VmSchedulerTimeSharedSteady is a VMM allocation policy that allocates one or more PeSteady to a VM, and
+ * VmSchedulerTimeSharedModifiedSteady is a VMM allocation policy that allocates one or more PeSteady to a VM, and
  * allows sharing of PEs by multiple VMs. This class also implements 10% performance degration due
  * to VM migration. This scheduler does not support over-subscription.
  * 
@@ -27,7 +27,7 @@ import org.cloudbus.cloudsim.provisioners.PeProvisionerSteady;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 1.0
  */
-public class VmSchedulerTimeSharedSteady extends VmSchedulerSteady {
+public class VmSchedulerTimeSharedModifiedSteady extends VmSchedulerSteady {
 
 	/** The mips map requested. */
 	private Map<String, List<Double>> mipsMapRequested;
@@ -40,7 +40,7 @@ public class VmSchedulerTimeSharedSteady extends VmSchedulerSteady {
 	 * 
 	 * @param pelist the pelist
 	 */
-	public VmSchedulerTimeSharedSteady(List<? extends PeSteady> pelist) {
+	public VmSchedulerTimeSharedModifiedSteady(List<? extends PeSteady> pelist) {
 		super(pelist);
 		setMipsMapRequested(new TreeMap<String, List<Double>>());
 	}
@@ -122,45 +122,27 @@ public class VmSchedulerTimeSharedSteady extends VmSchedulerSteady {
 	 */
 	protected void updatePeProvisioning() {
 		getPeMap().clear();
+//		double totalAvailableMips =0;
+
 		for (PeSteady pe : getPeList()) {
-			System.out.println("deallocating "+pe.getId()+pe.getPeProvisioner().getTotalAllocatedMips());
+			//totalAvailableMips += pe.getPeProvisioner().getAvailableMips();
 			pe.getPeProvisioner().deallocateMipsForAllVms();
 		}
-
-		Iterator<PeSteady> peIterator = getPeList().iterator();
-		PeSteady pe = peIterator.next();
-		PeProvisionerSteady peProvisioner = pe.getPeProvisioner();
-		double availableMips = peProvisioner.getAvailableMips();
-
 		for (Map.Entry<String, List<Double>> entry : getMipsMap().entrySet()) {
 			String vmUid = entry.getKey();
 			getPeMap().put(vmUid, new LinkedList<PeSteady>());
-
 			for (double mips : entry.getValue()) {
+				double sharedMips = Math.floor(mips/getPeList().size());
 				while (mips >= 0.1) {
-					if (availableMips >= mips) {
-						peProvisioner.allocateMipsForVm(vmUid, mips);
+					for(PeSteady pe : getPeList()){
+						PeProvisionerSteady peProvisioner = pe.getPeProvisioner();
+						peProvisioner.allocateMipsForVm(vmUid, sharedMips);
 						getPeMap().get(vmUid).add(pe);
-						availableMips -= mips;
-						break;
-					} else {
-						peProvisioner.allocateMipsForVm(vmUid, availableMips);
-						getPeMap().get(vmUid).add(pe);
-						mips -= availableMips;
-						if (mips <= 0.1) {
-							break;
-						}
-						if (!peIterator.hasNext()) {
-							Log.printLine("There is no enough MIPS (" + mips + ") to accommodate VM " + vmUid);
-							// System.exit(0);
-						}
-						pe = peIterator.next();
-						peProvisioner = pe.getPeProvisioner();
-						availableMips = peProvisioner.getAvailableMips();
+						mips-= sharedMips;
 					}
 				}
 			}
-		}
+		}	
 	}
 
 	/*
