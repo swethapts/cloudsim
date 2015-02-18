@@ -261,6 +261,13 @@ public class HelperSteady {
 
 		int numberOfHosts = hosts.size();
 		int numberOfVms = vms.size();
+		
+		int numberOfUsedHosts = 0;
+		
+		for(HostSteady host : hosts){
+			if(host.getUsed())
+				numberOfUsedHosts++;
+		}
 
 		double totalSimulationTime = lastClock;
 		double energy = datacenter.getPower() / (3600 * 1000);
@@ -326,6 +333,7 @@ public class HelperSteady {
 			data.append(experimentName + delimeter);
 			data.append(parseExperimentName(experimentName));
 			data.append(String.format("%d", numberOfHosts) + delimeter);
+			data.append(String.format("%d", numberOfUsedHosts) + delimeter);
 			data.append(String.format("%d", numberOfVms) + delimeter);
 			data.append(String.format("%.2f", totalSimulationTime) + delimeter);
 			data.append(String.format("%.5f", energy) + delimeter);
@@ -391,6 +399,7 @@ public class HelperSteady {
 			Log.printLine();
 			Log.printLine(String.format("Experiment name: " + experimentName));
 			Log.printLine(String.format("Number of hosts: " + numberOfHosts));
+			Log.printLine(String.format("Number of used hosts: " + numberOfUsedHosts));
 			Log.printLine(String.format("Number of VMs: " + numberOfVms));
 			Log.printLine(String.format("Total simulation time: %.2f sec", totalSimulationTime));
 			Log.printLine(String.format("Energy consumption: %.2f kWh", energy));

@@ -78,7 +78,7 @@ public class VmSchedulerTimeSharedModifiedSteady extends VmSchedulerSteady {
 	 */
 	protected boolean allocatePesForVm(String vmUid, List<Double> mipsShareRequested) {
 		double totalRequestedMips = 0;
-		double peMips = getPeCapacity();
+		double peMips = getPeTotalCapacity();
 		for (Double mips : mipsShareRequested) {
 			// each virtual PE of a VM must require not more than the capacity of a physical PE
 			if (mips > peMips) {
@@ -132,7 +132,7 @@ public class VmSchedulerTimeSharedModifiedSteady extends VmSchedulerSteady {
 			String vmUid = entry.getKey();
 			getPeMap().put(vmUid, new LinkedList<PeSteady>());
 			for (double mips : entry.getValue()) {
-				double sharedMips = Math.floor(mips/getPeList().size());
+				double sharedMips = Math.ceil(mips/getPeList().size());
 				while (mips >= 0.1) {
 					for(PeSteady pe : getPeList()){
 						PeProvisionerSteady peProvisioner = pe.getPeProvisioner();
@@ -155,15 +155,12 @@ public class VmSchedulerTimeSharedModifiedSteady extends VmSchedulerSteady {
 		setPesInUse(0);
 		getMipsMap().clear();
 		setAvailableMips(PeListSteady.getTotalMips(getPeList()));
-
 		for (PeSteady pe : getPeList()) {
 			pe.getPeProvisioner().deallocateMipsForVm(vm);
 		}
-
 		for (Map.Entry<String, List<Double>> entry : getMipsMapRequested().entrySet()) {
 			allocatePesForVm(entry.getKey(), entry.getValue());
 		}
-
 		updatePeProvisioning();
 	}
 

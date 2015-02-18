@@ -66,7 +66,7 @@ public class HostSteadyWorkload extends HostSteady {
 		setPreviousUtilizationMips(getUtilizationMips());
 		setUtilizationMips(0);
 		double hostTotalRequestedMips = 0;
-
+		
 		for (VmSteady vm : getVmList()) {
 			getVmScheduler().deallocatePesForVm(vm);
 		}
@@ -92,13 +92,9 @@ public class HostSteadyWorkload extends HostSteady {
 */
 				List<PeSteady> pes = getVmScheduler().getPesAllocatedForVM(vm);
 				StringBuilder pesString = new StringBuilder();
-				try{
 				for (PeSteady pe : pes) {
 					pesString.append(String.format(" PE #" + pe.getId() + ": %.2f.", pe.getPeProvisioner()
 							.getTotalAllocatedMipsForVm(vm)));
-				}
-				}catch(Exception e){
-					System.out.println("getVmScheduler().getPesAllocatedForVM(vm) is empty <<<<<<<<<<<------------");
 				}
 				
 				Log.formatLine(

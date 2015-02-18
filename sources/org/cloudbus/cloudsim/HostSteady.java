@@ -55,6 +55,8 @@ public class HostSteady {
 
 	/** The datacenter where the host is placed. */
 	private DatacenterSteady datacenter;
+	
+	private boolean used;
 
 	/**
 	 * Instantiates a new host.
@@ -231,6 +233,7 @@ public class HostSteady {
 		setStorage(getStorage() - vm.getSize());
 		getVmList().add(vm);
 		vm.setHost(this);
+		setUsed(true);
 		return true;
 	}
 
@@ -620,6 +623,14 @@ public class HostSteady {
 	 */
 	public void setDatacenter(DatacenterSteady datacenter) {
 		this.datacenter = datacenter;
+	}
+	
+	public void setUsed(boolean used){
+		this.used = used;
+	}
+	
+	public boolean getUsed(){
+		return used;
 	}
 
 }

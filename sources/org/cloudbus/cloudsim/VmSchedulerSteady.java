@@ -166,6 +166,13 @@ public abstract class VmSchedulerSteady {
 		}
 		return getPeList().get(0).getMips();
 	}
+	public double getPeTotalCapacity() {
+		if (getPeList() == null) {
+			Log.printLine("PeSteady list is empty");
+			return 0;
+		}
+		return getPeList().get(0).getMipsList()[getPeList().get(0).getMipsList().length-1];
+	}
 
 	/**
 	 * Gets the vm list.

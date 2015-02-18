@@ -210,8 +210,8 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 						timeDiff);
 				timeFrameDatacenterEnergy += timeFrameHostEnergy;
 
-				Log.printLine();
 				if(previousUtilizationOfCpu * 100 > 0.000){
+					Log.printLine();
 					Log.formatLine(
 							"%.2f: [Host #%d] utilization at %.2f was %.2f%%, now is %.2f%%",
 							currentTime,
@@ -246,7 +246,7 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 			}
 		}
 
-		Log.printLine();
+		//Log.printLine();
 
 		setLastProcessTime(currentTime);
 		return minTime;
