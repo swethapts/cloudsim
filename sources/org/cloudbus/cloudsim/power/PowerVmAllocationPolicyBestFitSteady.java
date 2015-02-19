@@ -31,14 +31,14 @@ import org.cloudbus.cloudsim.core.CloudSim;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 3.0
  */
-public class PowerVmAllocationPolicySimpleSteady extends PowerVmAllocationPolicyAbstractSteady {
+public class PowerVmAllocationPolicyBestFitSteady extends PowerVmAllocationPolicyAbstractSteady {
 
 	/**
 	 * Instantiates a new power vm allocation policy simple.
 	 * 
 	 * @param list the list
 	 */
-	public PowerVmAllocationPolicySimpleSteady(List<? extends HostSteady> list) {
+	public PowerVmAllocationPolicyBestFitSteady(List<? extends HostSteady> list) {
 		super(list);
 	}
 
@@ -84,7 +84,7 @@ public class PowerVmAllocationPolicySimpleSteady extends PowerVmAllocationPolicy
 	 */
 	@Override
 	public PowerHostSteady findHostForVm(VmSteady vm) {
-		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
+	/*	for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
 			if (host.isSuitableForVm(vm)) {
 				return host;
 			}
@@ -93,6 +93,53 @@ public class PowerVmAllocationPolicySimpleSteady extends PowerVmAllocationPolicy
 			//}
 		}
 		return null;
-	}
+	}*/
+		double minUtilization = Double.MAX_VALUE;
+		PowerHostSteady allocatedHost = null;
+	
+		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
+			if (host.isSuitableForVm(vm)) {
+	//			if (getUtilizationOfCpuMips(host) != 0 && isHostOverUtilizedAfterAllocation(host, vm)) {
+	//				continue;
+	//			}
+	
+				try {
+					//double utilizationAfterAllocation = getMaxUtilizationAfterAllocation(host, vm);
+					//if (utilizationAfterAllocation != -1) {
+						double utilDiff = host.getTotalMips() - (getUtilizationOfCpuMips(host) - vm.getCurrentRequestedTotalMips());
+						System.out.println("Utilization......would be:"+utilDiff + " now  "+ minUtilization);
+						if (utilDiff < minUtilization && utilDiff>=0) {
+							minUtilization = utilDiff;
+							allocatedHost = host;
+						}
+					//}
+				} catch (Exception e) {
+				}
+			}
+		}
+		return allocatedHost;
 
+	}
+	
+	protected double getMaxUtilizationAfterAllocation(PowerHostSteady host, VmSteady vm) {
+		double requestedTotalMips = vm.getCurrentRequestedTotalMips();
+		double hostUtilizationMips = getUtilizationOfCpuMips(host);
+		double hostPotentialUtilizationMips = hostUtilizationMips + requestedTotalMips;
+		double pePotentialUtilization = hostPotentialUtilizationMips / host.getTotalMips();
+		System.out.println("Utilization......requested:"+hostPotentialUtilizationMips + " now has "+ host.getTotalMips());
+
+		return pePotentialUtilization;
+	}
+	
+	protected double getUtilizationOfCpuMips(PowerHostSteady host) {
+		double hostUtilizationMips = 0;
+		for (VmSteady vm : host.getVmList()) {
+			if (host.getVmsMigratingIn().contains(vm)) {
+				// calculate additional potential CPU usage of a migrating in VM
+				hostUtilizationMips += host.getTotalAllocatedMipsForVm(vm) * 0.9 / 0.1;
+			}
+			hostUtilizationMips += host.getTotalAllocatedMipsForVm(vm);
+		}
+		return hostUtilizationMips;
+	}
 }
