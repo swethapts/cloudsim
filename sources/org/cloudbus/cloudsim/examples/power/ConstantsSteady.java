@@ -23,7 +23,7 @@ public class ConstantsSteady {
 	public final static boolean OUTPUT_CSV    = false;
 
 	public final static double SCHEDULING_INTERVAL = 1;//300;
-	public final static double SIMULATION_LIMIT = 3;//43200;//24 * 60 * 60;
+	public final static double SIMULATION_LIMIT = 43200;//24 * 60 * 60;
 
 	public final static int CLOUDLET_LENGTH	= 2500 * 1000;//mi //(int) SIMULATION_LIMIT;
 	public final static int CLOUDLET_PES	= 1;
@@ -38,12 +38,14 @@ public class ConstantsSteady {
 	 *   We decrease the memory size two times to enable oversubscription
 	 *
 	 */
-	public final static int VM_TYPES	= 2;
-	private final static int[] VM_CT_SLA_UNSORTED = { 10000, 1250};//, 2500, 5000 };
+	public final static int VM_TYPES	= 4;
+	//private final static float VM_CT_SLA_MEAN = ;
+	//private final static float VM_CT_SLA_STD = ;
+	private final static int[] VM_CT_SLA_UNSORTED = { 10000, 1250, 2500, 5000 };
 	public final static int[] VM_CT_SLA = getSortedSla(VM_CT_SLA_UNSORTED);//seconds
 	public final static int[] VM_MIPS	= getVmMips(VM_CT_SLA);//{ 2500, 2000, 1000, 500 };
-	public final static int[] VM_PES	= { 1, 1};//, 1, 1 };
-	public final static int[] VM_RAM_UNSORTED	= { 2048,  512};//, 1536, 1024 };
+	public final static int[] VM_PES	= { 1, 1, 1, 1 };
+	public final static int[] VM_RAM_UNSORTED	= { 2048,  512, 1536, 1024 };
 	public final static int[] VM_RAM	= getSortedRam(VM_RAM_UNSORTED);
 	public final static int VM_BW		= 100000; // 100 Mbit/s
 	public final static int VM_SIZE		= 2500; // 2.5 GB

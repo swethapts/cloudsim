@@ -31,14 +31,14 @@ import org.cloudbus.cloudsim.core.CloudSim;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 3.0
  */
-public class PowerVmAllocationPolicyBestFitSteady extends PowerVmAllocationPolicyAbstractSteady {
+public class PowerVmAllocationPolicyWorstFitSteady extends PowerVmAllocationPolicyAbstractSteady {
 
 	/**
 	 * Instantiates a new power vm allocation policy simple.
 	 * 
 	 * @param list the list
 	 */
-	public PowerVmAllocationPolicyBestFitSteady(List<? extends HostSteady> list) {
+	public PowerVmAllocationPolicyWorstFitSteady(List<? extends HostSteady> list) {
 		super(list);
 	}
 
@@ -94,7 +94,7 @@ public class PowerVmAllocationPolicyBestFitSteady extends PowerVmAllocationPolic
 		}
 		return null;
 	}*/
-		double minUtilization = Double.MAX_VALUE;
+		double maxUtilization = Double.MIN_VALUE;
 		PowerHostSteady allocatedHost = null;
 	
 		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
@@ -107,10 +107,10 @@ public class PowerVmAllocationPolicyBestFitSteady extends PowerVmAllocationPolic
 					//double utilizationAfterAllocation = getMaxUtilizationAfterAllocation(host, vm);
 					//if (utilizationAfterAllocation != -1) {
 						double utilDiff = host.getTotalMips() - (getUtilizationOfCpuMips(host) - vm.getCurrentRequestedTotalMips());
-						System.out.println("Utilization......would be:"+utilDiff + " now  "+ minUtilization);
-						if (utilDiff < minUtilization && utilDiff>=0) {
-							minUtilization = utilDiff;
-							System.out.println("Min changed from "+minUtilization + " now  "+ utilDiff);
+						System.out.println("Utilization......would be:"+utilDiff + " now  "+ maxUtilization);
+						if (utilDiff > maxUtilization && utilDiff>=0) {
+							maxUtilization = utilDiff;
+							System.out.println("max changed from "+maxUtilization + " now  "+ utilDiff);
 							allocatedHost = host;
 						}
 					//}

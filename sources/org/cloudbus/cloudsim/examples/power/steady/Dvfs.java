@@ -39,7 +39,7 @@ public class Dvfs {
 		String inputFolder = "";
 		String outputFolder = "";//"/home/esriswe/Downloads";
 		String workload = "steady"; // Steady workload
-		String vmAllocationPolicy = "dvfsBF"; // DVFS policy without VM migrations
+		String vmAllocationPolicy = "dvfsWF"; // DVFS policy without VM migrations
 		String vmSelectionPolicy = "";
 		String parameter = "";
 
