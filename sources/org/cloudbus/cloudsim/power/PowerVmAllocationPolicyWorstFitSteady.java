@@ -107,11 +107,13 @@ public class PowerVmAllocationPolicyWorstFitSteady extends PowerVmAllocationPoli
 					//double utilizationAfterAllocation = getMaxUtilizationAfterAllocation(host, vm);
 					//if (utilizationAfterAllocation != -1) {
 						double utilDiff = host.getTotalMips() - (getUtilizationOfCpuMips(host) - vm.getCurrentRequestedTotalMips());
-						System.out.println("Utilization......would be:"+utilDiff + " now  "+ maxUtilization);
+						//System.out.println("Utilization......would be:"+utilDiff + " now  "+ maxUtilization+ "in use? " + host.getUsed());
 						if (utilDiff > maxUtilization && utilDiff>=0) {
+							if(allocatedHost==null || host.getUsed()){
 							maxUtilization = utilDiff;
-							System.out.println("max changed from "+maxUtilization + " now  "+ utilDiff);
+							//System.out.println("max changed from "+maxUtilization + " now  "+ utilDiff);
 							allocatedHost = host;
+							}
 						}
 					//}
 				} catch (Exception e) {
@@ -127,7 +129,7 @@ public class PowerVmAllocationPolicyWorstFitSteady extends PowerVmAllocationPoli
 		double hostUtilizationMips = getUtilizationOfCpuMips(host);
 		double hostPotentialUtilizationMips = hostUtilizationMips + requestedTotalMips;
 		double pePotentialUtilization = hostPotentialUtilizationMips / host.getTotalMips();
-		System.out.println("Utilization......requested:"+hostPotentialUtilizationMips + " now has "+ host.getTotalMips() + new Exception().getStackTrace()[0].getMethodName());
+		//System.out.println("Utilization......requested:"+hostPotentialUtilizationMips + " now has "+ host.getTotalMips() + new Exception().getStackTrace()[0].getMethodName());
 
 		return pePotentialUtilization;
 	}

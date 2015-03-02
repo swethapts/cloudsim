@@ -179,7 +179,7 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 		Log.formatLine("New resource usage for the time frame starting at %.2f:", currentTime);
 
 		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
-			Log.printLine();
+			//Log.printLine();
 
 			double time = host.updateVmsProcessing(currentTime); // inform VMs to update processing
 			if (time < minTime) {
@@ -242,7 +242,7 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 			for (VmSteady vm : host.getCompletedVms()) {
 				getVmAllocationPolicy().deallocateHostForVm(vm);
 				getVmList().remove(vm);
-				Log.printLine("VM #" + vm.getId() + " has been deallocated from host #" + host.getId());
+				Log.printLine("VM #" + vm.getId() + " has been dealLlocated from host #" + host.getId());
 			}
 		}
 

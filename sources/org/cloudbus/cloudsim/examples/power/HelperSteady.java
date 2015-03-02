@@ -271,6 +271,7 @@ public class HelperSteady {
 
 		double totalSimulationTime = lastClock;
 		double energy = datacenter.getPower() / (3600 * 1000);
+		double energy1 = datacenter.getPower();
 		int numberOfMigrations = datacenter.getMigrationCount();
 
 		Map<String, Double> slaMetrics = getSlaMetrics(vms);
@@ -337,6 +338,7 @@ public class HelperSteady {
 			data.append(String.format("%d", numberOfVms) + delimeter);
 			data.append(String.format("%.2f", totalSimulationTime) + delimeter);
 			data.append(String.format("%.5f", energy) + delimeter);
+			data.append(String.format("%.5f", energy1) + delimeter);
 			data.append(String.format("%d", numberOfMigrations) + delimeter);
 			data.append(String.format("%.10f", sla) + delimeter);
 			data.append(String.format("%.10f", slaTimePerActiveHost) + delimeter);
@@ -403,6 +405,7 @@ public class HelperSteady {
 			Log.printLine(String.format("Number of VMs: " + numberOfVms));
 			Log.printLine(String.format("Total simulation time: %.2f sec", totalSimulationTime));
 			Log.printLine(String.format("Energy consumption: %.2f kWh", energy));
+			Log.printLine(String.format("Energy consumption: %.2f Ws", energy1));
 			Log.printLine(String.format("Number of VM migrations: %d", numberOfMigrations));
 			Log.printLine(String.format("SLA: %.5f%%", sla * 100));
 			Log.printLine(String.format(
