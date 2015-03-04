@@ -10,7 +10,7 @@ import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.UtilizationModel;
 import org.cloudbus.cloudsim.UtilizationModelNull;
 import org.cloudbus.cloudsim.UtilizationModelFull;
-import org.cloudbus.cloudsim.examples.power.ConstantsSteady;
+import org.cloudbus.cloudsim.examples.power.ConstantsSteady1;
 
 /**
  * The Helper class for the steady workload.
@@ -51,13 +51,13 @@ public class SteadyHelper {
 		for (int i = 0; i < cloudletsNumber; i++) {
 			Cloudlet cloudlet = null;
 			if (seed == -1) {
-				cloudlet = new Cloudlet(i, ConstantsSteady.CLOUDLET_LENGTH[i%ConstantsSteady.CLOUDLET_TYPES],/*change this or pass this*/
-						ConstantsSteady.CLOUDLET_PES, fileSize, outputSize,
+				cloudlet = new Cloudlet(i, ConstantsSteady1.CLOUDLET_LENGTH[i%ConstantsSteady1.CLOUDLET_TYPES],/*change this or pass this*/
+						ConstantsSteady1.CLOUDLET_PES, fileSize, outputSize,
 						new UtilizationModelFull(), utilizationModelNull,
 						utilizationModelNull);
 			} else {
-				cloudlet = new Cloudlet(i, ConstantsSteady.CLOUDLET_LENGTH[i%ConstantsSteady.CLOUDLET_TYPES],
-						ConstantsSteady.CLOUDLET_PES, fileSize, outputSize,
+				cloudlet = new Cloudlet(i, ConstantsSteady1.CLOUDLET_LENGTH[i%ConstantsSteady1.CLOUDLET_TYPES],
+						ConstantsSteady1.CLOUDLET_PES, fileSize, outputSize,
 						new UtilizationModelFull(),
 						utilizationModelNull, utilizationModelNull);
 			}

@@ -55,7 +55,7 @@ public class ConstantsSteady {
 	public final static int[] VM_RAM	= getSortedRam(VM_RAM_UNSORTED);
 	public final static int VM_BW		= 100000; // 100 Mbit/s
 	public final static int VM_SIZE		= 2500; // 2.5 GB
-	private final static boolean VM_SLA_SORTING_ASCENDING = false;//false;//true //therefore, mips is sorted in descending order
+	private final static boolean VM_SLA_SORTING_ASCENDING = true;//false;//true //therefore, mips is sorted in descending order
 	private final static boolean VM_MIPS_SORTING = true; //if false(default) do not sort by mips
 	/*
 	 * Host types:
