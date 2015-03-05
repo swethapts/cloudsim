@@ -1,7 +1,6 @@
 package org.cloudbus.cloudsim.examples.power.steady;
 
 import java.io.IOException;
-import org.cloudbus.cloudsim.examples.power.ConstantsSteady;
 
 /**
  * A simulation of a heterogeneous power aware data center that only applied
@@ -24,7 +23,7 @@ import org.cloudbus.cloudsim.examples.power.ConstantsSteady;
  * @author Anton Beloglazov
  * @since Jan 5, 2012
  */
-public class DvfsFf {
+public class DvfsFfDCt {
 
 	/**
 	 * The main method.
@@ -43,8 +42,8 @@ public class DvfsFf {
 		String vmAllocationPolicy = "dvfs"; // DVFS policy without VM migrations
 		String vmSelectionPolicy = "";
 		String parameter = "";
-		//ConstantsSteady.setVmSlaSortingAscending(false);
-		//ConstantsSteady.setMipsSorting(true);
+		//ConstantsSteady.setVmSlaSortingAscending(true);
+		//ConstantsSteady.setMipsSorting(false);
 		new SteadyRunner(enableOutput, outputToFile, inputFolder, outputFolder,
 				workload, vmAllocationPolicy, vmSelectionPolicy, parameter);
 	}

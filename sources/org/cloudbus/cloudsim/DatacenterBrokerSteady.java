@@ -18,6 +18,7 @@ import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEntity;
 import org.cloudbus.cloudsim.core.SimEvent;
+import org.cloudbus.cloudsim.examples.power.ConstantsSteady;
 import org.cloudbus.cloudsim.lists.CloudletList;
 import org.cloudbus.cloudsim.lists.VmListSteady;
 
@@ -347,6 +348,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 				vm = getVmsCreatedList().get(vmIndex);
 			} else { // submit to the specific vm
 				vm = VmListSteady.getById(getVmsCreatedList(), cloudlet.getVmId());
+				//System.out.println("mips changed from " + vm.getMips()+"to "+cloudlet.getCloudletTotalLength()/ConstantsSteady.VM_CT_SLA[cloudlet.getCloudletId()%ConstantsSteady.CLOUDLET_TYPES][vm.getId()/ConstantsSteady.CLOUDLET_TYPES]);
 				if (vm == null) { // vm was not created
 					Log.printLine(CloudSim.clock() + ": " + getName() + ": Postponing execution of cloudlet "
 							+ cloudlet.getCloudletId() + ": bount VM not available");

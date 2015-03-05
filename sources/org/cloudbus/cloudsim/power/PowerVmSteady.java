@@ -63,7 +63,7 @@ public class PowerVmSteady extends VmSteady {
 	public PowerVmSteady(
 			final int id,
 			final int userId,
-			final double mips,
+			double mips,
 			final int pesNumber,
 			final int ram,
 			final long bw,

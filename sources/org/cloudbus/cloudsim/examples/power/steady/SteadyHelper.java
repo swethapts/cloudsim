@@ -51,15 +51,16 @@ public class SteadyHelper {
 		for (int i = 0; i < cloudletsNumber; i++) {
 			Cloudlet cloudlet = null;
 			if (seed == -1) {
-				cloudlet = new Cloudlet(i, ConstantsSteady.CLOUDLET_LENGTH[i%ConstantsSteady.CLOUDLET_TYPES],/*change this or pass this*/
+				cloudlet = new Cloudlet(i, ConstantsSteady.CLOUDLET_LENGTH[ConstantsSteady.VM_MIPS[i%ConstantsSteady.VM_MIPS.length][1]],/*change this or pass this*/
 						ConstantsSteady.CLOUDLET_PES, fileSize, outputSize,
 						new UtilizationModelFull(), utilizationModelNull,
 						utilizationModelNull);
 			} else {
-				cloudlet = new Cloudlet(i, ConstantsSteady.CLOUDLET_LENGTH[i%ConstantsSteady.CLOUDLET_TYPES],
+				cloudlet = new Cloudlet(i, ConstantsSteady.CLOUDLET_LENGTH[ConstantsSteady.VM_MIPS[i%ConstantsSteady.VM_MIPS.length][1]],
 						ConstantsSteady.CLOUDLET_PES, fileSize, outputSize,
 						new UtilizationModelFull(),
 						utilizationModelNull, utilizationModelNull);
+				System.out.println(ConstantsSteady.CLOUDLET_LENGTH[ConstantsSteady.VM_MIPS[i%ConstantsSteady.VM_MIPS.length][1]]+"xx");
 			}
 			cloudlet.setUserId(brokerId);
 			cloudlet.setVmId(i);

@@ -57,9 +57,9 @@ public class SteadyRunner extends RunnerAbstractSteady {
 			broker = HelperSteady.createBroker();
 			int brokerId = broker.getId();
 
+			vmList = HelperSteady.createVmList(brokerId, SteadyConstants.NUMBER_OF_VMS);
 			cloudletList = SteadyHelper.createCloudletList(brokerId,
 					SteadyConstants.NUMBER_OF_VMS);
-			vmList = HelperSteady.createVmList(brokerId, cloudletList.size());
 			hostList = HelperSteady.createHostList(SteadyConstants.NUMBER_OF_HOSTS);
 		} catch (Exception e) {
 			e.printStackTrace();
