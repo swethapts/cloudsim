@@ -30,6 +30,15 @@ public class VmSlaCloudletListListSteady {
 		return list.get(id);
 
 	}
+	public static VmSlaCloudletListSteady getByMips(int mips){
+		for(VmSlaCloudletListSteady tuple : list){
+			if(tuple.getMips()==mips){
+				return tuple;
+			}
+		}
+		return null;
+	}
+	
 //		System.out.println("bye");
 
 

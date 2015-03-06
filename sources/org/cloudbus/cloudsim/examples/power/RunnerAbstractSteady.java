@@ -23,6 +23,8 @@ import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyMigrationStaticThresho
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicySimpleSteady;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicySimpleSteadyModified;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyBestFitSteady;
+import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyBestFitCtSteady;
+import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyFfCtSteady;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyWorstFitSteady;
 import org.cloudbus.cloudsim.power.PowerVmSelectionPolicySteady;
 import org.cloudbus.cloudsim.power.PowerVmSelectionPolicyMaximumCorrelationSteady;
@@ -296,6 +298,10 @@ public abstract class RunnerAbstractSteady {
 			vmAllocationPolicy = new PowerVmAllocationPolicySimpleSteadyModified(hostList);
 		} else if (vmAllocationPolicyName.equals("dvfsBF")) {
 			vmAllocationPolicy = new PowerVmAllocationPolicyBestFitSteady(hostList);
+		} else if (vmAllocationPolicyName.equals("dvfsFFCt")) {
+			vmAllocationPolicy = new PowerVmAllocationPolicyFfCtSteady(hostList);
+		} else if (vmAllocationPolicyName.equals("dvfsBFCt")) {
+			vmAllocationPolicy = new PowerVmAllocationPolicyBestFitCtSteady(hostList);
 		}else if (vmAllocationPolicyName.equals("dvfsWF")) {
 			vmAllocationPolicy = new PowerVmAllocationPolicyWorstFitSteady(hostList);
 		}else {

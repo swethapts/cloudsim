@@ -351,10 +351,11 @@ public class DatacenterBrokerSteady extends SimEntity {
 				vm = getVmsCreatedList().get(vmIndex);
 			} else { // submit to the specific vm
 				vm = VmListSteady.getById(getVmsCreatedList(), cloudlet.getVmId());
-				VmSlaCloudletListSteady xx = VmSlaCloudletListListSteady.getById(vm.getId()/ (int) Math.ceil((double) SteadyConstants.NUMBER_OF_VMS / ConstantsSteady.VM_TYPES));//%VmSlaCloudletListListSteady.size());
-//System.out.println("setting cloudlet length from " + cloudlet.getCloudletLength()+" to " + xx.getCloudletId()+"zzz");
+				System.out.println("getting cloudlet length of VM# "+vm.getId()+" and mod by "+ (int) Math.ceil((double) SteadyConstants.NUMBER_OF_VMS / ConstantsSteady.VM_TYPES) + "gives type of VM as: "+vm.getId()/(int) Math.ceil((double) SteadyConstants.NUMBER_OF_VMS / ConstantsSteady.VM_TYPES));
+				VmSlaCloudletListSteady xx = VmSlaCloudletListListSteady.getByMips((int)vm.getMips());//VmSlaCloudletListListSteady.getById(vm.getId()/ (int) Math.ceil((double) SteadyConstants.NUMBER_OF_VMS / ConstantsSteady.VM_TYPES));//%VmSlaCloudletListListSteady.size());
+System.out.println("setting cloudlet length from " + cloudlet.getCloudletLength()+" to " + xx.getCloudletId()+"zzz");
 				cloudlet.setCloudletLength(xx.getCloudletId());
-//System.out.println("setting cloudlet length from " + cloudlet.getCloudletLength()+" to " + xx.getCloudletId()+"zxzxz");
+System.out.println("setting cloudlet length from " + cloudlet.getCloudletLength()+" to " + xx.getCloudletId()+"zxzxz");
 
 				//System.out.println("mips changed from " + vm.getMips()+"to "+cloudlet.getCloudletTotalLength()/ConstantsSteady.VM_CT_SLA[cloudlet.getCloudletId()%ConstantsSteady.CLOUDLET_TYPES][vm.getId()/ConstantsSteady.CLOUDLET_TYPES]);
 				if (vm == null) { // vm was not created

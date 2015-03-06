@@ -81,10 +81,10 @@ public class VmSchedulerTimeSharedModifiedSteady extends VmSchedulerSteady {
 		double peMips = getPeTotalCapacity();
 		for (Double mips : mipsShareRequested) {
 			// each virtual PE of a VM must require not more than the capacity of a physical PE
-			if (mips > peMips) {
+			if (Math.ceil(mips/getPeList().size())*getPeList().size() > peMips) {
 				return false;
 			}
-			totalRequestedMips += mips;
+			totalRequestedMips += Math.ceil(mips/getPeList().size())*getPeList().size();
 		}
 		
 		// This scheduler does not allow over-subscription
