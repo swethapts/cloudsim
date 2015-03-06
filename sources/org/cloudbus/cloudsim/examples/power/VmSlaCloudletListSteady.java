@@ -36,6 +36,12 @@ public class VmSlaCloudletListSteady {
 	public int getMips(){
 		return mips;
 	}
+	public int getSla(){
+		return sla;
+	}
+	public int getCloudletId(){
+		return cloudletId;
+	}
 	public static <T extends VmSlaCloudletListSteady> void sortByMips(List<T> vmVmSlaCloudletListSteady) {
 		Collections.sort(vmVmSlaCloudletListSteady, new Comparator<T>() {
 

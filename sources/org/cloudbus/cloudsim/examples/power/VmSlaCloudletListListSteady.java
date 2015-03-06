@@ -25,7 +25,11 @@ public class VmSlaCloudletListListSteady {
 	public static int size(){
 			return list.size();
 
-			}
+	}
+	public static VmSlaCloudletListSteady getById(int id){
+		return list.get(id);
+
+	}
 //		System.out.println("bye");
 
 

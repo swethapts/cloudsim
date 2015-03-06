@@ -21,6 +21,9 @@ import org.cloudbus.cloudsim.core.SimEvent;
 import org.cloudbus.cloudsim.examples.power.ConstantsSteady;
 import org.cloudbus.cloudsim.lists.CloudletList;
 import org.cloudbus.cloudsim.lists.VmListSteady;
+import org.cloudbus.cloudsim.examples.power.VmSlaCloudletListSteady;
+import org.cloudbus.cloudsim.examples.power.VmSlaCloudletListListSteady;
+import org.cloudbus.cloudsim.examples.power.steady.SteadyConstants;
 
 /**
  * DatacentreBroker represents a broker acting on behalf of a user. It hides VM management, as vm
@@ -348,6 +351,11 @@ public class DatacenterBrokerSteady extends SimEntity {
 				vm = getVmsCreatedList().get(vmIndex);
 			} else { // submit to the specific vm
 				vm = VmListSteady.getById(getVmsCreatedList(), cloudlet.getVmId());
+				VmSlaCloudletListSteady xx = VmSlaCloudletListListSteady.getById(vm.getId()/ (int) Math.ceil((double) SteadyConstants.NUMBER_OF_VMS / ConstantsSteady.VM_TYPES));//%VmSlaCloudletListListSteady.size());
+//System.out.println("setting cloudlet length from " + cloudlet.getCloudletLength()+" to " + xx.getCloudletId()+"zzz");
+				cloudlet.setCloudletLength(xx.getCloudletId());
+//System.out.println("setting cloudlet length from " + cloudlet.getCloudletLength()+" to " + xx.getCloudletId()+"zxzxz");
+
 				//System.out.println("mips changed from " + vm.getMips()+"to "+cloudlet.getCloudletTotalLength()/ConstantsSteady.VM_CT_SLA[cloudlet.getCloudletId()%ConstantsSteady.CLOUDLET_TYPES][vm.getId()/ConstantsSteady.CLOUDLET_TYPES]);
 				if (vm == null) { // vm was not created
 					Log.printLine(CloudSim.clock() + ": " + getName() + ": Postponing execution of cloudlet "
