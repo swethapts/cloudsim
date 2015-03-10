@@ -77,9 +77,14 @@ public class PowerVmAllocationPolicyFfCtSteady extends PowerVmAllocationPolicyAb
 						}
 						double ctDiff = Math.abs(maxHostCt - VmSlaCloudletListListSteady.getByMips((int)vm.getMips()).getSla());
 						System.out.println("Ct......would be:"+ctDiff + " now  "+ VmSlaCloudletListListSteady.getByMips((int)vm.getMips()).getSla()+"num vms: " + vmList.size());
-						if (ctDiff < 1000 || vmList==null) { //ct threshold
+						if (ctDiff <= 1000 || vmList==null) { //ct threshold
+							System.out.print(host.getAvailableMips()+"ccc"+host.getTotalMips()+"llll");
 							return host;
 						}
+						//if((host.getUtilizationOfCpu()<=0.8)){
+						//	System.out.print(host.getUtilizationMips()/host.getTotalMips()+"llll");
+						//	return host;
+						//}
 					//}
 				} catch (Exception e) {
 				}

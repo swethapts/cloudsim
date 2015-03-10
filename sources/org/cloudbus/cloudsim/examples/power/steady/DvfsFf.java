@@ -1,7 +1,7 @@
 package org.cloudbus.cloudsim.examples.power.steady;
 
 import java.io.IOException;
-import org.cloudbus.cloudsim.examples.power.ConstantsSteady;
+//import org.cloudbus.cloudsim.examples.power.ConstantsSteady;
 
 /**
  * A simulation of a heterogeneous power aware data center that only applied

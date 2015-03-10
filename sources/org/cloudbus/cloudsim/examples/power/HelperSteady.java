@@ -408,6 +408,8 @@ public class HelperSteady {
 			Log.printLine(String.format("Energy consumption: %.2f Ws", energy1));
 			Log.printLine(String.format("Number of VM migrations: %d", numberOfMigrations));
 			Log.printLine(String.format("SLA: %.5f%%", sla * 100));
+			Log.printLine(String.format("VM_SLA_SORTING_ASCENDING: %b", ConstantsSteady.VM_SLA_SORTING_ASCENDING));
+			Log.printLine(String.format("VM_MIPS_SORTING: %b", ConstantsSteady.VM_MIPS_SORTING));
 			Log.printLine(String.format(
 					"SLA perf degradation due to migration: %.2f%%",
 					slaDegradationDueToMigration * 100));

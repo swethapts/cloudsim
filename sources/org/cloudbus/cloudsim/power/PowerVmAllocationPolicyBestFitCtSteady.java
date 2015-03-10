@@ -95,7 +95,7 @@ public class PowerVmAllocationPolicyBestFitCtSteady extends PowerVmAllocationPol
 		}
 		return null;
 	}*/
-		double minCt = Double.MAX_VALUE;
+		double minCtDiff = Double.MAX_VALUE;
 		PowerHostSteady allocatedHost = null;
 	
 		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
@@ -116,8 +116,8 @@ public class PowerVmAllocationPolicyBestFitCtSteady extends PowerVmAllocationPol
 						}
 						double ctDiff = Math.abs(maxHostCt - VmSlaCloudletListListSteady.getByMips((int)vm.getMips()).getSla());
 						//System.out.println("Utilization......would be:"+utilDiff + " now  "+ minUtilization);
-						if (ctDiff < minCt ) {
-							minCt = ctDiff;
+						if (ctDiff < minCtDiff ) {
+							minCtDiff = ctDiff;
 							//System.out.println("Min changed from "+minUtilization + " now  "+ utilDiff);
 							allocatedHost = host;
 						}
