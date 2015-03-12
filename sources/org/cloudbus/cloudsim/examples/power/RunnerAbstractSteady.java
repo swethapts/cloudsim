@@ -24,7 +24,9 @@ import org.cloudbus.cloudsim.power.PowerVmAllocationPolicySimpleSteady;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicySimpleSteadyModified;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyBestFitSteady;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyBestFitCtSteady;
+import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyBestFitCtAverageSteady;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyFfCtSteady;
+import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyFfCtAverageSteady;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyWorstFitSteady;
 import org.cloudbus.cloudsim.power.PowerVmSelectionPolicySteady;
 import org.cloudbus.cloudsim.power.PowerVmSelectionPolicyMaximumCorrelationSteady;
@@ -300,9 +302,13 @@ public abstract class RunnerAbstractSteady {
 			vmAllocationPolicy = new PowerVmAllocationPolicyBestFitSteady(hostList);
 		} else if (vmAllocationPolicyName.equals("dvfsFFCt")) {
 			vmAllocationPolicy = new PowerVmAllocationPolicyFfCtSteady(hostList);
+		} else if (vmAllocationPolicyName.equals("dvfsFFCtAvg")) {
+			vmAllocationPolicy = new PowerVmAllocationPolicyFfCtAverageSteady(hostList);
 		} else if (vmAllocationPolicyName.equals("dvfsBFCt")) {
 			vmAllocationPolicy = new PowerVmAllocationPolicyBestFitCtSteady(hostList);
-		}else if (vmAllocationPolicyName.equals("dvfsWF")) {
+		} else if (vmAllocationPolicyName.equals("dvfsBFCtAvg")) {
+			vmAllocationPolicy = new PowerVmAllocationPolicyBestFitCtAverageSteady(hostList);
+		} else if (vmAllocationPolicyName.equals("dvfsWF")) {
 			vmAllocationPolicy = new PowerVmAllocationPolicyWorstFitSteady(hostList);
 		}else {
 			System.out.println("Unknown VM allocation policy: " + vmAllocationPolicyName);
