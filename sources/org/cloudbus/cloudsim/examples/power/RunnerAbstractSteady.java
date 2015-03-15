@@ -28,6 +28,7 @@ import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyBestFitCtAverageSteady
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyFfCtSteady;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyFfCtAverageSteady;
 import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyWorstFitSteady;
+import org.cloudbus.cloudsim.power.PowerVmAllocationPolicyWorstCaseSteady;
 import org.cloudbus.cloudsim.power.PowerVmSelectionPolicySteady;
 import org.cloudbus.cloudsim.power.PowerVmSelectionPolicyMaximumCorrelationSteady;
 import org.cloudbus.cloudsim.power.PowerVmSelectionPolicyMinimumMigrationTimeSteady;
@@ -310,6 +311,8 @@ public abstract class RunnerAbstractSteady {
 			vmAllocationPolicy = new PowerVmAllocationPolicyBestFitCtAverageSteady(hostList);
 		} else if (vmAllocationPolicyName.equals("dvfsWF")) {
 			vmAllocationPolicy = new PowerVmAllocationPolicyWorstFitSteady(hostList);
+		}else if (vmAllocationPolicyName.equals("dvfsWCase")) {
+			vmAllocationPolicy = new PowerVmAllocationPolicyWorstCaseSteady(hostList);
 		}else {
 			System.out.println("Unknown VM allocation policy: " + vmAllocationPolicyName);
 			System.exit(0);
