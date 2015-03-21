@@ -64,5 +64,32 @@ public class VmSlaCloudletListSteady {
 			}
 		});
 	}
+	public static <T extends VmSlaCloudletListSteady> void sortBySla(List<T> vmVmSlaCloudletListSteady) {
+		Collections.sort(vmVmSlaCloudletListSteady, new Comparator<T>() {
+
+			@Override
+			public int compare(T a, T b) throws ClassCastException {
+				Integer aSla = a.getSla();
+				Integer bSla = b.getSla();
+				return bSla.compareTo(aSla);
+			}
+		});
+	}
+	public static <T extends VmSlaCloudletListSteady> void sortBySlaDescending(List<T> vmVmSlaCloudletListSteady) {
+		Collections.sort(vmVmSlaCloudletListSteady, new Comparator<T>() {
+
+			@Override
+			public int compare(T a, T b) throws ClassCastException {
+				Integer aSla = a.getSla();
+				Integer bSla = b.getSla();
+				return aSla.compareTo(bSla);
+			}
+		});
+	}
+	public static <T extends VmSlaCloudletListSteady> void printList(List<T> vmVmSlaCloudletListSteady) {
+		for(VmSlaCloudletListSteady tuple : vmVmSlaCloudletListSteady){
+			System.out.println("\t"+tuple.getTuple()[0]+"\t"+tuple.getTuple()[1]+"\t"+tuple.getTuple()[2]+"\t"+tuple.getTuple()[3]);
+		}
+	}
 
 }

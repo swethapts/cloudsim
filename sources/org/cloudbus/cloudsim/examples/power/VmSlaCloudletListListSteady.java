@@ -12,10 +12,11 @@ public class VmSlaCloudletListListSteady {
 	private static List<VmSlaCloudletListSteady> list = new ArrayList<>();
 	
 	public static <T extends VmSlaCloudletListSteady> void copy(List<T> vmVmSlaCloudletListSteady){
-		System.out.println(vmVmSlaCloudletListSteady.size());
+		//System.out.println(vmVmSlaCloudletListSteady.size());
+		list.removeAll(getList());
 		for(VmSlaCloudletListSteady element : vmVmSlaCloudletListSteady){
 			list.add(element);
-			System.out.println(element.getMips());
+		//	System.out.println("xx"+element.getMips()+element.getCloudletId());
 
 		}
 	}
@@ -31,12 +32,20 @@ public class VmSlaCloudletListListSteady {
 
 	}
 	public static VmSlaCloudletListSteady getByMips(int mips){
-		for(VmSlaCloudletListSteady tuple : list){
-			if(tuple.getMips()==mips){
-				return tuple;
+		
+		System.out.println(new Exception().getStackTrace()[1].getClassName()+new Exception().getStackTrace()[1].getMethodName());
+
+		VmSlaCloudletListSteady tuple = null;
+		for(VmSlaCloudletListSteady tuple1 : list){
+			if(tuple1.getMips()==mips){
+				//System.out.println(tuple1.getTuple()[0]+"\t"+tuple1.getTuple()[1]+"\t"+tuple1.getTuple()[2]+"\t"+tuple1.getTuple()[3]);
+				tuple=tuple1;
+//				return tuple;
 			}
 		}
-		return null;
+		return tuple;
+
+//		return null;
 	}
 	
 //		System.out.println("bye");
@@ -70,9 +79,9 @@ public class VmSlaCloudletListListSteady {
 	}
 	public int getMips(){
 		return mips;
-	}
+	}*/
 	public static <T extends VmSlaCloudletListSteady> void sortByMips(List<T> vmVmSlaCloudletListSteady) {
-		Collections.sort(vmVmSlaCloudletListSteady, new Comparator<T>() {
+				Collections.sort(vmVmSlaCloudletListSteady, new Comparator<T>() {
 
 			@Override
 			public int compare(T a, T b) throws ClassCastException {
@@ -92,6 +101,6 @@ public class VmSlaCloudletListListSteady {
 				return aMips.compareTo(bMips);
 			}
 		});
-	}*/
+	}
 
 }

@@ -100,7 +100,7 @@ public class HostSteadyWorkload extends HostSteady {
 				}else{
 					pesString.append("pe is empty <========================================= for VM#"+vm.getId());
 				}
-				if(CloudSim.clock()<3.0){//to reduce printing time
+				if((int)CloudSim.clock()%1000==0||CloudSim.clock()<3.0){//to reduce printing time
 					Log.formatLine(
 						"%.2f: [Host #" + getId() + "] MIPS for VM #" + vm.getId() + " by PEs ("
 								+ getNumberOfPes() + " * " + getVmScheduler().getPeCapacity() + ")."

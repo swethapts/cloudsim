@@ -124,13 +124,13 @@ public class PowerHostSteady extends HostSteadyWorkload {
 			if(maxAllocatedMips==-1 || maxAllocatedMips < getPeList().get(i).getPeProvisioner().getTotalAllocatedMips()){
 				maxAllocatedMips = (int) getPeList().get(i).getPeProvisioner().getTotalAllocatedMips();
 			}
-			System.out.println("Pe allocated: " + getPeList().get(i).getPeProvisioner().getTotalAllocatedMips()+", getMips: "+getPeList().get(i).getPeProvisioner().getMips());
+			//System.out.println("Pe allocated: " + getPeList().get(i).getPeProvisioner().getTotalAllocatedMips()+", getMips: "+getPeList().get(i).getPeProvisioner().getMips());
 		}
-		System.out.println("Pe with max util: " + maxAllocatedMips);
+		//System.out.println("Pe with max util: " + maxAllocatedMips);
 		int newLeastMipsIndex=getLeastMips(maxAllocatedMips);
 		for (int i=0;i<getPeList().size();i++){
 			getPeList().get(i).getPeProvisioner().setMips(getPeList().get(i).getPeProvisioner().getMipsList().get(newLeastMipsIndex));
-			System.out.println("Pe: " + getPeList().get(i).getPeProvisioner().getMips());
+			//System.out.println("Pe: " + getPeList().get(i).getPeProvisioner().getMips());
 		}
 	}
 

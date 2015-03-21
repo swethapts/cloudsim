@@ -124,11 +124,7 @@ public class PowerVmAllocationPolicyBestFitCtAverageSteady extends PowerVmAlloca
 						else 
 							ctAvgDiff = newCt;
 						//System.out.println("Utilization......would be:"+(avgHostCt) + " now  "+ numVms);
-						if(minCtDiff==Double.MAX_VALUE){
-							minCtDiff = ctAvgDiff;
-							//System.out.println("Min changed from "+minUtilization + " now  "+ utilDiff);
-							allocatedHost = host;
-						} else if (ctAvgDiff < minCtDiff && ctAvgDiff<=0.05) {
+						if(minCtDiff==Double.MAX_VALUE || ctAvgDiff < minCtDiff) {
 							minCtDiff = ctAvgDiff;
 							//System.out.println("Min changed from "+minUtilization + " now  "+ utilDiff);
 							allocatedHost = host;

@@ -66,7 +66,7 @@ public class PowerVmAllocationPolicySimpleSteady extends PowerVmAllocationPolicy
 		if (host.vmCreate(vm)) { // if vm has been succesfully created in the host
 			getVmTable().put(vm.getUid(), host);
 			Log.formatLine(
-					"%.2f: VM #" + vm.getId() + " has been alLlocated to the host #" + host.getId(),
+					"%.2f: VM #" + vm.getId() + " of MIPS " + vm.getMips()+" has been alLlocated to the host #" + host.getId(),
 					CloudSim.clock());
 			return true;
 		}

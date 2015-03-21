@@ -69,14 +69,14 @@ public class HelperSteady {
 			vms.add(new PowerVmSteady(
 					i,
 					brokerId,
-					ConstantsSteady.VM_MIPS[vmType][0],
+					ConstantsSteady.VM_MIPS[vmType],
 					ConstantsSteady.VM_PES[vmType],
 					ConstantsSteady.VM_RAM[vmType],
 					ConstantsSteady.VM_BW,
 					ConstantsSteady.VM_SIZE,
 					1,
 					"Xen",
-					new CloudletSchedulerDynamicWorkload(ConstantsSteady.VM_MIPS[vmType][0], ConstantsSteady.VM_PES[vmType]),
+					new CloudletSchedulerDynamicWorkload(ConstantsSteady.VM_MIPS[vmType], ConstantsSteady.VM_PES[vmType]),
 					ConstantsSteady.SCHEDULING_INTERVAL));
 		}
 		return vms;

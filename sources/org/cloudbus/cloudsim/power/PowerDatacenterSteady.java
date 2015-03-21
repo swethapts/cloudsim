@@ -94,10 +94,10 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 
 		// if some time passed since last processing
 		if (currentTime > getLastProcessTime()) {
-			System.out.print(currentTime + " frequency resizing needs to be inserted here\n");
-			if(currentTime <2.0){
-				//getVmAllocationPolicy().changeMipsOfPes();
-			}
+			//System.out.print(currentTime + " frequency resizing needs to be inserted here\n");
+			//if(currentTime <2.0){
+				getVmAllocationPolicy().changeMipsOfPes();
+			//}
 			double minTime = updateCloudetProcessingWithoutSchedulingFutureEventsForce();
 
 			if (!isDisableMigrations()) {
@@ -175,8 +175,8 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 		double timeDiff = currentTime - getLastProcessTime();
 		double timeFrameDatacenterEnergy = 0.0;
 
-		Log.printLine("\n\n--------------------------------------------------------------\n\n");
-		Log.formatLine("New resource usage for the time frame starting at %.2f:", currentTime);
+//		Log.printLine("\n\n--------------------------------------------------------------\n\n");
+//		Log.formatLine("New resource usage for the time frame starting at %.2f:", currentTime);
 
 		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
 			//Log.printLine();
@@ -196,10 +196,10 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 		}
 
 		if (timeDiff > 0) {
-			Log.formatLine(
-					"\nEnergy consumption for the last time frame from %.2f to %.2f:",
-					getLastProcessTime(),
-					currentTime);
+//			Log.formatLine(
+//					"\nEnergy consumption for the last time frame from %.2f to %.2f:",
+//					getLastProcessTime(),
+//					currentTime);
 
 			for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
 				double previousUtilizationOfCpu = host.getPreviousUtilizationOfCpu();
@@ -211,24 +211,28 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 				timeFrameDatacenterEnergy += timeFrameHostEnergy;
 
 				if(previousUtilizationOfCpu * 100 > 0.000){
-					Log.printLine();
-					Log.formatLine(
-							"%.2f: [Host #%d] utilization at %.2f was %.2f%%, now is %.2f%%",
-							currentTime,
-							host.getId(),
-							getLastProcessTime(),
-							previousUtilizationOfCpu * 100,
-							utilizationOfCpu * 100);
-					Log.formatLine(
-							"%.2f: [Host #%d] energy is %.2f W*sec",
-							currentTime,
-							host.getId(),
-							timeFrameHostEnergy);
+//					Log.printLine();
+//					Log.formatLine(
+//							"%.2f: [Host #%d] utilization at %.2f was %.2f%%, now is %.2f%%",
+//							currentTime,
+//							host.getId(),
+//							getLastProcessTime(),
+//							previousUtilizationOfCpu * 100,
+//							utilizationOfCpu * 100);
+//					Log.formatLine(
+//							"%.2f: [Host #%d] energy is %.2f W*sec",
+//							currentTime,
+//							host.getId(),
+//							timeFrameHostEnergy);
 				}
 			}
 
+//			Log.formatLine(
+//					"\n%.2f: Data center's energy is %.2f W*sec\n",
+//					currentTime,
+//					timeFrameDatacenterEnergy);
 			Log.formatLine(
-					"\n%.2f: Data center's energy is %.2f W*sec\n",
+					"\n%.2f: %.2f W*sec\n",
 					currentTime,
 					timeFrameDatacenterEnergy);
 		}

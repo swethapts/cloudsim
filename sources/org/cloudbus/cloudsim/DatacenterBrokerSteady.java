@@ -319,11 +319,13 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 */
 	protected void createVmsInDatacenter(int datacenterId) {
 		// send as much vms as possible for this datacenter before trying the next one
+		System.out.println(new Exception().getStackTrace()[1].getClassName()+new Exception().getStackTrace()[1].getMethodName());
+
 		int requestedVms = 0;
 		String datacenterName = CloudSim.getEntityName(datacenterId);
 		for (VmSteady vm : getVmList()) {
 			if (!getVmsToDatacentersMap().containsKey(vm.getId())) {
-				Log.printLine(CloudSim.clock() + ": " + getName() + ": Trying to Create VM #" + vm.getId()
+				Log.printLine(CloudSim.clock() + ": " + getName() + ": Trying to Create VM #" + vm.getId() +" with Mips:"+ vm.getMips()
 						+ " in " + datacenterName);
 				sendNow(datacenterId, CloudSimTags.VM_CREATE_ACK, vm);
 				requestedVms++;
@@ -352,7 +354,8 @@ public class DatacenterBrokerSteady extends SimEntity {
 			} else { // submit to the specific vm
 				vm = VmListSteady.getById(getVmsCreatedList(), cloudlet.getVmId());
 				//System.out.println("getting cloudlet length of VM# "+vm.getId()+" and mod by "+ (int) Math.ceil((double) SteadyConstants.NUMBER_OF_VMS / ConstantsSteady.VM_TYPES) + "gives type of VM as: "+vm.getId()/(int) Math.ceil((double) SteadyConstants.NUMBER_OF_VMS / ConstantsSteady.VM_TYPES));
-				VmSlaCloudletListSteady xx = VmSlaCloudletListListSteady.getByMips((int)vm.getMips());//VmSlaCloudletListListSteady.getById(vm.getId()/ (int) Math.ceil((double) SteadyConstants.NUMBER_OF_VMS / ConstantsSteady.VM_TYPES));//%VmSlaCloudletListListSteady.size());
+				//VmSlaCloudletListSteady xx = VmSlaCloudletListListSteady.getByMips((int)vm.getMips());//VmSlaCloudletListListSteady.getById(vm.getId()/ (int) Math.ceil((double) SteadyConstants.NUMBER_OF_VMS / ConstantsSteady.VM_TYPES));//%VmSlaCloudletListListSteady.size());
+				VmSlaCloudletListSteady xx = VmSlaCloudletListListSteady.getById(vm.getId());
 //System.out.println("setting cloudlet length from " + cloudlet.getCloudletLength()+" to " + xx.getCloudletId()+"zzz");
 				cloudlet.setCloudletLength(xx.getCloudletId());
 //System.out.println("setting cloudlet length from " + cloudlet.getCloudletLength()+" to " + xx.getCloudletId()+"zxzxz");
