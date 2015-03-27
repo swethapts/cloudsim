@@ -186,11 +186,11 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 				minTime = time;
 			}
 			if((host.getUtilizationOfCpu() * 100) > 0){
-				Log.formatLine(
-					"%.2f: [Host #%d] utilization is %.2f%%",
-					currentTime,
-					host.getId(),
-					host.getUtilizationOfCpu() * 100);
+//				Log.formatLine(
+//					"%.2f: [Host #%d] utilization is %.2f%%",
+//					currentTime,
+//					host.getId(),
+//					host.getUtilizationOfCpu() * 100);
 			
 			}
 		}
@@ -231,10 +231,10 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 //					"\n%.2f: Data center's energy is %.2f W*sec\n",
 //					currentTime,
 //					timeFrameDatacenterEnergy);
-			Log.formatLine(
-					"\n%.2f: %.2f W*sec\n",
-					currentTime,
-					timeFrameDatacenterEnergy);
+//			Log.formatLine(
+//					"\n%.2f: %.2f W*sec\n",
+//					currentTime,
+//					timeFrameDatacenterEnergy);
 		}
 
 		setPower(getPower() + timeFrameDatacenterEnergy);

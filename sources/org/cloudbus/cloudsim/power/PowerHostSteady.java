@@ -119,19 +119,19 @@ public class PowerHostSteady extends HostSteadyWorkload {
 		return (fromPower + (toPower - fromPower) / 2) * time;
 	}
 	public void changeMipsOfPes(){
-		int maxAllocatedMips=-1;
-		for (int i=0;i<getPeList().size();i++){
-			if(maxAllocatedMips==-1 || maxAllocatedMips < getPeList().get(i).getPeProvisioner().getTotalAllocatedMips()){
-				maxAllocatedMips = (int) getPeList().get(i).getPeProvisioner().getTotalAllocatedMips();
-			}
-			//System.out.println("Pe allocated: " + getPeList().get(i).getPeProvisioner().getTotalAllocatedMips()+", getMips: "+getPeList().get(i).getPeProvisioner().getMips());
-		}
-		//System.out.println("Pe with max util: " + maxAllocatedMips);
-		int newLeastMipsIndex=getLeastMips(maxAllocatedMips);
-		for (int i=0;i<getPeList().size();i++){
-			getPeList().get(i).getPeProvisioner().setMips(getPeList().get(i).getPeProvisioner().getMipsList().get(newLeastMipsIndex));
-			//System.out.println("Pe: " + getPeList().get(i).getPeProvisioner().getMips());
-		}
+//		int maxAllocatedMips=-1;
+//		for (int i=0;i<getPeList().size();i++){
+//			if(maxAllocatedMips==-1 || maxAllocatedMips < getPeList().get(i).getPeProvisioner().getTotalAllocatedMips()){
+//				maxAllocatedMips = (int) getPeList().get(i).getPeProvisioner().getTotalAllocatedMips();
+//			}
+//			//System.out.println("Pe allocated: " + getPeList().get(i).getPeProvisioner().getTotalAllocatedMips()+", getMips: "+getPeList().get(i).getPeProvisioner().getMips());
+//		}
+//		//System.out.println("Pe with max util: " + maxAllocatedMips);
+//		int newLeastMipsIndex=getLeastMips(maxAllocatedMips);
+//		for (int i=0;i<getPeList().size();i++){
+//			getPeList().get(i).getPeProvisioner().setMips(getPeList().get(i).getPeProvisioner().getMipsList().get(newLeastMipsIndex));
+//			//System.out.println("Pe: " + getPeList().get(i).getPeProvisioner().getMips());
+//		}
 	}
 
 	protected int getLeastMips(int maxAllocatedMips) {
