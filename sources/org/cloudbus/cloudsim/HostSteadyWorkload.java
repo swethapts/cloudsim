@@ -66,7 +66,7 @@ public class HostSteadyWorkload extends HostSteady {
 		setPreviousUtilizationMips(getUtilizationMips());
 		setUtilizationMips(0);
 		double hostTotalRequestedMips = 0;
-		
+		/*
 		for (VmSteady vm : getVmList()) {
 			getVmScheduler().deallocatePesForVm(vm);
 		}
@@ -74,7 +74,7 @@ public class HostSteadyWorkload extends HostSteady {
 		for (VmSteady vm : getVmList()) {
 			getVmScheduler().allocatePesForVm(vm, vm.getCurrentRequestedMips());
 		}
-
+*/
 		for (VmSteady vm : getVmList()) {
 			double totalRequestedMips = vm.getCurrentRequestedTotalMips();
 			double totalAllocatedMips = getVmScheduler().getTotalAllocatedMipsForVm(vm);
@@ -92,7 +92,7 @@ public class HostSteadyWorkload extends HostSteady {
 */
 				List<PeSteady> pes = getVmScheduler().getPesAllocatedForVM(vm);
 				StringBuilder pesString = new StringBuilder();
-				if(pes!=null){
+				if(pes!=null && ((int)CloudSim.clock()%5000==0||CloudSim.clock()<3.0)){
 				for (PeSteady pe : pes) {
 					pesString.append(String.format(" PE #" + pe.getId() + ": %.2f.", pe.getPeProvisioner()
 							.getTotalAllocatedMipsForVm(vm)));
@@ -100,7 +100,7 @@ public class HostSteadyWorkload extends HostSteady {
 				}else{
 					pesString.append("pe is empty <========================================= for VM#"+vm.getId());
 				}
-				if((int)CloudSim.clock()%1000==0||CloudSim.clock()<3.0){//to reduce printing time
+				if((int)CloudSim.clock()%5000==0||CloudSim.clock()<3.0){//to reduce printing time
 					Log.formatLine(
 						"%.2f: [Host #" + getId() + "] MIPS for VM #" + vm.getId() + " by PEs ("
 								+ getNumberOfPes() + " * " + getVmScheduler().getPeCapacity() + ")."
@@ -136,11 +136,11 @@ public class HostSteadyWorkload extends HostSteady {
 			hostTotalRequestedMips += totalRequestedMips;
 		}
 
-		addStateHistoryEntry(
-				currentTime,
-				getUtilizationMips(),
-				hostTotalRequestedMips,
-				(getUtilizationMips() > 0));
+//		addStateHistoryEntry(
+//				currentTime,
+//				getUtilizationMips(),
+//				hostTotalRequestedMips,
+//				(getUtilizationMips() > 0));
 
 		return smallerTime;
 	}

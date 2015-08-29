@@ -40,7 +40,7 @@ public class ConstantsSteady {
 	 */
 	
 	public final static boolean VM_SLA_SORTING_ASCENDING=false;//false;//true //therefore, mips is sorted in descending order
-	public final static boolean VM_MIPS_SORTING=false;// = true; //if false(default) do not sort by mips
+	public final static boolean VM_MIPS_SORTING=true;// = true; //if false(default) do not sort by mips
 	
 	private final static int[][] VM_CT_SLA_UNSORTED = ConstantsSteadyWorkload.VM_CT_UNSORTED;
 
@@ -126,9 +126,9 @@ public class ConstantsSteady {
 		int[] vmMipsInt = new int[vmCtSla[0].length*CLOUDLET_LENGTH_PRIVATE.length];
 		//List<Integer> vmMips = new ArrayList<>();
 		List<VmSlaCloudletListSteady> vmVmSlaCloudletListSteady = new ArrayList<>();
-		//System.out.println("Completeion Time\tMips");
+		System.out.println("Completeion Time\tMips");
 		for (int i=0; i<vmCtSla[0].length*CLOUDLET_LENGTH_PRIVATE.length;i++){
-//			System.out.println("cloudlength: "+CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]*1000);
+			System.out.println("cloudlength: "+i+"\t"+(int) (CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]*1000/vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]) + "\t"+ vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]+"\t"+CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]);
 //			vmMips.add((int) (CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]/vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]));
 //			vmMipsInt[i][1]=i%CLOUDLET_LENGTH_PRIVATE.length;
 			vmVmSlaCloudletListSteady.add(new VmSlaCloudletListSteady(i,(int) (CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]*1000/vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]),vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length],CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]*1000));
