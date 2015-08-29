@@ -57,6 +57,7 @@ public class SteadyRunner extends RunnerAbstractSteady {
 			broker = HelperSteady.createBroker();
 			int brokerId = broker.getId();
 
+			System.out.println("Num VMs:"+SteadyConstants.NUMBER_OF_VMS);
 			vmList = HelperSteady.createVmList(brokerId, SteadyConstants.NUMBER_OF_VMS);
 			cloudletList = SteadyHelper.createCloudletList(brokerId,
 					SteadyConstants.NUMBER_OF_VMS);
