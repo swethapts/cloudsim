@@ -591,19 +591,19 @@ public class VmSteady {
 			double allocatedMips,
 			double requestedMips,
 			boolean isInMigration) {
-		VmStateHistoryEntry newState = new VmStateHistoryEntry(
-				time,
-				allocatedMips,
-				requestedMips,
-				isInMigration);
-		if (!getStateHistory().isEmpty()) {
-			VmStateHistoryEntry previousState = getStateHistory().get(getStateHistory().size() - 1);
-			if (previousState.getTime() == time) {
-				getStateHistory().set(getStateHistory().size() - 1, newState);
-				return;
-			}
-		}
-		getStateHistory().add(newState);
+//		VmStateHistoryEntry newState = new VmStateHistoryEntry(
+//				time,
+//				allocatedMips,
+//				requestedMips,
+//				isInMigration);
+//		if (!getStateHistory().isEmpty()) {
+//			VmStateHistoryEntry previousState = getStateHistory().get(getStateHistory().size() - 1);
+//			if (previousState.getTime() == time) {
+//				getStateHistory().set(getStateHistory().size() - 1, newState);
+//				return;
+//			}
+//		}
+//		getStateHistory().add(newState);
 	}
 
 }

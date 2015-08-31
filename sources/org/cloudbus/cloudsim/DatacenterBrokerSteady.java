@@ -319,7 +319,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 */
 	protected void createVmsInDatacenter(int datacenterId) {
 		// send as much vms as possible for this datacenter before trying the next one
-		System.out.println(new Exception().getStackTrace()[1].getClassName()+new Exception().getStackTrace()[1].getMethodName());
+		//System.out.println(new Exception().getStackTrace()[1].getClassName()+new Exception().getStackTrace()[1].getMethodName());
 
 		int requestedVms = 0;
 		String datacenterName = CloudSim.getEntityName(datacenterId);

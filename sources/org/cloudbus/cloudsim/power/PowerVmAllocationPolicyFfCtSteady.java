@@ -53,7 +53,10 @@ public class PowerVmAllocationPolicyFfCtSteady extends PowerVmAllocationPolicyAb
 	@Override
 	public void changeMipsOfPes(){
 		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
-			host.changeMipsOfPes();
+			if((int) host.getPeList().get(0).getPeProvisioner().getTotalAllocatedMips()>0)
+				host.changeMipsOfPes();
+			else
+				break;
 		}
 	}
 	@Override

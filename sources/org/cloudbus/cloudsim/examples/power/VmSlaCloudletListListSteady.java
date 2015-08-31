@@ -33,7 +33,7 @@ public class VmSlaCloudletListListSteady {
 	}
 	public static VmSlaCloudletListSteady getByMips(int mips){
 		
-		System.out.println(new Exception().getStackTrace()[1].getClassName()+new Exception().getStackTrace()[1].getMethodName());
+		//System.out.println(new Exception().getStackTrace()[1].getClassName()+new Exception().getStackTrace()[1].getMethodName());
 
 		VmSlaCloudletListSteady tuple = null;
 		for(VmSlaCloudletListSteady tuple1 : list){
