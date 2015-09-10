@@ -19,7 +19,6 @@ import org.cloudbus.cloudsim.power.models.PowerModeli7;
  * @since Jan 6, 2012
  */
 public class ConstantsSteady {
-
 	public final static boolean ENABLE_OUTPUT = true;
 	public final static boolean OUTPUT_CSV    = false;
 
@@ -52,8 +51,8 @@ public class ConstantsSteady {
 	public final static int[] VM_RAM_UNSORTED	= getRam();
 	//public final static int[] VM_RAM	= getSortedRam(VM_RAM_UNSORTED);
 	public final static int[] VM_RAM	= VM_RAM_UNSORTED;
-	public final static int VM_BW		= 100000; // 100 Mbit/s
-	public final static int VM_SIZE		= 2500; // 2.5 GB
+	public final static int VM_BW		= 1;//100000; // 100 Mbit/s
+	public final static int VM_SIZE		= 1;//2500; // 2.5 GB
 	
 	public final static int[] CLOUDLET_LENGTH	= getCloudletList();//mi //(int) SIMULATION_LIMIT;
 	public final static int CLOUDLET_PES	= 1;
@@ -116,7 +115,7 @@ public class ConstantsSteady {
 	private static int[] getRam() {
 		int [] ram = new int [ConstantsSteadyWorkload.CLOUDLET_LENGTH_CEA.length] ;
 		for (int i =0; i< ConstantsSteadyWorkload.CLOUDLET_LENGTH_CEA.length ; i++){
-			ram[i]=1024;
+			ram[i]=1;//1024;
 		}
 		return ram;
 	}
@@ -128,10 +127,12 @@ public class ConstantsSteady {
 		List<VmSlaCloudletListSteady> vmVmSlaCloudletListSteady = new ArrayList<>();
 		System.out.println("Completeion Time\tMips");
 		for (int i=0; i<vmCtSla[0].length*CLOUDLET_LENGTH_PRIVATE.length;i++){
-			System.out.println("cloudlength: "+i+"\t"+(int) (CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]*1000/vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]) + "\t"+ vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]+"\t"+CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]);
+//			System.out.println("cloudlength: "+i+"\t"+(int) (CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]*1/vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]) + "\t"+ vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]+"\t"+CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]);
 //			vmMips.add((int) (CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]/vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]));
 //			vmMipsInt[i][1]=i%CLOUDLET_LENGTH_PRIVATE.length;
+//---*1000			
 			vmVmSlaCloudletListSteady.add(new VmSlaCloudletListSteady(i,(int) (CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]*1000/vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]),vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length],CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]*1000));
+//-otherworkload			vmVmSlaCloudletListSteady.add(new VmSlaCloudletListSteady(i,(int) (CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]*1/vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]),vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length],CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]*1));
 //			System.out.println(vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]+"\t"+(int) (CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]/vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length])+"\t"+CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]);
 		}
 
