@@ -4,7 +4,8 @@ import java.util.*;
 import org.cloudbus.cloudsim.power.models.PowerModelSteady;
 import org.cloudbus.cloudsim.examples.power.ConstantsSteadyWorkload;
 //import org.cloudbus.cloudsim.power.models.PowerModelE5507;
-import org.cloudbus.cloudsim.power.models.PowerModeli7;
+//import org.cloudbus.cloudsim.power.models.PowerModeli7;
+import org.cloudbus.cloudsim.power.models.PowerModelE5507;
 
 /**
  * If you are using any algorithms, policies or workload included in the power package, please cite
@@ -66,15 +67,15 @@ public class ConstantsSteady {
 	 *   We increase the memory size to enable over-subscription (x4)
 	 */
 	public final static int HOST_TYPES	 = 1;//2;
-	public final static double[][] HOST_MIPS	 = { /*1860, {1597,1730,1863,1996,2129,2262}};//*/{1600,1800,2000,2200,2400,2600,2800,3000,3200,3400} };
-	public final static int[] HOST_PES	 = { /*2,*/ 4 };
+	public final static double[][] HOST_MIPS	 = {{1597,1730,1863,1996,2129,2262}};//*/{1600,1800,2000,2200,2400,2600,2800,3000,3200,3400} };
+	public final static int[] HOST_PES	 = { /*2,*/ 8 };
 	public final static int[] HOST_RAM	 = { /*4096,*/ 65536 };
 	public final static int HOST_BW		 = 10000000; // 1 Gbit/s
 	public final static int HOST_STORAGE = 1000000; // 1 GB
 
 	public final static PowerModelSteady[] HOST_POWER = {
-		//new PowerModelE5507()
-		new PowerModeli7()
+		new PowerModelE5507()
+		//new PowerModeli7()
 	};
 
 	private static int[][] getSortedSla(int[][] slaUnsorted){
