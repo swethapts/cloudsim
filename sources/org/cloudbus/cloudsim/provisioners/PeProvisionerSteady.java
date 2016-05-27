@@ -152,9 +152,12 @@ public abstract class PeProvisionerSteady {
 	 * @post none
 	 */
 	public void deallocateMipsForAllVms() {
-		setAvailableMips(getMips());
+		setAvailableMips(getTotalMips());//getMips()); //change mips to total mips
 	}
-
+	
+	public double getTotalMips(){
+		return getMipsList().get(getMipsList().size()-1);
+	}
 	/**
 	 * Gets the MIPS.
 	 * 
@@ -200,7 +203,7 @@ public abstract class PeProvisionerSteady {
 	 * @return the total allocated MIPS
 	 */
 	public double getTotalAllocatedMips() {
-		double totalAllocatedMips = getMips() - getAvailableMips();
+		double totalAllocatedMips = /*getMips() -*/ (getTotalMips() - getAvailableMips()); //changed curr limit - total available to total limit - total avail
 		if (totalAllocatedMips > 0) {
 			return totalAllocatedMips;
 		}

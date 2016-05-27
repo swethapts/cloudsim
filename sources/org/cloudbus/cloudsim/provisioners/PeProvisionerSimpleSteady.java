@@ -71,6 +71,7 @@ public class PeProvisionerSimpleSteady extends PeProvisionerSteady {
 		}
 
 		allocatedMips.add(mips);
+//		System.out.println("xx: " + allocatedMips.toString()+" getAvailableMips(): "+ getAvailableMips() + " mips: "+mips);
 
 		setAvailableMips(getAvailableMips() - mips);
 		getPeTable().put(vmUid, allocatedMips);

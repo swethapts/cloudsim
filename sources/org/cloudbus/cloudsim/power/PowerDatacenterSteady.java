@@ -49,6 +49,9 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 
 	/** The migration count. */
 	private int migrationCount;
+	
+		/** The avgAvgFreq. */
+	private double avgAvgFreq;
 
 	/**
 	 * Instantiates a new datacenter.
@@ -150,7 +153,7 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 			setLastProcessTime(currentTime);
 			//System.out.print(currentTime + " frequency resizing needs to be inserted here\n");
 			//if(currentTime <2.0){
-				getVmAllocationPolicy().changeMipsOfPes();
+				getVmAllocationPolicy().changeMipsOfPes(); /*can change this to only when VM dies*/
 			//}
 		}
 
@@ -178,6 +181,7 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 		double minTime = Double.MAX_VALUE;
 		double timeDiff = currentTime - getLastProcessTime();
 		double timeFrameDatacenterEnergy = 0.0;
+		double timeFrameDatacenterFreq = 0.0;
 
 //		Log.printLine("\n\n--------------------------------------------------------------\n\n");
 //		Log.formatLine("New resource usage for the time frame starting at %.2f:", currentTime);
@@ -228,6 +232,7 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 //							currentTime,
 //							host.getId(),
 //							timeFrameHostEnergy);
+					host.setAvgFreq((double)host.getPeList().get(0).getMips(),timeDiff);
 				}
 			}
 
@@ -242,6 +247,7 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 		}
 
 		setPower(getPower() + timeFrameDatacenterEnergy);
+		setAvgAvgFreq(getAvgAvgFreq() + timeFrameDatacenterFreq);
 
 		checkCloudletCompletion();
 
@@ -383,6 +389,24 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 	 */
 	protected void incrementMigrationCount() {
 		setMigrationCount(getMigrationCount() + 1);
+	}
+
+	public double getAvgAvgFreq() {
+		double avgAvgFreq = 0;
+		int count = 0;
+		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
+			if(host.getAvgFreq()>0){
+				avgAvgFreq += host.getAvgFreq();
+				count+=1;
+			}
+		}
+		avgAvgFreq /= count;
+		System.out.println("AvgAvgFreq= " + avgAvgFreq);
+		return avgAvgFreq;
+	}
+
+	public void setAvgAvgFreq(double avgAvgFreq) {
+		this.avgAvgFreq = avgAvgFreq;
 	}
 
 }

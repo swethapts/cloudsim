@@ -36,6 +36,10 @@ public class PowerHostSteady extends HostSteadyWorkload {
 
 	/** The power model. */
 	private PowerModelSteady powerModel;
+	
+	private double avgFreq=0.0;
+	
+	private double runTime=1.0;
 
 	/**
 	 * Instantiates a new host.
@@ -170,6 +174,29 @@ public class PowerHostSteady extends HostSteadyWorkload {
 	public boolean vmCreate(VmSteady vm) {
 		System.out.println("ahaa");
 		return super.vmCreate(vm);
+	}
+
+	public double getAvgFreq() {
+		return avgFreq;
+	}
+
+	public void setAvgFreq(double currFreq,double timeDiff) {
+		System.out.println("host: #" + getId() + " currFreq="+ currFreq);
+		if(getAvgFreq()==0.0){
+			this.avgFreq = currFreq;
+			setRunTime(getRunTime()+timeDiff);
+			return;
+		}
+		this.avgFreq = (getAvgFreq()*getRunTime() + currFreq)/(getRunTime()+timeDiff);
+		setRunTime(getRunTime()+timeDiff);
+	}
+
+	public double getRunTime() {
+		return runTime;
+	}
+
+	public void setRunTime(double runTime) {
+		this.runTime = runTime;
 	}
 
 }
