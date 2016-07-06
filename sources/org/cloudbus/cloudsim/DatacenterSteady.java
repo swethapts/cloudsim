@@ -154,7 +154,6 @@ public class DatacenterSteady extends SimEntity {
 				break;
 				
 			case CloudSimTags.CLOUDLET_RETURN:
-				//getVmAllocationPolicy().changeMipsOfPes();
 				processCloudletReturn(ev, false);
 				break;
 

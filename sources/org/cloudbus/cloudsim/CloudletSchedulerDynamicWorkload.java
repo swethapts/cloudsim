@@ -238,14 +238,22 @@ public class CloudletSchedulerDynamicWorkload extends CloudletSchedulerTimeShare
 	 */
 	@Override
 	public double getTotalCurrentAllocatedMipsForCloudlet(ResCloudlet rcl, double time) {
-		double totalCurrentRequestedMips = getTotalCurrentRequestedMipsForCloudlet(rcl, time);
-		double totalCurrentAvailableMips = getTotalCurrentAvailableMipsForCloudlet(rcl, getCurrentMipsShare());
-		if (totalCurrentRequestedMips > totalCurrentAvailableMips) {
-			return totalCurrentAvailableMips;
-		}
-		return totalCurrentRequestedMips;
+		return(getTotalCurrentAvailableMipsForCloudlet(rcl, getCurrentMipsShare()));
 	}
-
+		//important change!!! below is the original!!
+		/*
+		public double getTotalCurrentAllocatedMipsForCloudlet(ResCloudlet rcl, double time) {
+			double totalCurrentRequestedMips = getTotalCurrentRequestedMipsForCloudlet(rcl, time);
+			double totalCurrentAvailableMips = getTotalCurrentAvailableMipsForCloudlet(rcl, getCurrentMipsShare());
+			System.out.println("Requested vs Available: " + totalCurrentRequestedMips +" : " + totalCurrentAvailableMips);
+			if (totalCurrentRequestedMips > totalCurrentAvailableMips) {
+				return totalCurrentAvailableMips;
+			}
+			return totalCurrentRequestedMips;
+		}
+		*/
+		
+	
 	/**
 	 * Update under allocated mips for cloudlet.
 	 * 

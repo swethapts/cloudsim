@@ -223,6 +223,8 @@ public class HostSteadyWorkload extends HostSteady {
 		if (utilization > 1 && utilization < 1.01) {
 			utilization = 1;
 		}
+		if(utilization>1)
+			System.out.println("utilization: " + utilization + " getPreviousUtilizationMips(): "+ getPreviousUtilizationMips() +" getTotalMips(): " + getTotalMips());
 		return utilization;
 	}
 

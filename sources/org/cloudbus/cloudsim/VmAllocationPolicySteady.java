@@ -116,5 +116,7 @@ public abstract class VmAllocationPolicySteady {
 		return (List<T>) hostList;
 	}
 	public abstract void changeMipsOfPes();
+	
+	public abstract void reallocateRemainingMips();
 
 }

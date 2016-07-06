@@ -58,6 +58,12 @@ public class PowerVmAllocationPolicySimpleSteady extends PowerVmAllocationPolicy
 		}
 	}
 	@Override
+	public void reallocateRemainingMips(){
+		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
+			host.reallocateRemainingMips();
+		}
+	}
+	@Override
 	public boolean allocateHostForVm(VmSteady vm, HostSteady host) {
 		if (host == null) {
 			Log.formatLine("%.2f: No suitable host found for VM #" + vm.getId() + "\n", CloudSim.clock());

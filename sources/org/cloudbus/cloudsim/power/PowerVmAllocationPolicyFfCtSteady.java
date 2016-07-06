@@ -60,6 +60,12 @@ public class PowerVmAllocationPolicyFfCtSteady extends PowerVmAllocationPolicyAb
 		}
 	}
 	@Override
+	public void reallocateRemainingMips(){
+		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
+			host.reallocateRemainingMips();
+		}
+	}
+	@Override
 	public PowerHostSteady findHostForVm(VmSteady vm) {
 		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
 //			double minCt = Double.MAX_VALUE;

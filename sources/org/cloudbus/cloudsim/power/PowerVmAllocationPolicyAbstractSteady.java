@@ -138,5 +138,8 @@ public abstract class PowerVmAllocationPolicyAbstractSteady extends VmAllocation
 //			host.changeMipsOfPes();
 //		}
 	}
+	@Override
+	public void reallocateRemainingMips(){
+	}
 
 }

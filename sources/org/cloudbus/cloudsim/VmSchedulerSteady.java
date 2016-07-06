@@ -114,7 +114,11 @@ public abstract class VmSchedulerSteady {
 	public List<Double> getAllocatedMipsForVm(VmSteady vm) {
 		return getMipsMap().get(vm.getUid());
 	}
-
+	
+	public void setAllocatedMipsForVm(VmSteady vm,List<Double> mipsShare){
+		getMipsMap().put(vm.getUid(), mipsShare);
+	}
+	
 	/**
 	 * Gets the total allocated MIPS for a VM over all the PEs.
 	 * 
@@ -211,6 +215,7 @@ public abstract class VmSchedulerSteady {
 	 */
 	protected void setMipsMap(Map<String, List<Double>> mipsMap) {
 		this.mipsMap = mipsMap;
+
 	}
 
 	/**

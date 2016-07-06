@@ -63,6 +63,13 @@ public class VmSchedulerTimeSharedModifiedSteady extends VmSchedulerSteady {
 				getVmsMigratingOut().remove(vm.getUid());
 			}
 		}
+		int countIndex = 0;
+		double totalMips = 0;
+		for (Double mips : mipsShareRequested){
+			totalMips+=(Math.ceil(mips/getPeList().size())*getPeList().size());
+			mipsShareRequested.set(countIndex++,(Math.ceil(mips/getPeList().size())*getPeList().size()));
+		}
+		vm.setMips(totalMips);
 		boolean result = allocatePesForVm(vm.getUid(), mipsShareRequested);
 		updatePeProvisioning();
 		return result;

@@ -9,6 +9,7 @@
 package org.cloudbus.cloudsim.power;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.cloudbus.cloudsim.HostSteadyWorkload;
 import org.cloudbus.cloudsim.PeSteady;
@@ -140,7 +141,32 @@ public class PowerHostSteady extends HostSteadyWorkload {
 			}
 		}
 	}
-
+	//change this to be called only when a cloudlet is received!! save processing power!!
+	public void reallocateRemainingMips(){
+		if(getVmList().size()>0){
+			double hostAllocatedMips = getPeList().get(0).getPeProvisioner().getTotalAllocatedMips();
+			double hostRemainingMips = getPeList().get(0).getPeProvisioner().getAvailableMips();
+			double remainingMips=hostRemainingMips;
+			for(int vmIndex = 0; vmIndex < getVmList().size() && hostRemainingMips > 0; vmIndex++){
+				double vmAllocatedMips = getPeList().get(0).getPeProvisioner().getTotalAllocatedMipsForVm(getVmList().get(vmIndex));
+				double additionalMips = Math.floor(hostRemainingMips * (vmAllocatedMips/hostAllocatedMips));
+				double vmNewAllocatedMips = (remainingMips < additionalMips) ? remainingMips : (vmAllocatedMips + additionalMips);
+				remainingMips -= additionalMips;
+				//Each cloudlet is single threaded and hence the summation of mips per pe = max freq
+				if (vmNewAllocatedMips > (hostAllocatedMips + hostRemainingMips)/getPeList().size())
+					vmNewAllocatedMips = Math.floor((hostAllocatedMips + hostRemainingMips)/getPeList().size());
+				List<Double> vmNewAllocatedMipsList = new ArrayList<Double>();
+				double totalVmNewAllocatedMips=0;
+				for (int i=0;i<getPeList().size();i++){
+					totalVmNewAllocatedMips+=vmNewAllocatedMips;
+					getPeList().get(i).getPeProvisioner().deallocateMipsForVm(getVmList().get(vmIndex));
+					getPeList().get(i).getPeProvisioner().allocateMipsForVm(getVmList().get(vmIndex), vmNewAllocatedMips);
+				}
+				vmNewAllocatedMipsList.add(totalVmNewAllocatedMips);
+				getVmScheduler().setAllocatedMipsForVm(getVmList().get(vmIndex),vmNewAllocatedMipsList);
+			}
+		}
+	}
 	protected int getLeastMips(int maxAllocatedMips) {
 		int[] mipsList = getPeList().get(0).getMipsList();
 		int potentialMipsIndex = mipsList.length-1;

@@ -217,7 +217,10 @@ public class VmAllocationPolicySimpleSteady extends VmAllocationPolicySteady {
 	public void changeMipsOfPes(){
 		
 	}
-
+	@Override
+	public void reallocateRemainingMips(){
+		
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.cloudbus.cloudsim.VmAllocationPolicy#allocateHostForVm(org.cloudbus.cloudsim.VmSteady,
