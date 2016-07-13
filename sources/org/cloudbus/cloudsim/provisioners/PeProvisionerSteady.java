@@ -193,7 +193,7 @@ public abstract class PeProvisionerSteady {
 	 * 
 	 * @param availableMips the availableMips to set
 	 */
-	protected void setAvailableMips(double availableMips) {
+	public void setAvailableMips(double availableMips) {
 		this.availableMips = availableMips;
 	}
 

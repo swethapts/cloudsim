@@ -134,11 +134,11 @@ public class PowerHostSteady extends HostSteadyWorkload {
 			}
 			int maxAllocatedMips=(int) (getPeList().get(0).getPeProvisioner().getMipsList().get(getPeList().get(0).getPeProvisioner().getMipsList().size()-1).doubleValue()) - maxAvailableMips;
 			int newLeastMipsIndex=getLeastMips(maxAllocatedMips);
-			if (getPeList().get(0).getPeProvisioner().getMipsList().get(newLeastMipsIndex)!=getPeList().get(0).getPeProvisioner().getMipsList().get(getPeList().get(0).getPeProvisioner().getMipsList().size()-1)){
+//			if (getPeList().get(0).getPeProvisioner().getMipsList().get(newLeastMipsIndex)!=getPeList().get(0).getPeProvisioner().getMipsList().get(getPeList().get(0).getPeProvisioner().getMipsList().size()-1)){
 				for (int i=0;i<getPeList().size();i++){
 					getPeList().get(i).getPeProvisioner().setMips(getPeList().get(i).getPeProvisioner().getMipsList().get(newLeastMipsIndex));
 				}
-			}
+//			}
 		}
 	}
 	//change this to be called only when a cloudlet is received!! save processing power!!
