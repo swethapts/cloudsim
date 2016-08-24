@@ -272,7 +272,10 @@ public class HelperSteady {
 		double totalSimulationTime = lastClock;
 		double energy = datacenter.getPower() / (3600 * 1000);
 		double energy1 = datacenter.getPower();
+		double idleEnergy = datacenter.getIdlePower() / (3600 * 1000);
+		double idleEnergy1 = datacenter.getIdlePower();
 		double avgAvgFreq = datacenter.getAvgAvgFreq();
+		double avgAvgCpu = datacenter.getAvgAvgCpu();
 		int numberOfMigrations = datacenter.getMigrationCount();
 
 		Map<String, Double> slaMetrics = getSlaMetrics(vms);
@@ -341,6 +344,7 @@ public class HelperSteady {
 			data.append(String.format("%.5f", energy) + delimeter);
 			data.append(String.format("%.5f", energy1) + delimeter);
 			data.append(String.format("%.5f", avgAvgFreq) + delimeter);
+			data.append(String.format("%.5f", avgAvgCpu) + delimeter);
 			data.append(String.format("%d", numberOfMigrations) + delimeter);
 			data.append(String.format("%.10f", sla) + delimeter);
 			data.append(String.format("%.10f", slaTimePerActiveHost) + delimeter);
@@ -408,7 +412,10 @@ public class HelperSteady {
 			Log.printLine(String.format("Total simulation time: %.2f sec", totalSimulationTime));
 			Log.printLine(String.format("Energy consumption: %.2f kWh", energy));
 			Log.printLine(String.format("Energy consumption: %.2f Ws", energy1));
-			Log.printLine(String.format("Freq %.2f MHz", avgAvgFreq));
+			Log.printLine(String.format("Idle Energy consumption: %.2f kWh", idleEnergy));
+			Log.printLine(String.format("Idle Energy consumption: %.2f Ws", idleEnergy1));			Log.printLine(String.format("AvgAvgFreq: %.2f MHz", avgAvgFreq));
+			Log.printLine(String.format("Idle to Total Energy consumption: %.2f", idleEnergy1/energy1*100));			Log.printLine(String.format("AvgAvgFreq: %.2f MHz", avgAvgFreq));
+			Log.printLine(String.format("AvgAvgCpu: %.2f", avgAvgCpu*100));
 			Log.printLine(String.format("Number of VM migrations: %d", numberOfMigrations));
 			Log.printLine(String.format("SLA: %.5f%%", sla * 100));
 			Log.printLine(String.format("VM_SLA_SORTING_ASCENDING: %b", ConstantsSteady.VM_SLA_SORTING_ASCENDING));

@@ -40,6 +40,8 @@ public class PowerHostSteady extends HostSteadyWorkload {
 	
 	private double avgFreq=0.0;
 	
+	private double avgCpu=0.0;
+	
 	private double runTime=1.0;
 
 	/**
@@ -202,6 +204,21 @@ public class PowerHostSteady extends HostSteadyWorkload {
 		return super.vmCreate(vm);
 	}
 
+	public double getAvgCpu(){
+		return avgCpu;
+	}
+	
+	public void setAvgCpu(double currCpu,double timeDiff) {
+		System.out.println("host: #" + getId() + " currCpu="+ String.format("%.4f",currCpu));
+		if(getAvgCpu()==0.0){
+			this.avgCpu = currCpu;
+			setRunTime(getRunTime()+timeDiff);
+			return;
+		}
+		this.avgCpu = (getAvgCpu()*getRunTime() + currCpu)/(getRunTime()+timeDiff);
+		setRunTime(getRunTime()+timeDiff);
+	}
+	
 	public double getAvgFreq() {
 		return avgFreq;
 	}

@@ -40,6 +40,9 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 
 	/** The power. */
 	private double power;
+	
+	/**The idle power*/
+	private double idlePower;
 
 	/** The disable migrations. */
 	private boolean disableMigrations;
@@ -52,6 +55,10 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 	
 		/** The avgAvgFreq. */
 	private double avgAvgFreq;
+
+	/** The avgAvgCpu. */
+	private double avgAvgCpu;
+
 
 	/**
 	 * Instantiates a new datacenter.
@@ -73,6 +80,7 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 		super(name, characteristics, vmAllocationPolicy, storageList, schedulingInterval);
 
 		setPower(0.0);
+		setIdlePower(0.0);
 		setDisableMigrations(false);
 		setCloudletSubmitted(-1);
 		setMigrationCount(0);
@@ -182,8 +190,9 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 		double minTime = Double.MAX_VALUE;
 		double timeDiff = currentTime - getLastProcessTime();
 		double timeFrameDatacenterEnergy = 0.0;
+		double timeFrameDatacenterIdleEnergy = 0.0;
 		double timeFrameDatacenterFreq = 0.0;
-
+		double timeFrameDatacenterCpu = 0.0;
 //		Log.printLine("\n\n--------------------------------------------------------------\n\n");
 //		Log.formatLine("New resource usage for the time frame starting at %.2f:", currentTime);
 
@@ -219,7 +228,12 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 						previousUtilizationOfCpu,
 						utilizationOfCpu,
 						timeDiff);
+				double timeFrameHostIdleEnergy = host.getEnergyLinearInterpolation(
+						previousUtilizationOfCpu,
+						0.0,
+						timeDiff);
 				timeFrameDatacenterEnergy += timeFrameHostEnergy;
+				timeFrameDatacenterIdleEnergy += timeFrameHostIdleEnergy;
 
 				if(previousUtilizationOfCpu * 100 > 0.000){
 //					Log.printLine();
@@ -236,6 +250,7 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 //							host.getId(),
 //							timeFrameHostEnergy);
 					host.setAvgFreq((double)host.getPeList().get(0).getMips(),timeDiff);
+					host.setAvgCpu(utilizationOfCpu,timeDiff);
 				}
 			}
 
@@ -250,7 +265,9 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 		}
 
 		setPower(getPower() + timeFrameDatacenterEnergy);
+		setIdlePower(getIdlePower() + timeFrameDatacenterIdleEnergy);
 		setAvgAvgFreq(getAvgAvgFreq() + timeFrameDatacenterFreq);
+		setAvgAvgCpu(getAvgAvgCpu() + timeFrameDatacenterCpu);
 
 		checkCloudletCompletion();
 
@@ -318,7 +335,23 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 	protected void setPower(double power) {
 		this.power = power;
 	}
+	/**
+	 * Gets the power.
+	 * 
+	 * @return the power
+	 */
+	public double getIdlePower() {
+		return idlePower;
+	}
 
+	/**
+	 * Sets the power.
+	 * 
+	 * @param power the new power
+	 */
+	protected void setIdlePower(double idlePower) {
+		this.idlePower = idlePower;
+	}
 	/**
 	 * Checks if PowerDatacenter is in migration.
 	 * 
@@ -413,5 +446,21 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 	public void setAvgAvgFreq(double avgAvgFreq) {
 		this.avgAvgFreq = avgAvgFreq;
 	}
+	public double getAvgAvgCpu() {
+		double avgAvgCpu = 0;
+		int count = 0;
+		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
+			if(host.getAvgCpu()>0){
+				avgAvgCpu += host.getAvgCpu();
+				count+=1;
+			}
+		}
+		avgAvgCpu /= count;
+		System.out.println("AvgAvgCpu= " + String.format("%.4f",avgAvgCpu));
+		return avgAvgCpu;
+	}
 
+	public void setAvgAvgCpu(double avgAvgCpu) {
+		this.avgAvgCpu = avgAvgCpu;
+	}
 }
