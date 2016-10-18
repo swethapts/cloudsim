@@ -38,7 +38,7 @@ public class ConstantsSteady {
 	 *
 	 */
 	
-	public final static boolean VM_SLA_SORTING_ASCENDING=false;//false;//true //therefore, mips is sorted in descending order
+	public final static boolean VM_SLA_SORTING_ASCENDING=true;//false;//true //therefore, mips is sorted in descending order
 	public final static boolean VM_MIPS_SORTING=true;// = true; //if false(default) do not sort by mips
 	
 	private final static int[][] VM_CT_SLA_UNSORTED = ConstantsSteadyWorkload.VM_CT_UNSORTED;
