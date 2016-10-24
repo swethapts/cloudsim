@@ -117,13 +117,13 @@ public class PowerVmAllocationPolicyBestFitCtAverageSteady extends PowerVmAlloca
 						double sumHostCt = 0;
 						int numVms = 0;
 						for(VmSteady vm1 : vmList){ //find host max ct
-							//if(VmSlaCloudletListListSteady.getByMips((int)vm1.getMips()).getSla()>maxHostCt){
-							sumHostCt+=VmSlaCloudletListListSteady.getByMips((int)vm1.getMips()).getSla();
+							//if(VmSlaCloudletListListSteady.getById((int)vm1.getId()).getSla()>maxHostCt){
+							sumHostCt+=VmSlaCloudletListListSteady.getById((int)vm1.getId()).getSla();
 								numVms++;
 								//}
 						}
 						//avgHostCt=avgHostCt/numVms;
-						double newCt = VmSlaCloudletListListSteady.getByMips((int)vm.getMips()).getSla();
+						double newCt = VmSlaCloudletListListSteady.getById((int)vm.getId()).getSla();
 						double ctAvgDiff;
 						if(numVms!=0)
 							ctAvgDiff = Math.abs((newCt-(sumHostCt/numVms))/(sumHostCt/numVms));

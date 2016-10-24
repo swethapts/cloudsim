@@ -67,9 +67,7 @@ public class PowerVmAllocationPolicyFfCtAverageSteady extends PowerVmAllocationP
 	public PowerHostSteady findHostForVm(VmSteady vm) {
 		for (PowerHostSteady host : this.<PowerHostSteady> getHostList()) {
 //			double minCt = Double.MAX_VALUE;
-			System.out.println("Checking Host: " + host.getId() + " for VM# " + vm.getId());
 			if (host.isSuitableForVm(vm)) {
-				System.out.println("Host: " + host.getId() + " is suitable for VM# " + vm.getId());
 				try {
 					//double utilizationAfterAllocation = getMaxUtilizationAfterAllocation(host, vm);
 					//if (utilizationAfterAllocation != -1) {
@@ -81,20 +79,15 @@ public class PowerVmAllocationPolicyFfCtAverageSteady extends PowerVmAllocationP
 						}
 						for(VmSteady vm1 : vmList){ //find host max ct
 							//if(VmSlaCloudletListListSteady.getByMips((int)vm1.getMips()).getSla()>maxHostCt){
-							System.out.println("xxXXxxHost: " + host.getId() + " is suitable for VM# " + vm.getId() + " time: " + VmSlaCloudletListListSteady.getByMips((int)vm1.getMips()).getSla());
-							avgHostCt+=VmSlaCloudletListListSteady.getByMips((int)vm1.getMips()).getSla();
+							avgHostCt+=VmSlaCloudletListListSteady.getById((int)vm1.getId()).getSla();
 							numVms++;
 							//}
-							System.out.println("xxX...XxxHost: " + host.getId() + " is suitable for VM# " + vm.getId());
-
 						}
-							System.out.println("xxHost: " + host.getId() + " is suitable for VM# " + vm.getId());
 						avgHostCt=avgHostCt/numVms;
-						double ctDiff = VmSlaCloudletListListSteady.getByMips((int)vm.getMips()).getSla();
+						double ctDiff = VmSlaCloudletListListSteady.getById((int)vm.getId()).getSla();
 						//System.out.println("Ct......would be:"+ctDiff + " now  "+ VmSlaCloudletListListSteady.getByMips((int)vm.getMips()).getSla()+"num vms: " + vmList.size());
-						System.out.println("Ct......would be:"+ctDiff + " avgHostCt:  "+ avgHostCt + " Math.abs(ctDiff-avgHostCt)/avgHostCt " + Math.abs(ctDiff-avgHostCt)/avgHostCt);
 //						if ((ctDiff <= 4.00*avgHostCt && ctDiff >= 0.00*avgHostCt) || vmList==null) { //ct threshold 95%
-						if ((Math.abs(ctDiff-avgHostCt)/avgHostCt <= 0.15) || vmList==null) { //ct threshold 95%
+						if ((Math.abs(ctDiff-avgHostCt)/avgHostCt <= 0.05) || vmList==null) { //ct threshold 05%
 							System.out.print(host.getAvailableMips()+" :available; total: "+host.getTotalMips()+" llll for" + host.getId());
 							return host;
 						}
@@ -105,7 +98,7 @@ public class PowerVmAllocationPolicyFfCtAverageSteady extends PowerVmAllocationP
 					//}
 				} catch (Exception e) {
 				}
-			} else { System.out.println("Host: " + host.getId() + " is not suitable for VM# " + vm.getId() + " even though MIPS is:" +host.getAvailableMips() + " and " + vm.getMips() + "respectively"); }
+			}
 		}
 		return null;
 	}

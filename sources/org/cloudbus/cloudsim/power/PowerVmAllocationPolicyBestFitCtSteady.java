@@ -116,11 +116,11 @@ public class PowerVmAllocationPolicyBestFitCtSteady extends PowerVmAllocationPol
 						List<VmSteady> vmList = host.getVmList();
 						int maxHostCt = Integer.MIN_VALUE;
 						for(VmSteady vm1 : vmList){ //find host max ct
-							if(VmSlaCloudletListListSteady.getByMips((int)vm1.getMips()).getSla()>maxHostCt){
-								maxHostCt=VmSlaCloudletListListSteady.getByMips((int)vm1.getMips()).getSla();
+							if(VmSlaCloudletListListSteady.getById((int)vm1.getId()).getSla()>maxHostCt){
+								maxHostCt=VmSlaCloudletListListSteady.getById((int)vm1.getId()).getSla();
 							}
 						}
-						double ctDiff = Math.abs(maxHostCt - VmSlaCloudletListListSteady.getByMips((int)vm.getMips()).getSla());
+						double ctDiff = Math.abs(maxHostCt - VmSlaCloudletListListSteady.getById((int)vm.getId()).getSla());
 						//System.out.println("Utilization......would be:"+utilDiff + " now  "+ minUtilization);
 						if (ctDiff < minCtDiff ) {
 							minCtDiff = ctDiff;

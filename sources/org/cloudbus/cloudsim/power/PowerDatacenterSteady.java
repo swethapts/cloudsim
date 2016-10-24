@@ -107,7 +107,7 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 		if (currentTime > getLastProcessTime()) {
 			//System.out.print(currentTime + " frequency resizing needs to be inserted here\n");
 			//if(currentTime <2.0){
-			//	getVmAllocationPolicy().changeMipsOfPes();
+			//	////////getVmAllocationPolicy().changeMipsOfPes();
 			//}
 			double minTime = updateCloudetProcessingWithoutSchedulingFutureEventsForce();
 

@@ -80,12 +80,12 @@ public class PowerVmAllocationPolicyFfCtSteady extends PowerVmAllocationPolicyAb
 							return host;
 						}
 						for(VmSteady vm1 : vmList){ //find host max ct
-							if(VmSlaCloudletListListSteady.getByMips((int)vm1.getMips()).getSla()>maxHostCt){
-								maxHostCt=VmSlaCloudletListListSteady.getByMips((int)vm1.getMips()).getSla();
+							if(VmSlaCloudletListListSteady.getById((int)vm1.getId()).getSla()>maxHostCt){
+								maxHostCt=VmSlaCloudletListListSteady.getById((int)vm1.getId()).getSla();
 							}
 						}
-						double ctDiff = Math.abs(maxHostCt - VmSlaCloudletListListSteady.getByMips((int)vm.getMips()).getSla());
-						System.out.println("Ct......would be:"+ctDiff + " now  "+ VmSlaCloudletListListSteady.getByMips((int)vm.getMips()).getSla()+"num vms: " + vmList.size());
+						double ctDiff = Math.abs(maxHostCt - VmSlaCloudletListListSteady.getById((int)vm.getId()).getSla());
+						System.out.println("Ct......would be:"+ctDiff + " now  "+ VmSlaCloudletListListSteady.getById((int)vm.getId()).getSla()+"num vms: " + vmList.size());
 						if (ctDiff <= 1000 || vmList==null) { //ct threshold
 							System.out.print(host.getAvailableMips()+"ccc"+host.getTotalMips()+"llll");
 							return host;

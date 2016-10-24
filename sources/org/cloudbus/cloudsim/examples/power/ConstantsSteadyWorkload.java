@@ -27,7 +27,7 @@ getLength();
 		FileInputStream fis = null;
 		BufferedReader reader = null;
         try {
-            fis = new FileInputStream("/home/synerg/cloudsim/sources/org/cloudbus/cloudsim/examples/power/length-random.txt");
+            fis = new FileInputStream("/home/swethapts/cloudsim/sources/org/cloudbus/cloudsim/examples/power/length-random.txt");
             reader = new BufferedReader(new InputStreamReader(fis));
             String line = reader.readLine();
             while(i<SteadyConstants.NUMBER_OF_VMS){
@@ -57,7 +57,7 @@ getLength();
 		FileInputStream fis = null;
 		BufferedReader reader = null;
         try {
-            fis = new FileInputStream("/home/synerg/cloudsim/sources/org/cloudbus/cloudsim/examples/power/time-random.txt");
+            fis = new FileInputStream("/home/swethapts/cloudsim/sources/org/cloudbus/cloudsim/examples/power/time-random.txt");
             reader = new BufferedReader(new InputStreamReader(fis));
             String line = reader.readLine();
             while(i<SteadyConstants.NUMBER_OF_VMS){
