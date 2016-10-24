@@ -413,8 +413,9 @@ public class HelperSteady {
 			Log.printLine(String.format("Energy consumption: %.2f kWh", energy));
 			Log.printLine(String.format("Energy consumption: %.2f Ws", energy1));
 			Log.printLine(String.format("Idle Energy consumption: %.2f kWh", idleEnergy));
-			Log.printLine(String.format("Idle Energy consumption: %.2f Ws", idleEnergy1));			Log.printLine(String.format("AvgAvgFreq: %.2f MHz", avgAvgFreq));
-			Log.printLine(String.format("Idle to Total Energy consumption: %.2f", idleEnergy1/energy1*100));			Log.printLine(String.format("AvgAvgFreq: %.2f MHz", avgAvgFreq));
+			Log.printLine(String.format("Idle Energy consumption: %.2f Ws", idleEnergy1));
+			Log.printLine(String.format("Idle to Total Energy consumption: %.2f", idleEnergy1/energy1*100));
+			Log.printLine(String.format("AvgAvgFreq: %.2f MHz", avgAvgFreq));
 			Log.printLine(String.format("AvgAvgCpu: %.2f", avgAvgCpu*100));
 			Log.printLine(String.format("Number of VM migrations: %d", numberOfMigrations));
 			Log.printLine(String.format("SLA: %.5f%%", sla * 100));

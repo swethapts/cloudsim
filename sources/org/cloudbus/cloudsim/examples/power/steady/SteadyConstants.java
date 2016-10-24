@@ -15,7 +15,7 @@ package org.cloudbus.cloudsim.examples.power.steady;
  */
 public class SteadyConstants {
 
-	public final static int NUMBER_OF_VMS = 2000;//24453;//24453;//26804;
+	public final static int NUMBER_OF_VMS = 10;//2000;//24453;//24453;//26804;
 
 	public final static int NUMBER_OF_HOSTS = 20000;
 

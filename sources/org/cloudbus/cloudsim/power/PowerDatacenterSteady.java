@@ -161,7 +161,7 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 			setLastProcessTime(currentTime);
 			//System.out.print(currentTime + " frequency resizing needs to be inserted here\n");
 			if(currentTime <2.2){
-				//getVmAllocationPolicy().reallocateRemainingMips();
+				getVmAllocationPolicy().reallocateRemainingMips();
 				getVmAllocationPolicy().changeMipsOfPes(); /*can change this to only when VM dies*/
 			}
 		}
@@ -276,7 +276,7 @@ public class PowerDatacenterSteady extends DatacenterSteady {
 			for (VmSteady vm : host.getCompletedVms()) {
 				getVmAllocationPolicy().deallocateHostForVm(vm);
 				getVmList().remove(vm);
-				//getVmAllocationPolicy().reallocateRemainingMips();
+				getVmAllocationPolicy().reallocateRemainingMips();
 				getVmAllocationPolicy().changeMipsOfPes();
 				Log.printLine("VM #" + vm.getId() + " has been dealLlocated from host #" + host.getId());
 			}
