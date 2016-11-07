@@ -86,8 +86,8 @@ public class PowerVmAllocationPolicyFfCtAverageSteady extends PowerVmAllocationP
 						avgHostCt=avgHostCt/numVms;
 						double ctDiff = VmSlaCloudletListListSteady.getById((int)vm.getId()).getSla();
 						//System.out.println("Ct......would be:"+ctDiff + " now  "+ VmSlaCloudletListListSteady.getByMips((int)vm.getMips()).getSla()+"num vms: " + vmList.size());
-//						if ((ctDiff <= 4.00*avgHostCt && ctDiff >= 0.00*avgHostCt) || vmList==null) { //ct threshold 95%
-						if ((Math.abs(ctDiff-avgHostCt)/avgHostCt <= 0.05) || vmList==null) { //ct threshold 05%
+//						if ((ctDiff <= 4.00*avgHostCt && ctDiff >= 0.10*avgHostCt) || vmList==null) { //ct threshold 95%
+						if ((Math.abs(ctDiff-avgHostCt)/avgHostCt <= 0.10) || vmList==null) { //ct threshold 05%
 							System.out.print(host.getAvailableMips()+" :available; total: "+host.getTotalMips()+" llll for" + host.getId());
 							return host;
 						}
