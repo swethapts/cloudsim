@@ -31,24 +31,22 @@ import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.VmAllocationPolicySimple;
 import org.cloudbus.cloudsim.VmSchedulerTimeShared;
 import org.cloudbus.cloudsim.core.CloudSim;
-import org.cloudbus.cloudsim.core.SimEntity;
-import org.cloudbus.cloudsim.core.SimEvent;
 import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
 
 /**
- * An example showing how to create simulation entities
- * (a DatacenterBrokerDynamic in this example) in run-time using
- * a globar manager entity (GlobalBroker).
+ * An example showing how to pause and resume the simulation,
+ * and create simulation entities (a DatacenterBrokerDynamic in this example)
+ * dynamically.
  */
-public class CloudSimExample8 {
+public class CloudSimExampleDynamic {
 
 	/** The cloudlet list. */
 	private static List<Cloudlet> cloudletList;
 
-	/** The vmList. */
-	private static List<Vm> vmList;
+	/** The vmlist. */
+	private static List<Vm> vmlist;
 
 	private static List<Vm> createVM(int userId, int vms, int idShift) {
 		//Creates a container to store VMs. This list is passed to the broker later
@@ -104,7 +102,7 @@ public class CloudSimExample8 {
 	 * Creates main() to run this example
 	 */
 	public static void main(String[] args) {
-		Log.printLine("Starting CloudSimExample8...");
+		Log.printLine("Starting CloudSimExample7...");
 
 		try {
 			// First step: Initialize the CloudSim package. It should be called
@@ -115,8 +113,6 @@ public class CloudSimExample8 {
 
 			// Initialize the CloudSim library
 			CloudSim.init(num_user, calendar, trace_flag);
-
-			GlobalBroker globalBroker = new GlobalBroker("GlobalBroker");
 
 			// Second step: Create Datacenters
 			//Datacenters are the resource providers in CloudSim. We need at list one of them to run a CloudSim simulation
@@ -130,24 +126,64 @@ public class CloudSimExample8 {
 			int brokerId = broker.getId();
 
 			//Fourth step: Create VMs and Cloudlets and send them to broker
-			vmList = createVM(brokerId, 5, 0); //creating 5 vms
+			vmlist = createVM(brokerId, 5, 0); //creating 5 vms
 			cloudletList = createCloudlet(brokerId, 10, 0); // creating 10 cloudlets
 
-			broker.submitVmList(vmList);
+			broker.submitVmList(vmlist);
 			broker.submitCloudletList(cloudletList);
+
+			// A thread that will create a new broker at 200 clock time
+			/*Runnable monitor = new Runnable() {
+				@Override
+				public void run() {
+					CloudSim.pauseSimulation(200);
+					while (true) {
+						if (CloudSim.isPaused()) {
+							break;
+						}
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+
+					Log.printLine("\n\n\n" + CloudSim.clock() + ": The simulation is paused for 5 sec \n\n");
+
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+
+					DatacenterBrokerDynamic broker = createBroker("Broker_1");
+					int brokerId = broker.getId();
+
+					//Create VMs and Cloudlets and send them to broker
+					vmlist = createVM(brokerId, 5, 100); //creating 5 vms
+					cloudletList = createCloudlet(brokerId, 10, 100); // creating 10 cloudlets
+
+					broker.submitVmList(vmlist);
+					broker.submitCloudletList(cloudletList);
+
+					CloudSim.resumeSimulation();
+				}
+			};
+
+			new Thread(monitor).start();
+			Thread.sleep(1000);*/
 
 			// Fifth step: Starts the simulation
 			CloudSim.startSimulation();
 
 			// Final step: Print results when simulation is over
 			List<Cloudlet> newList = broker.getCloudletReceivedList();
-			newList.addAll(globalBroker.getBroker().getCloudletReceivedList());
 
 			CloudSim.stopSimulation();
 
 			printCloudletList(newList);
 
-			Log.printLine("CloudSimExample8 finished!");
+			Log.printLine("CloudSimExample7 finished!");
 		}
 		catch (Exception e)
 		{
@@ -285,75 +321,4 @@ public class CloudSimExample8 {
 		}
 
 	}
-
-	public static class GlobalBroker extends SimEntity {
-
-		private static final int CREATE_BROKER = 0;
-		private List<Vm> vmList;
-		private List<Cloudlet> cloudletList;
-		private DatacenterBrokerDynamic broker;
-
-		public GlobalBroker(String name) {
-			super(name);
-		}
-
-		@Override
-		public void processEvent(SimEvent ev) {
-			switch (ev.getTag()) {
-			case CREATE_BROKER:
-				setBroker(createBroker(super.getName()+"_"));
-
-				//Create VMs and Cloudlets and send them to broker
-				setVmList(createVM(getBroker().getId(), 5, 100)); //creating 5 vms
-				setCloudletList(createCloudlet(getBroker().getId(), 10, 100)); // creating 10 cloudlets
-
-				broker.submitVmList(getVmList());
-				broker.submitCloudletList(getCloudletList());
-
-				CloudSim.resumeSimulation();
-
-				break;
-
-			default:
-				Log.printLine(getName() + ": unknown event type");
-				break;
-			}
-		}
-
-		@Override
-		public void startEntity() {
-			Log.printLine(super.getName()+" is starting...");
-			schedule(getId(), 200, CREATE_BROKER);
-		}
-
-		@Override
-		public void shutdownEntity() {
-		}
-
-		public List<Vm> getVmList() {
-			return vmList;
-		}
-
-		protected void setVmList(List<Vm> vmList) {
-			this.vmList = vmList;
-		}
-
-		public List<Cloudlet> getCloudletList() {
-			return cloudletList;
-		}
-
-		protected void setCloudletList(List<Cloudlet> cloudletList) {
-			this.cloudletList = cloudletList;
-		}
-
-		public DatacenterBrokerDynamic getBroker() {
-			return broker;
-		}
-
-		protected void setBroker(DatacenterBrokerDynamic broker) {
-			this.broker = broker;
-		}
-
-	}
-
 }

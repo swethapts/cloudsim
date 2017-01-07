@@ -18,12 +18,8 @@ import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEntity;
 import org.cloudbus.cloudsim.core.SimEvent;
-import org.cloudbus.cloudsim.examples.power.ConstantsSteady;
 import org.cloudbus.cloudsim.lists.CloudletList;
-import org.cloudbus.cloudsim.lists.VmListSteady;
-import org.cloudbus.cloudsim.examples.power.VmSlaCloudletListSteady;
-import org.cloudbus.cloudsim.examples.power.VmSlaCloudletListListSteady;
-import org.cloudbus.cloudsim.examples.power.steady.SteadyConstants;
+import org.cloudbus.cloudsim.lists.VmList;
 
 /**
  * DatacentreBroker represents a broker acting on behalf of a user. It hides VM management, as vm
@@ -33,13 +29,13 @@ import org.cloudbus.cloudsim.examples.power.steady.SteadyConstants;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 1.0
  */
-public class DatacenterBrokerSteady extends SimEntity {
+public class DatacenterBrokerDynamic extends SimEntity {
 
 	/** The vm list. */
-	protected List<? extends VmSteady> vmList;
+	protected List<? extends Vm> vmList;
 
 	/** The vms created list. */
-	protected List<? extends VmSteady> vmsCreatedList;
+	protected List<? extends Vm> vmsCreatedList;
 
 	/** The cloudlet list. */
 	protected List<? extends Cloudlet> cloudletList;
@@ -72,10 +68,10 @@ public class DatacenterBrokerSteady extends SimEntity {
 	protected Map<Integer, Integer> vmsToDatacentersMap;
 
 	/** The datacenter characteristics list. */
-	protected Map<Integer, DatacenterCharacteristicsSteady> datacenterCharacteristicsList;
+	protected Map<Integer, DatacenterCharacteristics> datacenterCharacteristicsList;
 
 	/**
-	 * Created a new DatacenterBrokerSteady object.
+	 * Created a new DatacenterBrokerDynamic object.
 	 * 
 	 * @param name name to be associated with this entity (as required by Sim_entity class from
 	 *            simjava package)
@@ -83,11 +79,11 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 * @pre name != null
 	 * @post $none
 	 */
-	public DatacenterBrokerSteady(String name) throws Exception {
+	public DatacenterBrokerDynamic(String name) throws Exception {
 		super(name);
 
-		setVmList(new ArrayList<VmSteady>());
-		setVmsCreatedList(new ArrayList<VmSteady>());
+		setVmList(new ArrayList<Vm>());
+		setVmsCreatedList(new ArrayList<Vm>());
 		setCloudletList(new ArrayList<Cloudlet>());
 		setCloudletSubmittedList(new ArrayList<Cloudlet>());
 		setCloudletReceivedList(new ArrayList<Cloudlet>());
@@ -100,7 +96,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 		setDatacenterIdsList(new LinkedList<Integer>());
 		setDatacenterRequestedIdsList(new ArrayList<Integer>());
 		setVmsToDatacentersMap(new HashMap<Integer, Integer>());
-		setDatacenterCharacteristicsList(new HashMap<Integer, DatacenterCharacteristicsSteady>());
+		setDatacenterCharacteristicsList(new HashMap<Integer, DatacenterCharacteristics>());
 	}
 
 	/**
@@ -111,7 +107,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 * @pre list !=null
 	 * @post $none
 	 */
-	public void submitVmList(List<? extends VmSteady> list) {
+	public void submitVmList(List<? extends Vm> list) {
 		getVmList().addAll(list);
 	}
 
@@ -184,7 +180,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 * @post $none
 	 */
 	protected void processResourceCharacteristics(SimEvent ev) {
-		DatacenterCharacteristicsSteady characteristics = (DatacenterCharacteristicsSteady) ev.getData();
+		DatacenterCharacteristics characteristics = (DatacenterCharacteristics) ev.getData();
 		getDatacenterCharacteristicsList().put(characteristics.getId(), characteristics);
 
 		if (getDatacenterCharacteristicsList().size() == getDatacenterIdsList().size()) {
@@ -202,7 +198,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 */
 	protected void processResourceCharacteristicsRequest(SimEvent ev) {
 		setDatacenterIdsList(CloudSim.getCloudResourceList());
-		setDatacenterCharacteristicsList(new HashMap<Integer, DatacenterCharacteristicsSteady>());
+		setDatacenterCharacteristicsList(new HashMap<Integer, DatacenterCharacteristics>());
 
 		Log.printLine(CloudSim.clock() + ": " + getName() + ": Cloud Resource List received with "
 				+ getDatacenterIdsList().size() + " resource(s)");
@@ -227,10 +223,10 @@ public class DatacenterBrokerSteady extends SimEntity {
 
 		if (result == CloudSimTags.TRUE) {
 			getVmsToDatacentersMap().put(vmId, datacenterId);
-			getVmsCreatedList().add(VmListSteady.getById(getVmList(), vmId));
+			getVmsCreatedList().add(VmList.getById(getVmList(), vmId));
 			Log.printLine(CloudSim.clock() + ": " + getName() + ": VM #" + vmId
 					+ " has been created in Datacenter #" + datacenterId + ", Host #"
-					+ VmListSteady.getById(getVmsCreatedList(), vmId).getHost().getId());
+					+ VmList.getById(getVmsCreatedList(), vmId).getHost().getId());
 		} else {
 			Log.printLine(CloudSim.clock() + ": " + getName() + ": Creation of VM #" + vmId
 					+ " failed in Datacenter #" + datacenterId);
@@ -276,6 +272,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 		getCloudletReceivedList().add(cloudlet);
 		Log.printLine(CloudSim.clock() + ": " + getName() + ": Cloudlet " + cloudlet.getCloudletId()
 				+ " received" + " from VM: " + getVmList().get(cloudlet.getVmId()).getTotalUtilizationOfCpu(CloudSim.clock()) );
+		
 		cloudletsSubmitted--;
 		if (getCloudletList().size() == 0 && cloudletsSubmitted == 0) { // all cloudlets executed
 			Log.printLine(CloudSim.clock() + ": " + getName() + ": All Cloudlets executed. Finishing...");
@@ -295,7 +292,6 @@ public class DatacenterBrokerSteady extends SimEntity {
 				sendNow(getVmsToDatacentersMap().get(getVmList().get(cloudlet.getVmId()).getId()), CloudSimTags.VM_DESTROY, getVmList().get(cloudlet.getVmId()) );
 				getVmsCreatedList().remove(getVmList().get(cloudlet.getVmId()));
 			}
-			
 		}
 	}
 
@@ -314,7 +310,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 		}
 
 		Log.printLine(getName() + ".processOtherEvent(): "
-				+ "Error - event unknown by this DatacenterBrokerSteady.");
+				+ "Error - event unknown by this DatacenterBrokerDynamic.");
 	}
 
 	/**
@@ -326,13 +322,11 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 */
 	protected void createVmsInDatacenter(int datacenterId) {
 		// send as much vms as possible for this datacenter before trying the next one
-		//System.out.println(new Exception().getStackTrace()[1].getClassName()+new Exception().getStackTrace()[1].getMethodName());
-
 		int requestedVms = 0;
 		String datacenterName = CloudSim.getEntityName(datacenterId);
-		for (VmSteady vm : getVmList()) {
+		for (Vm vm : getVmList()) {
 			if (!getVmsToDatacentersMap().containsKey(vm.getId())) {
-				Log.printLine(CloudSim.clock() + ": " + getName() + ": Trying to Create VM #" + vm.getId() +" with Mips:"+ vm.getMips()
+				Log.printLine(CloudSim.clock() + ": " + getName() + ": Trying to Create VM #" + vm.getId()
 						+ " in " + datacenterName);
 				sendNow(datacenterId, CloudSimTags.VM_CREATE_ACK, vm);
 				requestedVms++;
@@ -353,21 +347,14 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 */
 	protected void submitCloudlets() {
 		int vmIndex = 0;
+		int delay=30;
 		for (Cloudlet cloudlet : getCloudletList()) {
-			VmSteady vm;
+			Vm vm;
 			// if user didn't bind this cloudlet and it has not been executed yet
 			if (cloudlet.getVmId() == -1) {
 				vm = getVmsCreatedList().get(vmIndex);
 			} else { // submit to the specific vm
-				vm = VmListSteady.getById(getVmsCreatedList(), cloudlet.getVmId());
-				//System.out.println("getting cloudlet length of VM# "+vm.getId()+" and mod by "+ (int) Math.ceil((double) SteadyConstants.NUMBER_OF_VMS / ConstantsSteady.VM_TYPES) + "gives type of VM as: "+vm.getId()/(int) Math.ceil((double) SteadyConstants.NUMBER_OF_VMS / ConstantsSteady.VM_TYPES));
-				//VmSlaCloudletListSteady xx = VmSlaCloudletListListSteady.getByMips((int)vm.getMips());//VmSlaCloudletListListSteady.getById(vm.getId()/ (int) Math.ceil((double) SteadyConstants.NUMBER_OF_VMS / ConstantsSteady.VM_TYPES));//%VmSlaCloudletListListSteady.size());
-				VmSlaCloudletListSteady xx = VmSlaCloudletListListSteady.getById(vm.getId());
-//System.out.println("setting cloudlet length from " + cloudlet.getCloudletLength()+" to " + xx.getCloudletId()+"zzz");
-				cloudlet.setCloudletLength(xx.getCloudletId());
-//System.out.println("setting cloudlet length from " + cloudlet.getCloudletLength()+" to " + xx.getCloudletId()+"zxzxz");
-
-				//System.out.println("mips changed from " + vm.getMips()+"to "+cloudlet.getCloudletTotalLength()/ConstantsSteady.VM_CT_SLA[cloudlet.getCloudletId()%ConstantsSteady.CLOUDLET_TYPES][vm.getId()/ConstantsSteady.CLOUDLET_TYPES]);
+				vm = VmList.getById(getVmsCreatedList(), cloudlet.getVmId());
 				if (vm == null) { // vm was not created
 					Log.printLine(CloudSim.clock() + ": " + getName() + ": Postponing execution of cloudlet "
 							+ cloudlet.getCloudletId() + ": bount VM not available");
@@ -378,10 +365,12 @@ public class DatacenterBrokerSteady extends SimEntity {
 			Log.printLine(CloudSim.clock() + ": " + getName() + ": Sending cloudlet "
 					+ cloudlet.getCloudletId() + " to VM #" + vm.getId());
 			cloudlet.setVmId(vm.getId());
-			sendNow(getVmsToDatacentersMap().get(vm.getId()), CloudSimTags.CLOUDLET_SUBMIT, cloudlet);
+			schedule(getVmsToDatacentersMap().get(vm.getId()),delay ,CloudSimTags.CLOUDLET_SUBMIT, cloudlet);
+			//sendNow(getVmsToDatacentersMap().get(vm.getId()), CloudSimTags.CLOUDLET_SUBMIT, cloudlet);
 			cloudletsSubmitted++;
 			vmIndex = (vmIndex + 1) % getVmsCreatedList().size();
 			getCloudletSubmittedList().add(cloudlet);
+			delay+=10;
 		}
 
 		// remove submitted cloudlets from waiting list
@@ -397,7 +386,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 * @post $none
 	 */
 	protected void clearDatacenters() {
-		for (VmSteady vm : getVmsCreatedList()) {
+		for (Vm vm : getVmsCreatedList()) {
 			Log.printLine(CloudSim.clock() + ": " + getName() + ": Destroying VM #" + vm.getId());
 			sendNow(getVmsToDatacentersMap().get(vm.getId()), CloudSimTags.VM_DESTROY, vm);
 		}
@@ -441,7 +430,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 * @return the vm list
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends VmSteady> List<T> getVmList() {
+	public <T extends Vm> List<T> getVmList() {
 		return (List<T>) vmList;
 	}
 
@@ -451,7 +440,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 * @param <T> the generic type
 	 * @param vmList the new vm list
 	 */
-	protected <T extends VmSteady> void setVmList(List<T> vmList) {
+	protected <T extends Vm> void setVmList(List<T> vmList) {
 		this.vmList = vmList;
 	}
 
@@ -525,7 +514,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 * @return the vm list
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends VmSteady> List<T> getVmsCreatedList() {
+	public <T extends Vm> List<T> getVmsCreatedList() {
 		return (List<T>) vmsCreatedList;
 	}
 
@@ -535,7 +524,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 * @param <T> the generic type
 	 * @param vmsCreatedList the vms created list
 	 */
-	protected <T extends VmSteady> void setVmsCreatedList(List<T> vmsCreatedList) {
+	protected <T extends Vm> void setVmsCreatedList(List<T> vmsCreatedList) {
 		this.vmsCreatedList = vmsCreatedList;
 	}
 
@@ -641,7 +630,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 * 
 	 * @return the datacenter characteristics list
 	 */
-	protected Map<Integer, DatacenterCharacteristicsSteady> getDatacenterCharacteristicsList() {
+	protected Map<Integer, DatacenterCharacteristics> getDatacenterCharacteristicsList() {
 		return datacenterCharacteristicsList;
 	}
 
@@ -651,7 +640,7 @@ public class DatacenterBrokerSteady extends SimEntity {
 	 * @param datacenterCharacteristicsList the datacenter characteristics list
 	 */
 	protected void setDatacenterCharacteristicsList(
-			Map<Integer, DatacenterCharacteristicsSteady> datacenterCharacteristicsList) {
+			Map<Integer, DatacenterCharacteristics> datacenterCharacteristicsList) {
 		this.datacenterCharacteristicsList = datacenterCharacteristicsList;
 	}
 

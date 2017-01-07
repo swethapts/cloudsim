@@ -133,7 +133,7 @@ public class CloudSimExample7 {
 			broker.submitCloudletList(cloudletList);
 
 			// A thread that will create a new broker at 200 clock time
-			Runnable monitor = new Runnable() {
+			/*Runnable monitor = new Runnable() {
 				@Override
 				public void run() {
 					CloudSim.pauseSimulation(200);
@@ -171,7 +171,7 @@ public class CloudSimExample7 {
 			};
 
 			new Thread(monitor).start();
-			Thread.sleep(1000);
+			Thread.sleep(1000);*/
 
 			// Fifth step: Starts the simulation
 			CloudSim.startSimulation();
