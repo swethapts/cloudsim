@@ -15,6 +15,10 @@ import org.cloudbus.cloudsim.HostSteadyWorkload;
 import org.cloudbus.cloudsim.PeSteady;
 import org.cloudbus.cloudsim.VmSchedulerSteady;
 import org.cloudbus.cloudsim.VmSteady;
+import org.cloudbus.cloudsim.core.CloudSim;
+import org.cloudbus.cloudsim.examples.power.VmSlaCloudletListListSteady;
+import org.cloudbus.cloudsim.examples.power.VmSlaCloudletListSteady;
+import org.cloudbus.cloudsim.lists.CloudletList;
 import org.cloudbus.cloudsim.power.models.PowerModelSteady;
 import org.cloudbus.cloudsim.provisioners.BwProvisionerSteady;
 import org.cloudbus.cloudsim.provisioners.RamProvisionerSteady;
@@ -150,9 +154,11 @@ public class PowerHostSteady extends HostSteadyWorkload {
 			double hostRemainingMips = getPeList().get(0).getPeProvisioner().getAvailableMips();
 			double remainingMips=hostRemainingMips;
 			for(int vmIndex = 0; vmIndex < getVmList().size() && hostRemainingMips > 0; vmIndex++){
+				VmSlaCloudletListSteady xx = VmSlaCloudletListListSteady.getById(vmIndex);
 				double vmAllocatedMips = getPeList().get(0).getPeProvisioner().getTotalAllocatedMipsForVm(getVmList().get(vmIndex));
 				double additionalMips = Math.floor(hostRemainingMips * (vmAllocatedMips/hostAllocatedMips));
 				double vmNewAllocatedMips = (remainingMips < additionalMips) ? remainingMips : (vmAllocatedMips + additionalMips);
+				//System.out.println( xx.getSla() + "\t" + vmNewAllocatedMips + "\t" + (Math.ceil(xx.getCloudletId()/vmNewAllocatedMips/getPeList().size()) - CloudSim.clock()));
 				remainingMips -= additionalMips;
 				//Each cloudlet is single threaded and hence the summation of mips per pe = max freq
 				if (vmNewAllocatedMips > (hostAllocatedMips + hostRemainingMips)/getPeList().size())
