@@ -3,8 +3,8 @@ package org.cloudbus.cloudsim.examples.power;
 import java.util.*;
 import org.cloudbus.cloudsim.power.models.PowerModelSteady;
 import org.cloudbus.cloudsim.examples.power.ConstantsSteadyWorkload;
-//import org.cloudbus.cloudsim.power.models.PowerModeli7;
-import org.cloudbus.cloudsim.power.models.PowerModelE5507;
+import org.cloudbus.cloudsim.power.models.PowerModeli7;
+//import org.cloudbus.cloudsim.power.models.PowerModelE5507;
 
 /**
  * If you are using any algorithms, policies or workload included in the power package, please cite
@@ -38,7 +38,7 @@ public class ConstantsSteady {
 	 *
 	 */
 	
-	public final static boolean VM_SLA_SORTING_ASCENDING=false;//false;//true //therefore, mips is sorted in descending order
+	public final static boolean VM_SLA_SORTING_ASCENDING=true;//false;//true //therefore, mips is sorted in descending order
 	public final static boolean VM_MIPS_SORTING=false;// = true; //if false(default) do not sort by mips
 	
 	private final static int[][] VM_CT_SLA_UNSORTED = ConstantsSteadyWorkload.VM_CT_UNSORTED;
@@ -66,15 +66,15 @@ public class ConstantsSteady {
 	 *   We increase the memory size to enable over-subscription (x4)
 	 */
 	public final static int HOST_TYPES	 = 1;//2;
-	public final static double[][] HOST_MIPS	 = {{1597,1730,1863,1996,2129,2262}}; /* {{1600,1800,2000,2200,2400,2600,2800,3000,3200,3400}}; */ ////change for E5507,i7
-	public final static int[] HOST_PES	 = { /*2,*/ /* 4 */ 8}; ////change for E5507,i7
+	public final static double[][] HOST_MIPS	 = /*{{1597,1730,1863,1996,2129,2262}}; */ {{1600,1800,2000,2200,2400,2600,2800,3000,3200,3400}};  ////change for E5507,i7
+	public final static int[] HOST_PES	 = { /*2,*/  4 /* 8*/}; ////change for E5507,i7
 	public final static int[] HOST_RAM	 = { /*4096,*/ 65536 };
 	public final static int HOST_BW		 = 10000000; // 1 Gbit/s
 	public final static int HOST_STORAGE = 1000000; // 1 GB
 
 	public final static PowerModelSteady[] HOST_POWER = {////change for E5507,i7
-		new PowerModelE5507()
-		//new PowerModeli7()
+		//new PowerModelE5507()
+		new PowerModeli7()
 	};
 
 	private static int[][] getSortedSla(int[][] slaUnsorted){
@@ -127,7 +127,7 @@ public class ConstantsSteady {
 		List<VmSlaCloudletListSteady> vmVmSlaCloudletListSteady = new ArrayList<>();
 		System.out.println("Completion Time\tMips");
 		int bufferSec = 0;//extra 60 seconds
-		int maxMips = (int) Math.ceil(2256);//i7, E5507
+		int maxMips = (int) Math.ceil(3400);//i7, E5507
 		for (int i=0; i<vmCtSla[0].length*CLOUDLET_LENGTH_PRIVATE.length;i++){
 //			System.out.println("cloudlength: "+i+"\t"+(int) (CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]*1/vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]) + "\t"+ vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]+"\t"+CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]);
 //			vmMips.add((int) (CLOUDLET_LENGTH_PRIVATE[i%CLOUDLET_LENGTH_PRIVATE.length]/vmCtSla[i%CLOUDLET_LENGTH_PRIVATE.length][i/CLOUDLET_LENGTH_PRIVATE.length]));

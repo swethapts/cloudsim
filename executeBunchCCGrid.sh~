@@ -1,8 +1,5 @@
 #.sed -i 's/CLOUDLET_LENGTH_PRIVATE = {2500000};\/\/,4000000};/CLOUDLET_LENGTH_PRIVATE = {2500000,4000000};/g' sources/org/cloudbus/cloudsim/examples/power/ConstantsSteady.java
 echo 'Energy Consumption: kWhr, used:'
-sed 's/time-[0-9]*[m-s]-[0-9]*/time-35900s-539/g' sources/org/cloudbus/cloudsim/examples/power/ConstantsSteadyWorkload.java
-sed 's/length-[0-9]*[m-s]-[0-9]*/length-35900s-539/g' sources/org/cloudbus/cloudsim/examples/power/ConstantsSteadyWorkload.java
-sed 's/NUMBER_OF_VMS = [0-9]*;/NUMBER_OF_VMS = 539;/g' sources/org/cloudbus/cloudsim/examples/power/ConstantsSteadyWorkload.java
 #######Base
 sed -i 's/\tgetVmAllocationPolicy().reallocateRemainingMips()/\t\/\/getVmAllocationPolicy().reallocateRemainingMips()/g' sources/org/cloudbus/cloudsim/power/PowerDatacenterSteady.java
 sed -i 's/\tgetVmAllocationPolicy().changeMipsOfPes()/\t\/\/getVmAllocationPolicy().changeMipsOfPes()/g' sources/org/cloudbus/cloudsim/power/PowerDatacenterSteady.java
@@ -12,8 +9,8 @@ sed -i 's/VM_SLA_SORTING_ASCENDING=true/VM_SLA_SORTING_ASCENDING=false/g' source
 sed -i 's/VM_MIPS_SORTING=false/VM_MIPS_SORTING=true/g' sources/org/cloudbus/cloudsim/examples/power/ConstantsSteady.java
 ant clean
 ant
-time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFf > ../Cloud2017/data/data/CEAi7Base35900s-539data-First
-echo "CEAi7Base35900s-539data-First"
+time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFf > ../Cloud2017/data/data/CEAi7Base3100m-1101data-First
+echo "CEAi7Base3100m-1101data-First"
 notify-send "Done! First BAse"
 #
 ########Dvfs
@@ -26,8 +23,8 @@ sed -i 's/VM_SLA_SORTING_ASCENDING=true/VM_SLA_SORTING_ASCENDING=false/g' source
 sed -i 's/VM_MIPS_SORTING=false/VM_MIPS_SORTING=true/g' sources/org/cloudbus/cloudsim/examples/power/ConstantsSteady.java
 ant clean
 ant
-time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFf > ../Cloud2017/data/data/CEAi7Dvfs35900s-539data-First
-echo "CEAi7Dvfs35900s-539data-First"
+time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFf > ../Cloud2017/data/data/CEAi7Dvfs3100m-1101data-First
+echo "CEAi7Dvfs3100m-1101data-First"
 notify-send "Done! First DVFS"
 ##
 #
@@ -41,47 +38,47 @@ sed -i 's/VM_MIPS_SORTING=true/VM_MIPS_SORTING=false/g' sources/org/cloudbus/clo
 sed -i 's/0.[0-9][0-9]/0.01/g' sources/org/cloudbus/cloudsim/power/PowerVmAllocationPolicyFfCtAverageSteady.java
 ant clean
 ant
-time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs35900s-539data-Thresh01
-echo "CEAi7Dvfs35900s-539data-Thresh01"
+time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs3100m-1101data-Thresh01
+echo "CEAi7Dvfs3100m-1101data-Thresh01"
 notify-send "Done! Thresh01Dvfs"
 #
 #sed -i 's/0.[0-9][0-9]/0.02/g' sources/org/cloudbus/cloudsim/power/PowerVmAllocationPolicyFfCtAverageSteady.java
 #ant clean
 #ant
-#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs35900s-539data-Thresh02
-#echo "CEAi7Dvfs35900s-539data-Thresh02"
+#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs3100m-1101data-Thresh02
+#echo "CEAi7Dvfs3100m-1101data-Thresh02"
 #notify-send "Done! Thresh01dvfs"
 #
 #sed -i 's/0.[0-9][0-9]/0.03/g' sources/org/cloudbus/cloudsim/power/PowerVmAllocationPolicyFfCtAverageSteady.java
 #ant clean
 #ant
-#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs35900s-539data-Thresh03
-#echo "CEAi7Dvfs35900s-539data-Thresh03"
+#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs3100m-1101data-Thresh03
+#echo "CEAi7Dvfs3100m-1101data-Thresh03"
 #notify-send "Done! Thresh03Dvfs"
 #
 #sed -i 's/0.[0-9][0-9]/0.04/g' sources/org/cloudbus/cloudsim/power/PowerVmAllocationPolicyFfCtAverageSteady.java
 #ant clean
 #ant
-#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs35900s-539data-Thresh04
-#echo "CEAi7Dvfs35900s-539data-Thresh04"
+#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs3100m-1101data-Thresh04
+#echo "CEAi7Dvfs3100m-1101data-Thresh04"
 #notify-send "Done! Thresh04Dvfs"
 #
 #sed -i 's/0.[0-9][0-9]/0.05/g' sources/org/cloudbus/cloudsim/power/PowerVmAllocationPolicyFfCtAverageSteady.java
 #ant clean
 #ant
-#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs35900s-539data-Thresh05
-#echo "CEAi7Dvfs35900s-539data-Thresh05"
+#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs3100m-1101data-Thresh05
+#echo "CEAi7Dvfs3100m-1101data-Thresh05"
 #notify-send "Done! Thresh05Dvfs"
 #
 sed -i 's/0.[0-9][0-9]/0.10/g' sources/org/cloudbus/cloudsim/power/PowerVmAllocationPolicyFfCtAverageSteady.java
 ant clean
 ant
-time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs35900s-539data-Thresh10
-echo "CEAi7Dvfs35900s-539data-Thresh10"
+time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs3100m-1101data-Thresh10
+echo "CEAi7Dvfs3100m-1101data-Thresh10"
 notify-send "Done! Thresh10Dvfs"
 #
-time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsBfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs35900s-539data-BesTime
-echo "CEAi7Dvfs35900s-539data-BesTime"
+time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsBfCtAvg > ../Cloud2017/data/data/CEAi7Dvfs3100m-1101data-BesTime
+echo "CEAi7Dvfs3100m-1101data-BesTime"
 notify-send "Done! BesTimeDvfs"
 #
 ########Rar
@@ -98,47 +95,47 @@ ant
 sed -i 's/0.[0-9][0-9]/0.01/g' sources/org/cloudbus/cloudsim/power/PowerVmAllocationPolicyFfCtAverageSteady.java
 ant clean
 ant
-time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Rar35900s-539data-Thresh01
-echo "CEAi7Rar35900s-539data-Thresh01"
+time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Rar3100m-1101data-Thresh01
+echo "CEAi7Rar3100m-1101data-Thresh01"
 notify-send "Done! Thresh01Rar"
 #
 #sed -i 's/0.[0-9][0-9]/0.02/g' sources/org/cloudbus/cloudsim/power/PowerVmAllocationPolicyFfCtAverageSteady.java
 #ant clean
 #ant
-#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Rar35900s-539data-Thresh02
-#echo "CEAi7Rar35900s-539data-Thresh02"
+#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Rar3100m-1101data-Thresh02
+#echo "CEAi7Rar3100m-1101data-Thresh02"
 #notify-send "Done! Thresh02Rar"
 #
 #sed -i 's/0.[0-9][0-9]/0.03/g' sources/org/cloudbus/cloudsim/power/PowerVmAllocationPolicyFfCtAverageSteady.java
 #ant clean
 #ant
-#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Rar35900s-539data-Thresh03
-#echo "CEAi7Rar35900s-539data-Thresh03"
+#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Rar3100m-1101data-Thresh03
+#echo "CEAi7Rar3100m-1101data-Thresh03"
 #notify-send "Done! Thresh03Rar"
 #
 #sed -i 's/0.[0-9][0-9]/0.04/g' sources/org/cloudbus/cloudsim/power/PowerVmAllocationPolicyFfCtAverageSteady.java
 #ant clean
 #ant
-#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Rar35900s-539data-Thresh04
-#echo "CEAi7Rar35900s-539data-Thresh04"
+#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Rar3100m-1101data-Thresh04
+#echo "CEAi7Rar3100m-1101data-Thresh04"
 #notify-send "Done! Thresh04Rar"
 #
 #sed -i 's/0.[0-9][0-9]/0.05/g' sources/org/cloudbus/cloudsim/power/PowerVmAllocationPolicyFfCtAverageSteady.java
 #ant clean
 #ant
-#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Rar35900s-539data-Thresh05
-#echo "CEAi7Rar35900s-539data-Thresh05"
+#time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Rar3100m-1101data-Thresh05
+#echo "CEAi7Rar3100m-1101data-Thresh05"
 #notify-send "Done! Thresh05Rar"
 #
 sed -i 's/0.[0-9][0-9]/0.10/g' sources/org/cloudbus/cloudsim/power/PowerVmAllocationPolicyFfCtAverageSteady.java
 ant clean
 ant
-time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Rar35900s-539data-Thresh10
-echo "CEAi7Rar35900s-539data-Thresh10"
+time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsFfCtAvg > ../Cloud2017/data/data/CEAi7Rar3100m-1101data-Thresh10
+echo "CEAi7Rar3100m-1101data-Thresh10"
 notify-send "Done! Thresh10Rar"
 #
-time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsBfCtAvg > ../Cloud2017/data/data/CEAi7Rar35900s-539data-BesTime
-echo "CEAi7Rar35900s-539data-BesTime"
+time java -Xmx1524m -classpath jars/cloudsim-new.jar/:jars/commons-math3-3.2.jar/:bin/ org.cloudbus.cloudsim.examples.power.steady.DvfsBfCtAvg > ../Cloud2017/data/data/CEAi7Rar3100m-1101data-BesTime
+echo "CEAi7Rar3100m-1101data-BesTime"
 notify-send "Done! BesTimeRar"
 #
 #!sed -i 's/u1-1000;s1-600;u2-6500;s2-600-1\*\/{{/u1-1000;s1-600;u2-6500;s2-600-1{{/g' sources/org/cloudbus/cloudsim/examples/power/ConstantsSteady.java
